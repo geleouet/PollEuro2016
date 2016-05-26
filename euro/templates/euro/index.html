@@ -1,29 +1,45 @@
 {% load staticfiles %}
+<html>
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<head>
+    <title>Euro 2016</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
-<link rel="stylesheet" type="text/css" href="{% static 'euro/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'euro/style.css' %}" />
 
-{% if username %}
-<p>Welcome, {{username}} <a href="{% url 'euro:logout' %}">Deconnection</a>"</p>
-{% else %}
-<form action="{% url 'euro:login' %}" method="post">
-{% csrf_token %}
-    <label for="username">Utilisateur</label>
-    <input type="text" name="username" id="username" value="Utilisateur" />
-    <label for="username">Password</label>
-    <input type="password" name="password" id="password" value="***" />
-<input type="submit" value="Connection" />
-</form>
-{% endif %}
+</head>
 
-{% if latest_question_list %}
+<body>
+    <div class="page-header">
+        {% if username %}
+        <form action="{% url 'euro:logout' %}" method="post">
+            {% csrf_token %}
+            <label>Welcome, {{username}}</label>
+            <input type="submit" value="Deconnection" />
+        </form>
+
+        {% else %}
+        <form action="{% url 'euro:login' %}" method="post">
+            {% csrf_token %}
+            <label for="username">Utilisateur</label>
+            <input type="text" name="username" id="username" value="Utilisateur" />
+            <label for="username">Password</label>
+            <input type="password" name="password" id="password" value="***" />
+            <input type="submit" value="Connection" />
+        </form>
+        {% endif %}
+    </div>
+    {% if latest_question_list %}
     <ul>
-    {% for question in latest_question_list %}
+        {% for question in latest_question_list %}
         <li><a href="{% url 'euro:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
+        {% endfor %}
     </ul>
-{% else %}
+    {% else %}
     <p>No polls are available.</p>
-{% endif %}
+    {% endif %}
+
+</body>
+
+</html>

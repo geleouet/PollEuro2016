@@ -34,17 +34,22 @@ def vote(request, question_id):
 
 
 def login(request):
-    m = Member.objects.get(username=request.POST['username'])
-    if m.password == request.POST['password']:
-        request.session['member_id'] = m.id
-        request.session['username'] = m.username
-        return HttpResponseRedirect(reverse('euro:index'))
-    else:
+    try :
+        m = Member.objects.get(username=request.POST['username'])
+    except (KeyError, Member.DoesNotExist) :
         return HttpResponse("Your username and password didn't match.")
+    else :
+        if m.password == request.POST['password']:
+            request.session['member_id'] = m.id
+            request.session['username'] = m.username
+            return HttpResponseRedirect(reverse('euro:index'))
+        else:
+            return HttpResponse("Your username and password didn't match.")
 
 def logout(request):
     try:
         del request.session['member_id']
+        del request.session['username']
     except KeyError:
         pass
-    return HttpResponse("You're logged out.")    
+    return HttpResponseRedirect(reverse('euro:index'))
