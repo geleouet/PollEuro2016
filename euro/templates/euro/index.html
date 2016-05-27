@@ -80,10 +80,12 @@
     </div>
 
 
-    {% if latest_question_list %}
+    {% if latest_rencontre_list %}
     <ul>
-        {% for question in latest_question_list %}
-        <li><a href="{% url 'euro:detail' question.id %}">{{ question.question_text }}</a></li>
+        {% for rencontre in latest_rencontre_list %}
+        <li>
+            {{rencontre.pays1}} <input class="score" type="number"/> &nbsp; <input class="score" type = "number"/> {{rencontre.pays2}} &nbsp; {{rencontre.date}}
+        </li>
         {% endfor %}
     </ul>
     {% else %}

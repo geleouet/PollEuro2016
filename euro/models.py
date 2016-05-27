@@ -26,3 +26,10 @@ class Member(models.Model):
     password = models.CharField(max_length=60)
     def __str__(self):
         return self.username    
+    
+class Pronostic(models.Model):
+    member = models.ForeignKey(Member, on_delete= models.CASCADE)
+    match = models.ForeignKey(Rencontre, on_delete = models.CASCADE)
+    score1 = models.IntegerField(default=-1)
+    score2 = models.IntegerField(default=-1)
+    winner = models.IntegerField(default=-1)

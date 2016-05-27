@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
-from models import Pays, Rencontre, Member
+from models import Pays, Rencontre, Member, Pronostic
 from django.template import loader
 from django.http import Http404
 from django.views import generic
