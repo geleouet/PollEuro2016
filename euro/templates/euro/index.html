@@ -134,9 +134,13 @@
     <div class="main">
         {% for rencontre in latest_rencontre_list %}
         <div class="well well">
-            <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" /> {{rencontre.pays1}}
-            <input class="score" type="number" /> &nbsp;
-            <input class="score" type="number" /> {{rencontre.pays2}} <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp; {{rencontre.date}}
+            <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" /> 
+            <span class='pays'>{{rencontre.pays1}}</span>
+            <input class="score entry" type="number" /> 
+            <span class = "date-match">{{rencontre.date}}</span>
+            <input class="score entry" type="number" /> 
+            <span class='pays'>{{rencontre.pays2}}</span>
+            <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp; 
         </div>
         {% endfor %}
     </div>

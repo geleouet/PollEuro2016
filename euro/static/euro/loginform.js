@@ -86,8 +86,12 @@ $(document).ready(function () {
         $('.log-btn').removeClass('wrong-entry');
         document.getElementById('log-btn').textContent = 'Log in';
         document.getElementById('register-btn').textContent = 'Register';
-
-
     });
+    
+    $('.entry').on('change', function () {
+        $('.popup').removeClass('hidden')
+    });
+    
+    $('.popup').addClass('hidden')
 
 });

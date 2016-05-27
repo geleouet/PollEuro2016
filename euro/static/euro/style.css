@@ -28,6 +28,17 @@ h1, h2, h3, h4 {
     color: #828282;
 }
 
+.pays {
+    font-weight: bold;
+    min-width: 100px;
+    align-self: center;
+    margin:10px;
+    display: inline-block;
+}
+.date-match {
+    margin-left: 20px;
+    margin-right: 20px;    
+}
 .save {
     float: right;
 }
