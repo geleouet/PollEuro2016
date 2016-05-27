@@ -11,11 +11,15 @@ class Pays(models.Model):
     def __str__(self):
         return self.nom
 
-
-
+class Tag(models.Model):
+    name = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name
+    
 class Rencontre(models.Model):
     pays1 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p1_id') 
     pays2 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p2_id')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     date = models.DateField()
     comment = models.CharField(max_length=200)
     def __str__(self):
@@ -24,6 +28,8 @@ class Rencontre(models.Model):
 class Member(models.Model):
     username = models.CharField(max_length=60)
     password = models.CharField(max_length=60)
+    email = models.CharField(max_length=120)
+    
     def __str__(self):
         return self.username    
     

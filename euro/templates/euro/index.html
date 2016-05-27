@@ -25,7 +25,7 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Euro2016</a>
+                <a class="navbar-brand" href="#"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height = "32"/></a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
@@ -36,8 +36,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if username %}
                 <li><a href="#">Welcome, {{username}}</a></li>
-                <li>
-                    
+                <li> 
                     <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                 </li>
                 {% else %}
