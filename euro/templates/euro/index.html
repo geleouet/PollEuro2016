@@ -15,8 +15,8 @@
     <script src="{% static 'euro/loginform.js' %}" type="text/javascript"></script>
 
     <script type="text/javascript">
-    // Definition of global variables for javascript context
-    var contact_url = "{% url 'euro:check_login' %}";
+        // Definition of global variables for javascript context
+        var contact_url = "{% url 'euro:check_login' %}";
     </script>
 
 </head>
@@ -25,7 +25,7 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height = "32"/></a>
+                <a class="navbar-brand" href="#"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height="32" /></a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
@@ -36,7 +36,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if username %}
                 <li><a href="#">Welcome, {{username}}</a></li>
-                <li> 
+                <li>
                     <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                 </li>
                 {% else %}
@@ -57,7 +57,7 @@
                     <h4 class="modal-title">Login</h4>
                 </div>
                 <div class="modal-body">
-                    <form id = "login">
+                    <form id="login">
                         {% csrf_token %}
                         <div class="login-form">
                             <div class="form-group ">
@@ -83,7 +83,7 @@
 
         </div>
     </div>
-    
+
     <div id="myModalRegister" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -94,20 +94,24 @@
                     <h4 class="modal-title">Login</h4>
                 </div>
                 <div class="modal-body">
-                    <form id = "login" action="{% url 'euro:register' %}" method="post">
+                    <form id="register" action="{% url 'euro:register' %}" method="post" onsubmit="return validateRegister()">
                         {% csrf_token %}
                         <div class="login-form">
                             <div class="form-group ">
-                                <input type="text" class="form-control" placeholder="Username " id="username" name="username" />
+                                <input type="text" class="form-control" placeholder="Username " id="username" name="username" required />
                                 <i class="fa fa-user"></i>
                             </div>
+                            <div class="form-group ">
+                                <input type="text" class="form-control" placeholder="Email " id="email" name="email" required />
+                                <i class="fa fa-envelope"></i>
+                            </div>
                             <div class="form-group log-status">
-                                <input type="password" class="form-control" placeholder="Password" id="password" name="password" />
+                                <input type="password" class="form-control" placeholder="Password" id="password" name="password" required />
                                 <i class="fa fa-lock"></i>
                             </div>
                             <label>Repeat:</label>
                             <div class="form-group log-status">
-                                <input type="password" class="form-control" placeholder="Password" id="password2" name="password2" />
+                                <input type="password" class="form-control" placeholder="Password" id="password2" name="password2" required />
                                 <i class="fa fa-lock"></i>
                             </div>
                             <!--a class="link" href="#">Lost your password?</a-->
@@ -127,16 +131,31 @@
 
 
     {% if latest_rencontre_list %}
-    <ul>
+    <div class="main">
         {% for rencontre in latest_rencontre_list %}
-        <li>
-            <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}"/> {{rencontre.pays1}} <input class="score" type="number"/> &nbsp; <input class="score" type = "number"/> {{rencontre.pays2}} <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"/> &nbsp; {{rencontre.date}}
-        </li>
+        <div class="well well">
+            <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" /> {{rencontre.pays1}}
+            <input class="score" type="number" /> &nbsp;
+            <input class="score" type="number" /> {{rencontre.pays2}} <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp; {{rencontre.date}}
+        </div>
         {% endfor %}
-    </ul>
+    </div>
     {% else %}
     <p>No polls are available.</p>
     {% endif %}
+
+
+    <nav class="navbar navbar-fixed-bottom popup">
+        <div class="container-fluid popup">
+            <div class="navbar-header">
+                <span class="navbar-brand center">Some changes have not been saved</span>
+            </div>
+            <div class="navbar-header navbar-right">
+                <a class="navbar-brand center" href="#"><span class="glyphicon glyphicon-floppy-disk"></span> Save</a>
+            </div>
+        </div>
+        
+    </nav>
 
 </body>
 

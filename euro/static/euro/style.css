@@ -13,8 +13,9 @@
     text-decoration: none;
 }
 
-.content {
+.main {
     margin-left: 40px;
+    margin-right: 40px;
 }
 
 /*
@@ -29,6 +30,15 @@ h1, h2, h3, h4 {
 
 .save {
     float: right;
+}
+
+.popup {
+    background-color: #ffefaa;   
+}
+
+.center {
+    align-content: center;
+    align-self: center;
 }
 
 .post-form textarea, .post-form input {

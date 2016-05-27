@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from models import Pays, Rencontre, Member, Pronostic
+from models import Pays, Rencontre, Member, Pronostic, Tag
 from django.template import loader
 from django.http import Http404
 from django.views import generic
@@ -35,6 +35,7 @@ def register(request):
     newMember = Member()
     newMember.username = request.POST['username']
     newMember.password = request.POST['password']
+    newMember.email = request.POST['email']
     newMember.save()
     request.session['member_id'] = newMember.id
     request.session['username'] = newMember.username

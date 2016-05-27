@@ -57,6 +57,23 @@ var form = {
     }
 };
 
+function validateRegister() {
+    var x = document.forms["register"]["password"].value;
+    var x2 = document.forms["register"]["password2"].value;
+
+    console.log(x)
+    console.log(x2)
+    if (x == null || x == "" || x != x2) {
+        $('.log-status').addClass('wrong-entry');
+        $('.log-btn').addClass('wrong-entry');
+        
+        document.getElementById('register-btn').textContent = "Passwords must be the same";
+        $('.alert').fadeIn(500);
+        setTimeout("$('.alert').fadeOut(1500);", 3000);
+        return false;
+    }
+}
+
 $(function () {
     form.init($('#login')); // initialize form
 });
@@ -68,6 +85,9 @@ $(document).ready(function () {
         $('.log-status').removeClass('wrong-entry');
         $('.log-btn').removeClass('wrong-entry');
         document.getElementById('log-btn').textContent = 'Log in';
+        document.getElementById('register-btn').textContent = 'Register';
+
+
     });
 
 });
