@@ -131,7 +131,7 @@
     <ul>
         {% for rencontre in latest_rencontre_list %}
         <li>
-            {{rencontre.pays1}} <input class="score" type="number"/> &nbsp; <input class="score" type = "number"/> {{rencontre.pays2}} &nbsp; {{rencontre.date}}
+            <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}"/> {{rencontre.pays1}} <input class="score" type="number"/> &nbsp; <input class="score" type = "number"/> {{rencontre.pays2}} <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"/> &nbsp; {{rencontre.date}}
         </li>
         {% endfor %}
     </ul>
