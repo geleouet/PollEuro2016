@@ -2,24 +2,20 @@
 {% load static %}
 {% block content %}
 {% if latest_rencontre_list %}
-{% for ctag in latest_rencontre_list %}
+{% for rencontre in latest_rencontre_list %}
 <div class="panel panel-default">
-  <div class="panel-heading"><span class="date-match">{{ctag.name}}</span></div>
+  <div class="panel-heading"><span class="date-match">{{rencontre.date}}</span></div>
     
   <div class="panel-body">
-{% for rencontre in ctag.rencontre_set.all %}
-<div class="well well">
     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
     <span class='pays'>{{rencontre.pays1}}</span>
     <input class="score entry" type="number" />
-    <span class="date-match">{{rencontre.date}}</span>
+    
     <input class="score entry" type="number" />
     <span class='pays'>{{rencontre.pays2}}</span>
     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
+    </div>
 </div>
-    
-{% endfor %}
-      </div></div>
 {% endfor %} {% else %}
 <p>No polls are available.</p>
 {% endif %} {% endblock content %}

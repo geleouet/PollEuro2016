@@ -10,13 +10,24 @@ from django.core import serializers
 
 
 def index(request):
-    latest_rencontre_list = Rencontre.objects.order_by('-date')[:5]
+    latest_rencontre_list = Tag.objects.all()
     
     context = {
         'latest_rencontre_list': latest_rencontre_list,
         'username' : request.session.get('username', None)
     }
     return render(request, 'euro/index.html', context)
+
+
+def next_matchs(request):
+    latest_rencontre_list = Rencontre.objects.order_by('-date')[:5]
+    latest_rencontre_date = set(map(lambda r: r.date ,latest_rencontre_list))
+    context = {
+        'latest_rencontre_list': latest_rencontre_list,
+        'username' : request.session.get('username', None)
+    }
+    return render(request, 'euro/nexts.html', context)
+
 
 
 def results(request, question_id):
