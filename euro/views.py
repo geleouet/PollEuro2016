@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from models import Pays, Rencontre, Member, Pronostic
 from django.template import loader
 from django.http import Http404
 from django.views import generic
 from django.core.urlresolvers import reverse
+from django.core import serializers
 # Create your views here.
 
 
@@ -30,7 +31,25 @@ def vote(request, question_id):
     response = "You're looking at the results of question %s."
     return HttpResponse(response % question_id)
 
+def register(request):
+    newMember = Member()
+    newMember.username = request.POST['username']
+    newMember.password = request.POST['password']
+    newMember.save()
+    return HttpResponseRedirect(reverse('euro:index'))
 
+def check_login(request):
+    try :
+        m = Member.objects.get(username=request.POST['username'])
+    except (KeyError, Member.DoesNotExist) :
+            return JsonResponse({'reason' : 'User doesn\'t exists.'})
+    else :
+        if m.password == request.POST['password']:
+            request.session['member_id'] = m.id
+            request.session['username'] = m.username
+            return JsonResponse({'success' : '/success'})
+        else:
+            return JsonResponse({'reason' : 'Your username and password didn\'t match.'})
 
 
 def login(request):

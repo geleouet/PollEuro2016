@@ -5,7 +5,10 @@ from . import views
 app_name = 'euro'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^check_login$', views.check_login, name='check_login'),
     url(r'^login$', views.login, name='login'),
+    url(r'^register$', views.register, name='register'),
+    
     url(r'^logout$', views.logout, name='logout'),
     
     # ex: /polls/5/

@@ -12,6 +12,12 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'euro/style.css' %}" />
+    <script src="{% static 'euro/loginform.js' %}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    // Definition of global variables for javascript context
+    var contact_url = "{% url 'euro:check_login' %}";
+    </script>
 
 </head>
 
@@ -35,8 +41,8 @@
                     <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                 </li>
                 {% else %}
-                <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#myModalLogin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#myModalRegister"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#myModalLogin"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -52,7 +58,7 @@
                     <h4 class="modal-title">Login</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="{% url 'euro:login' %}" method="post">
+                    <form id = "login">
                         {% csrf_token %}
                         <div class="login-form">
                             <div class="form-group ">
@@ -65,7 +71,48 @@
                             </div>
 
                             <!--a class="link" href="#">Lost your password?</a-->
-                            <button type="submit" class="log-btn">Log in</button>
+                            <button type="submit" class="log-btn" id="log-btn">Log in</button>
+
+
+                        </div>
+                    </form>
+                </div>
+                <!--div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div-->
+            </div>
+
+        </div>
+    </div>
+    
+    <div id="myModalRegister" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form id = "login" action="{% url 'euro:register' %}" method="post">
+                        {% csrf_token %}
+                        <div class="login-form">
+                            <div class="form-group ">
+                                <input type="text" class="form-control" placeholder="Username " id="username" name="username" />
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="form-group log-status">
+                                <input type="password" class="form-control" placeholder="Password" id="password" name="password" />
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <label>Repeat:</label>
+                            <div class="form-group log-status">
+                                <input type="password" class="form-control" placeholder="Password" id="password2" name="password2" />
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <!--a class="link" href="#">Lost your password?</a-->
+                            <button type="submit" class="log-btn" id="register-btn">Register</button>
 
 
                         </div>
