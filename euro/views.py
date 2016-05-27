@@ -36,6 +36,8 @@ def register(request):
     newMember.username = request.POST['username']
     newMember.password = request.POST['password']
     newMember.save()
+    request.session['member_id'] = newMember.id
+    request.session['username'] = newMember.username
     return HttpResponseRedirect(reverse('euro:index'))
 
 def check_login(request):
