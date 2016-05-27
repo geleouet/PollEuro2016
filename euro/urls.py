@@ -5,8 +5,8 @@ from . import views
 app_name = 'euro'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^/login$', views.login, name='login'),
-    url(r'^/logout$', views.logout, name='logout'),
+    url(r'^login$', views.login, name='login'),
+    url(r'^logout$', views.logout, name='logout'),
     
     # ex: /polls/5/
     url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),

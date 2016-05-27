@@ -3,33 +3,83 @@
 
 <head>
     <title>Euro 2016</title>
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'euro/style.css' %}" />
 
 </head>
 
 <body>
-    <div class="page-header">
-        {% if username %}
-        <form action="{% url 'euro:logout' %}" method="post">
-            {% csrf_token %}
-            <label>Welcome, {{username}}</label>
-            <input type="submit" value="Deconnection" />
-        </form>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Euro2016</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Page 1</a></li>
+                <li><a href="#">Page 2</a></li>
+                <li><a href="#">Page 3</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if username %}
+                <li><a href="#">Welcome, {{username}}</a></li>
+                <li>
+                    
+                    <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                </li>
+                {% else %}
+                <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#myModalLogin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 
-        {% else %}
-        <form action="{% url 'euro:login' %}" method="post">
-            {% csrf_token %}
-            <label for="username">Utilisateur</label>
-            <input type="text" name="username" id="username" value="Utilisateur" />
-            <label for="username">Password</label>
-            <input type="password" name="password" id="password" value="***" />
-            <input type="submit" value="Connection" />
-        </form>
-        {% endif %}
+    <div id="myModalLogin" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'euro:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="login-form">
+                            <div class="form-group ">
+                                <input type="text" class="form-control" placeholder="Username " id="username" name="username" />
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="form-group log-status">
+                                <input type="password" class="form-control" placeholder="Password" id="password" name="password" />
+                                <i class="fa fa-lock"></i>
+                            </div>
+
+                            <!--a class="link" href="#">Lost your password?</a-->
+                            <button type="submit" class="log-btn">Log in</button>
+
+
+                        </div>
+                    </form>
+                </div>
+                <!--div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div-->
+            </div>
+
+        </div>
     </div>
+
+
     {% if latest_question_list %}
     <ul>
         {% for question in latest_question_list %}

@@ -46,3 +46,54 @@ h1, h2, h3, h4 {
 .post h1 a, .post h1 a:visited {
     color: #000000;
 }
+
+
+
+/* Login form */
+.login-form{
+
+  padding:40px 30px;
+
+  @include border-radius(4px);
+  margin:auto;
+  left: 0;
+  right: 0;
+  top:50%;
+  @include translateY(-50%);
+}
+.form-group{
+  position: relative;
+  margin-bottom:15px;
+}
+.form-control{
+  width:100%;
+  height:50px;
+  border:none;
+  padding:5px 7px 5px 15px;
+  background:#fff;
+  color:#666;
+  border:2px solid #ddd;
+  @include border-radius(4px);
+    &:focus, &:focus + .fa{
+      border-color:#10CE88;
+      color:#10CE88;
+    }
+}
+.form-group .fa{
+  position: absolute;
+  right:15px;
+  top:17px;
+  color:#999;
+}
+
+.log-btn{
+  background:#0AC986;
+  dispaly:inline-block;
+  width:100%;
+  font-size:16px;
+  height:50px;
+  color:#fff;
+  text-decoration:none;
+  border:none;
+  @include border-radius(4px);
+}
