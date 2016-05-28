@@ -1,21 +1,53 @@
-{% extends 'euro/base.html' %}
-{% load static %}
-{% block content %}
-{% if latest_rencontre_list %}
-{% for rencontre in latest_rencontre_list %}
-<div class="panel panel-default">   
-  <div class="panel-heading"><span class="date-match">{{rencontre.date |  date:'d F Y'}}</span></div>
+{% extends 'euro/base.html' %} {% load static %} {% block content %} {% if latest_rencontre_list %}
+
+<div>
+
+
+    <nav class="col-sm-3 desc" >
+        <ul class="nav nav-pills nav-stacked">
+
+            {% for date in latest_rencontre_date %}
+            <li><a href="#section{{forloop.counter}}">{{date |  date:'d F Y'}}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <div class="col-sm-9">
+        {% for date in latest_rencontre_date %}
+        <div class="marged">
+        <div class="panel panel-default" id="section{{forloop.counter}}">
+            <div class="panel-heading">
+                <span class="date-match">{{date |  date:'l d F Y'}}</span>
+            </div>
+
+            <div class="panel-body">
+
+                {% for rencontre in latest_rencontre_list %} 
+                {% if rencontre.date == date %}
+
+                <div class="well">
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
+                    <span class='pays'>{{rencontre.pays1}}</span>
+                    <input class="score entry" type="number" />
+
+                    <input class="score entry" type="number" />
+                    <span class='pays'>{{rencontre.pays2}}</span>
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
+                </div>
+                {% endif %} 
+                {% endfor %}
+            </div>
+
+        </div>
+        </div>
     
-  <div class="panel-body">
-    <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
-    <span class='pays'>{{rencontre.pays1}}</span>
-    <input class="score entry" type="number" />
-    
-    <input class="score entry" type="number" />
-    <span class='pays'>{{rencontre.pays2}}</span>
-    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
-    </div>
+
+    {% endfor %}
+        </div>
+
 </div>
-{% endfor %} {% else %}
+
+
+{% else %}
 <p>No polls are available.</p>
 {% endif %} {% endblock content %}

@@ -19,10 +19,11 @@
         // Definition of global variables for javascript context
         var contact_url = "{% url 'euro:check_login' %}";
     </script>
+    
 
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -31,7 +32,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="{% url 'euro:nexts' %}">Nexts</a></li>
-                <li><a href="#">Page 2</a></li>
+                <li><a href="{% url 'euro:index' %}">Events</a></li>
                 <li><a href="#">Page 3</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -131,12 +132,11 @@
     </div>
 
 
-    
+
     <div class="main">
-        {% block content %}
-        {% endblock %}
+        {% block content %} {% endblock %}
     </div>
-    
+
 
     <nav class="navbar navbar-fixed-bottom popup">
         <div class="container-fluid popup">
@@ -147,7 +147,7 @@
                 <a class="navbar-brand center" href="#"><span class="glyphicon glyphicon-floppy-disk"></span> Save</a>
             </div>
         </div>
-        
+
     </nav>
 
 </body>
