@@ -3,8 +3,8 @@
 {% block content %}
 {% if latest_rencontre_list %}
 {% for rencontre in latest_rencontre_list %}
-<div class="panel panel-default">
-  <div class="panel-heading"><span class="date-match">{{rencontre.date}}</span></div>
+<div class="panel panel-default">   
+  <div class="panel-heading"><span class="date-match">{{rencontre.date |  date:'d F Y'}}</span></div>
     
   <div class="panel-body">
     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
