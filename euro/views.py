@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.db.models import Count, Min, Sum, Avg
 from models import Pays, Rencontre, Member, Pronostic, Tag
 from django.template import loader
 from django.http import Http404
@@ -13,8 +14,9 @@ def home(request):
     user = get_object_or_404(Member, pk=request.session['member_id'])
     latest_rencontre_list = Rencontre.objects.order_by('-date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
-    
-    pronostics = Pronostic.objects.filter(member__exact = user).all()
+    pron = Pronostic.objects.filter(member__exact = user)
+    pronostics = pron.all()
+    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
     
     latest_rencontre_date = set(map(lambda r: r.date ,latest_rencontre_list))
     
@@ -120,12 +122,14 @@ def save(request):
         
         for item in score1.items():
             if (score2[item[0]]):
+                rencontre = Rencontre.objects.get(pk=item[0])
                 p, created = Pronostic.objects.filter(match__exact=item[0]).filter(member__exact=user).get_or_create(
                     member=user,
-                    match=Rencontre.objects.get(pk=item[0])
+                    match=rencontre
                 )
                 p.score1 = score1[item[0]]
                 p.score2 = score2[item[0]]
+                p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
                 p.save()
                     
         return JsonResponse({'success' : 'success'})        

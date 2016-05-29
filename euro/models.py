@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
-
+from django.db.models.signals import post_save
 from django.db import models
+import logging
+
 
 # Create your models here.
 
@@ -43,6 +45,35 @@ class Pronostic(models.Model):
     points = models.IntegerField(default=-1)
     def __str__(self):
         return '[' + self.member.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
+    
+class Resultat(models.Model):
+    match = models.ForeignKey(Rencontre, on_delete = models.CASCADE)
+    score1 = models.IntegerField(default=-1)
+    score2 = models.IntegerField(default=-1)
+    winner = models.IntegerField(default=-1)
+    def __str__(self):
+        return self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
+
+
+def my_callback(sender, instance, **kwargs):
+    print(str(instance) + " finished!")
+    pronostics = Pronostic.objects.filter(match__exact=instance.match).all()
+    for pronostic in pronostics :
+        pronostic.points = 0
+        if pronostic.score1 == instance.score1:
+            pronostic.points += 1
+        if pronostic.score2 == instance.score2:
+            pronostic.points += 1
+        if pronostic.winner == instance.winner:
+            pronostic.points += 1
+        pronostic.save()    
+               
+        
+    
+    
+    
+logger = logging.getLogger(__name__)    
+post_save.connect(my_callback, sender=Resultat, dispatch_uid='update_resultat')
     
     
 #class AvatarMember(models.Model):

@@ -35,21 +35,7 @@ var formSave = {
         $dd.append($error_list); // append error list to dd error field
     }
     , success: function (data, textStatus, jqXHR) {
-        if (!data['success']) {
-            /*form.that.find('dl dd:last-child').empty(); // empty old error messages
-            var errors = data;
-            for (var e in errors) { // iterating over errors
-                var error = errors[e][0];
-                form.display_error(e, error);
-            }*/
-
-            $('.log-status').addClass('wrong-entry');
-            $('.log-btn').addClass('wrong-entry');
-            console.log(data['reason']);
-            document.getElementById('log-btn').textContent = data['reason'];
-            $('.alert').fadeIn(500);
-            setTimeout("$('.alert').fadeOut(1500);", 3000);
-        } else {
+        if (data['success']) {
             location.reload();
         }
     }
@@ -57,7 +43,6 @@ var formSave = {
         alert('error: ' + textStatus + errorThrown);
     }
 };
-
 
 
 var form = {
