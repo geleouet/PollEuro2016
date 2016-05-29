@@ -22,6 +22,7 @@ class Rencontre(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     date = models.DateField()
     comment = models.CharField(max_length=200)
+    allowNull = models.BooleanField(default=True)
     def __str__(self):
         return self.pays1.nom + ' - ' + self.pays2.nom + '('+self.date.isoformat()+')'
 
