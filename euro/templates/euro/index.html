@@ -17,12 +17,16 @@
         <div id="collapse{{forloop.counter}}" class="panel-collapse collapse {% if forloop.first %}in{% endif %}">
             <div class="panel-body">
                 {% for rencontre in ctag.rencontre_set.all %}
+                        <script type="text/javascript">
+                            formSave.fields['score_{{rencontre.id}}_1']= "score{{rencontre.id}}_1"
+                            formSave.fields['score_{{rencontre.id}}_2']= "score{{rencontre.id}}_2"
+                        </script>
                 <div class="well well">
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
                     <span class='pays'>{{rencontre.pays1}}</span>
-                    <input class="score entry" type="number" id="score{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                     <span class="date-match">{{rencontre.date}}</span>
-                    <input class="score entry" type="number" id="score{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
                     <span class='pays'>{{rencontre.pays2}}</span>
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
                 </div>

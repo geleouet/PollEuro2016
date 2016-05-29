@@ -18,6 +18,7 @@
     <script type="text/javascript">
         // Definition of global variables for javascript context
         var contact_url = "{% url 'euro:check_login' %}";
+        var save_url = "{% url 'euro:save' %}";
     </script>
     
 
@@ -132,9 +133,12 @@
     </div>
 
 
-
+<form id="saveP">
+    {% csrf_token %}
     <div class="main">
+
         {% block content %} {% endblock %}
+
     </div>
 
 
@@ -144,11 +148,13 @@
                 <span class="navbar-brand center">Some changes have not been saved</span>
             </div>
             <div class="navbar-header navbar-right">
-                <a class="navbar-brand center" href="#"><span class="glyphicon glyphicon-floppy-disk"></span> Save</a>
+                <button type="submit" class="navbar-brand center" id="log-btn"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
             </div>
         </div>
 
     </nav>
+
+</form>
 
 </body>
 

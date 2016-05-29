@@ -102,6 +102,38 @@ def check_login(request):
         else:
             return JsonResponse({'reason' : 'Your username and password didn\'t match.'})
 
+def save(request):
+    try :
+        user = Member.objects.filter(pk=request.session['member_id']).get()
+        score1 = {}
+        score2 = {}
+        res =''
+        for item in request.POST.items():
+            #res += 'item '+ str(item) +' :'
+            if (item[0].find('score')>-1 and item[1] != ''):
+                match = item[0].split('_')[1]
+                score = item[1]
+                if (int(item[0].split('_')[2]) == 1):
+                    score1[match] = score
+                else:
+                    score2[match] = score
+        
+        for item in score1.items():
+            if (score2[item[0]]):
+                p, created = Pronostic.objects.filter(match__exact=item[0]).filter(member__exact=user).get_or_create(
+                    member=user,
+                    match=Rencontre.objects.get(pk=item[0])
+                )
+                p.score1 = score1[item[0]]
+                p.score2 = score2[item[0]]
+                p.save()
+                    
+        return JsonResponse({'success' : 'success'})        
+        
+    except (KeyError, Member.DoesNotExist ) :
+        return JsonResponse({'reason' : 'User doesn\'t exists.'})
+    
+
 
 def login(request):
     try :

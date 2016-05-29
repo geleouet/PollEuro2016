@@ -22,11 +22,15 @@
                 {% if rencontre.date == date %}
 
                 <div class="well">
+                        <script type="text/javascript">
+                            formSave.fields['score_{{rencontre.id}}_1']= "score_{{rencontre.id}}_1"
+                            formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
+                        </script>
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
                     <span class='pays'>{{rencontre.pays1}}</span>
-                    <input class="score entry" type="number" id="score{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                     
-                    <input class="score entry" type="number" id="score{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
                     <span class='pays'>{{rencontre.pays2}}</span>
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
                     

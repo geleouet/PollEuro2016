@@ -44,3 +44,7 @@ class Pronostic(models.Model):
     def __str__(self):
         return '[' + self.member.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
     
+    
+#class AvatarMember(models.Model):
+#    user = models.OneToOneField(Member)
+#    avatar = models.ImageField(upload_to='/images/')
