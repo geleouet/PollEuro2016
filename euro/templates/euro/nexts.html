@@ -1,4 +1,8 @@
-{% extends 'euro/base.html' %} {% load static %} {% block content %} {% if latest_rencontre_list %}
+{% extends 'euro/base.html' %} 
+{% load static %} 
+{% load extra_euro %}
+{% block content %} 
+{% if latest_rencontre_list %}
 
 <div>
 
@@ -28,9 +32,9 @@
                 <div class="well">
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
                     <span class='pays'>{{rencontre.pays1}}</span>
-                    <input class="score entry" type="number" />
-
-                    <input class="score entry" type="number" />
+                    <input class="score entry" type="number" id="score{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
+                    
+                    <input class="score entry" type="number" id="score{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
                     <span class='pays'>{{rencontre.pays2}}</span>
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
                 </div>

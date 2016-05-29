@@ -9,23 +9,59 @@ from django.core import serializers
 # Create your views here.
 
 
-def index(request):
-    latest_rencontre_list = Tag.objects.all()
+def home(request):
+    user = get_object_or_404(Member, pk=request.session['member_id'])
+    latest_rencontre_list = Rencontre.objects.order_by('-date')[:5]
+    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    
+    pronostics = Pronostic.objects.filter(member__exact = user).all()
+    
+    latest_rencontre_date = set(map(lambda r: r.date ,latest_rencontre_list))
+    
+    
     
     context = {
+        'user': user,
+        'username' : request.session.get('username', None),
+        'latest_rencontre_list' : latest_rencontre_list,
+        'latest_rencontre_date': latest_rencontre_date,
+        'pronostics':pronostics,
+        #'temp':temp,
+    }
+    return render(request, 'euro/home.html', context)
+
+
+def index(request):
+    
+    try :
+        user = Member.objects.filter(pk=request.session['member_id']).get()
+    except (KeyError, Member.DoesNotExist ) :
+        user = None
+        
+    latest_rencontre_list = Tag.objects.all()
+    pronostics = Pronostic.objects.filter(member__exact = user).all()
+    context = {
         'latest_rencontre_list': latest_rencontre_list,
-        'username' : request.session.get('username', None)
+        'username' : request.session.get('username', None),
+        'pronostics':pronostics,
     }
     return render(request, 'euro/index.html', context)
 
 
 def next_matchs(request):
+    try :
+        user = Member.objects.filter(pk=request.session['member_id']).get()
+    except (KeyError, Member.DoesNotExist ) :
+        user = None
+    
     latest_rencontre_list = Rencontre.objects.order_by('-date')[:15]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
         'latest_rencontre_list': latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
-        'username' : request.session.get('username', None)
+        'username' : request.session.get('username', None),
+        'pronostics':pronostics,
     }
     return render(request, 'euro/nexts.html', context)
 

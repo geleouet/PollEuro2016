@@ -30,7 +30,7 @@
                 <a class="navbar-brand" href="#"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height="32" /></a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href={% if username %}"{% url 'euro:home' %}"{% else %}{% url 'euro:nexts' %}{% endif %}>Home</a></li>
                 <li><a href="{% url 'euro:nexts' %}">Nexts</a></li>
                 <li><a href="{% url 'euro:index' %}">Events</a></li>
                 <li><a href="#">Page 3</a></li>

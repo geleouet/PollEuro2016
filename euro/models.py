@@ -29,7 +29,7 @@ class Member(models.Model):
     username = models.CharField(max_length=60)
     password = models.CharField(max_length=60)
     email = models.CharField(max_length=120)
-    
+    points = models.IntegerField(default=0)
     def __str__(self):
         return self.username    
     
@@ -39,3 +39,7 @@ class Pronostic(models.Model):
     score1 = models.IntegerField(default=-1)
     score2 = models.IntegerField(default=-1)
     winner = models.IntegerField(default=-1)
+    points = models.IntegerField(default=-1)
+    def __str__(self):
+        return '[' + self.member.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
+    
