@@ -1,25 +1,29 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.db.models import Count, Min, Sum, Avg
-from models import Pays, Rencontre, Member, Pronostic, Tag
+from django.db.models import Count, Min, Sum, Avg, F, Q, Value
+from models import Pays, Rencontre, Member, Pronostic, Tag, Resultat
 from django.template import loader
 from django.http import Http404
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.core import serializers
+from datetime import datetime
 # Create your views here.
 
 
 def home(request):
     user = get_object_or_404(Member, pk=request.session['member_id'])
-    latest_rencontre_list = Rencontre.objects.order_by('-date')[:5]
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
     pronostics = pron.all()
-    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
+    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts'] 
     
-    latest_rencontre_date = set(map(lambda r: r.date ,latest_rencontre_list))
-    
+    latest_pronostics = pron.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
+    resultats = Resultat.objects.filter(match__in=pron.values_list('match', flat=True)).all()
+    for res in resultats :
+        res.points = pronostics.filter(match__exact=res.match).get().points
+    print resultats
     
     
     context = {
@@ -28,8 +32,12 @@ def home(request):
         'latest_rencontre_list' : latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
         'pronostics':pronostics,
+        'latest_pronostics':latest_pronostics,
+        'resultats':resultats,
         #'temp':temp,
     }
+    
+    
     return render(request, 'euro/home.html', context)
 
 
