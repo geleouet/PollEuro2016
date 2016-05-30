@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load nav_active %}
 
 <html>
 
@@ -25,15 +26,15 @@
 </head>
 
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default ">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height="32" /></a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href={% if username %}"{% url 'euro:home' %}"{% else %}{% url 'euro:nexts' %}{% endif %}>Home</a></li>
-                <li><a href="{% url 'euro:nexts' %}">Nexts</a></li>
-                <li><a href="{% url 'euro:index' %}">Events</a></li>
+                <li class="{% active request 'euro:home' %}"><a href="{% if username %}{% url 'euro:home' %}{% else %}{% url 'euro:nexts' %}{% endif %}">Home</a></li>
+                <li class="{% active request 'euro:nexts' %}"><a href="{% url 'euro:nexts' %}">Nexts</a></li>
+                <li class="{% active request 'euro:index' %}"><a href="{% url 'euro:index' %}">Events</a></li>
                 <li><a href="#">Page 3</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
