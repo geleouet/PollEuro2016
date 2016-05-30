@@ -24,10 +24,18 @@
                 <div class="well well">
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
                     <span class='pays'>{{rencontre.pays1}}</span>
+                    
+                    {% if username %}
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
+                    {% endif %}
+                    
                     <span class="date-match">{{rencontre.date}}</span>
+                    
+                    {% if username %}
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
-                    <span class='pays'>{{rencontre.pays2}}</span>
+                    {% endif %}
+                    
+                    <span class='pays' style='text-align:right;'>{{rencontre.pays2}}</span>
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
                 </div>
 
