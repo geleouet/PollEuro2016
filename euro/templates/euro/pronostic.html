@@ -1,0 +1,17 @@
+{% extends 'euro/base.html' %}
+{% load staticfiles %}
+{% load nav_active %}
+{% block content %}
+
+{% if already_answered_macth %}
+    <ul>
+        {% for pronostic in already_answered_macth %}
+        <li>
+            {{pronostic}}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+{% endblock content %}
