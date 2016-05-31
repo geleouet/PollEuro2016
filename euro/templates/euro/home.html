@@ -8,7 +8,7 @@
 <br/>
 {% if latest_rencontre_list %} 
 <h2>Prochains matchs:</h2>
-<div class="col-sm-9">
+<div class="col-sm-12">
         {% for date in latest_rencontre_date %}
         <div class="marged">
         <div class="panel panel-default" id="section{{forloop.counter}}">
@@ -27,11 +27,17 @@
                             formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
                         </script>
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
-                    <span class='pays'>{{rencontre.pays1}}</span>
-                    <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                     
+                    
+                    <span class='pays'>{{rencontre.pays1}}</span>
+                    
+                    {% if username %}
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+                    {% endif %}
+
                     <span class='pays'>{{rencontre.pays2}}</span>
+                    
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
                     
                 </div>
@@ -43,8 +49,60 @@
         </div>
     
 
-    {% endfor %}
-        </div>
+{% endfor %}
+</div>
 {% else %}
-<p>No polls are available.</p>
-{% endif %} {% endblock content %}
+<p>Pas de prochains matchs.</p>
+{% endif %} 
+
+
+{% if latest_pronostics %} 
+<h2>Derniers matchs:</h2>
+<div class="col-sm-12">
+    
+    {% for resultat in resultats %} 
+    <div class="panel panel-default" id="section{{forloop.counter}}">
+            <div class="panel-heading">
+                <span class="date-match">{{resultat.match.date |  date:'l d F Y'}}</span>
+            </div>
+
+            <div class="panel-body">
+
+                
+
+                <div class="well">
+                        
+                    <img src="{% static 'euro/flags/' %}{{resultat.match.pays1.icone}}.png" alt="{{resultat.match.pays1}}" />
+                    
+                    
+                    <span class='pays'>{{resultat.match.pays1}}</span>
+                    
+                    {% if username %}
+                    <input class="score entry" type="number"  min="0" value="{{pronostics|score1:resultat.match}}" disabled/>
+                    <input class="score entry" type="number"  min="0" value="{{pronostics|score2:resultat.match}}" disabled/>
+                    {% endif %}
+                    {% for i in resultat.points|get_range %}
+                    <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    {% endfor %}
+
+                    <span class='pays'>{{resultat.match.pays2}}</span>
+                    
+                    <img src="{% static 'euro/flags/' %}{{resultat.match.pays2.icone}}.png" alt="{{resultat.match.pays2}}" /> &nbsp;
+                    
+                </div>
+    
+            </div>
+        <div class="panel-footing">
+                <h4>Résultat : {{resultats|score1:resultat.match}} - {{resultats|score2:resultat.match}}</h4>
+            </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Pas de précédents résultats.</p>
+{% endif %} 
+
+
+
+{% endblock content %}

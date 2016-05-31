@@ -35,7 +35,7 @@
                 <li class="{% active request 'euro:home' %}"><a href="{% if username %}{% url 'euro:home' %}{% else %}{% url 'euro:nexts' %}{% endif %}">Home</a></li>
                 <li class="{% active request 'euro:nexts' %}"><a href="{% url 'euro:nexts' %}">Nexts</a></li>
                 <li class="{% active request 'euro:index' %}"><a href="{% url 'euro:index' %}">Events</a></li>
-                <li><a href="#">Page 3</a></li>
+                <li class="{% active request 'euro:classement' %}"><a href="{% url 'euro:classement' %}">Classement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if username %}
