@@ -40,6 +40,24 @@ def home(request):
     
     return render(request, 'euro/home.html', context)
 
+def classement(request):
+    try :
+        user = Member.objects.filter(pk=request.session['member_id']).get()
+    except (KeyError, Member.DoesNotExist ) :
+        user = None
+     
+    users = Member.objects.annotate(score=Sum('pronostic__points')).all()
+    
+    context = {
+        'users': users,
+        'username' : request.session.get('username', None),
+        
+    }
+    return render(request, 'euro/classement.html', context)
+    
+    
+    
+    
 
 def index(request):
     
