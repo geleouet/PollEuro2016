@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db.models.signals import post_save
 from django.db import models
+from datetime import datetime
 import logging
 
 
@@ -17,6 +18,8 @@ class Tag(models.Model):
     name = models.CharField(max_length=200)
     def __str__(self):
         return self.name
+    def matchs(self):
+        return Rencontre.objects.filter(tag=self).order_by('date').all()
     
 class Rencontre(models.Model):
     pays1 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p1_id') 
@@ -25,6 +28,8 @@ class Rencontre(models.Model):
     date = models.DateField()
     comment = models.CharField(max_length=200)
     allowNull = models.BooleanField(default=True)
+    def passed(self):
+        return self.date <= datetime.date(datetime.now())
     def __str__(self):
         return self.pays1.nom + ' - ' + self.pays2.nom + '('+self.date.isoformat()+')'
 
