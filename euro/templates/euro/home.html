@@ -4,7 +4,7 @@
 {% block content %} 
 
 
-<h1>Total Points <span class="label label-warning">{{user.pts}}</span></h1>
+<h1>Total Points <span class="label label-warning">{{user.pts}} </span></h1>
 <br/>
 {% if latest_rencontre_list %} 
 <h2>Prochains matchs:</h2>
@@ -74,26 +74,30 @@
                         
                     <img src="{% static 'euro/flags/' %}{{resultat.match.pays1.icone}}.png" alt="{{resultat.match.pays1}}" />
                     
-                    
+                    {% if resultat.winner == 1 %}
+                    <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    {% endif %}
                     <span class='pays'>{{resultat.match.pays1}}</span>
                     
                     {% if username %}
                     <input class="score entry" type="number"  min="0" value="{{pronostics|score1:resultat.match}}" disabled/>
+                    <strong style="padding: 10px;"><big>{{resultats|score1:resultat.match}} - {{resultats|score2:resultat.match}}</big></strong>
                     <input class="score entry" type="number"  min="0" value="{{pronostics|score2:resultat.match}}" disabled/>
                     {% endif %}
-                    {% for i in resultat.points|get_range %}
-                    <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
-                    {% endfor %}
-
+                    
                     <span class='pays'>{{resultat.match.pays2}}</span>
+                    {% if resultat.winner == 2 %}
+                    <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    {% endif %}
                     
                     <img src="{% static 'euro/flags/' %}{{resultat.match.pays2.icone}}.png" alt="{{resultat.match.pays2}}" /> &nbsp;
                     
+                    {% for i in resultat.points|get_range %}
+                    <img src="{% static 'euro/images/star.png' %}" alt="Euro 2016" height="32" />
+                    {% endfor %}
+                    
                 </div>
     
-            </div>
-        <div class="panel-footing">
-                <h4>Résultat : {{resultats|score1:resultat.match}} - {{resultats|score2:resultat.match}}</h4>
             </div>
 
     </div>
