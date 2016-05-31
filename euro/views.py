@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.db.models import Count, Min, Sum, Avg
-from models import Pays, Rencontre, Member, Pronostic, Tag
+from models import Pays, Rencontre, Member, Pronostic, Tag, Team
 from django.template import loader
 from django.http import Http404
 from django.views import generic
@@ -137,6 +137,23 @@ def save(request):
     except (KeyError, Member.DoesNotExist ) :
         return JsonResponse({'reason' : 'User doesn\'t exists.'})
     
+
+def manageteam():
+    try :
+        user = Member.objects.filter(pk=request.session['member_id']).get()
+    except (KeyError, Member.DoesNotExist ) :
+        user = None
+
+    userTeam = Team.objects.filter()
+    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    pronostics = Pronostic.objects.filter(member__exact = user).all()
+    context = {
+        'latest_rencontre_list': latest_rencontre_list,
+        'latest_rencontre_date': latest_rencontre_date,
+        'username' : request.session.get('username', None),
+        'pronostics':pronostics,
+    }
+    return render(request, 'euro/nexts.html', context)
 
 
 def login(request):
