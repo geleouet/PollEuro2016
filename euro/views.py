@@ -46,7 +46,7 @@ def classement(request):
     except (KeyError, Member.DoesNotExist ) :
         user = None
      
-    users = Member.objects.annotate(score=Sum('pronostic__points')).all()
+    users = Member.objects.annotate(score=Sum('pronostic__points')).order_by('-score').all()
     
     context = {
         'users': users,

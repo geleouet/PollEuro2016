@@ -5,18 +5,20 @@
 {% block content %}
 
 
-<div class="panel-group">
-    <table>
+<div class="panel-group" style="overflow-x:auto;">
+<div class="panel panel-default">
+  <div class="panel-body">
+      <table id = "classement" style="width:100%">
         <thead style="border-bottom: 2px solid #ddd">
-            <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Membre</th>
+            <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Membre</th>
             <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Score <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
         </thead>
         {% for user in users %}
-        <tr style="border-bottom: 1px solid #ddd;" class="stripped">
+        <tr style="border-bottom: 1px solid #ddd;">
             <td style="padding-left: 15px;padding-right: 15px;">{{user.username}}</td><td> {{user.score}}</td>
         </tr>
         {% endfor %}
     </table>
 
-</div>
+  </div>
 {% endblock content %}
