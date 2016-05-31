@@ -1,12 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-<<<<<<< HEAD
-from django.db.models import Count, Min, Sum, Avg
-from models import Pays, Rencontre, Member, Pronostic, Tag, Team
-=======
 from django.db.models import Count, Min, Sum, Avg, F, Q, Value
-from models import Pays, Rencontre, Member, Pronostic, Tag, Resultat
->>>>>>> origin/master
+from models import Pays, Rencontre, Member, Pronostic, Tag, Resultat,  Team
 from django.template import loader
 from django.http import Http404
 from django.views import generic

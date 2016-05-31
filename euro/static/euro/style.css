@@ -42,7 +42,9 @@ h1, h2, h3, h4 {
 .save {
     float: right;
 }
-
+tr:stripped {
+    nth-child(even) {background-color: #f2f2f2}
+}
 .popup {
     background-color: #ffefaa;   
 }

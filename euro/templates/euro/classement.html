@@ -7,13 +7,13 @@
 
 <div class="panel-group">
     <table>
-        <thead>
-            <th>Membre</th>
-            <th>Score <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
+        <thead style="border-bottom: 2px solid #ddd">
+            <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Membre</th>
+            <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Score <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
         </thead>
         {% for user in users %}
-        <tr>
-            <td>{{user.username}}</td><td> {{user.score}}</td>
+        <tr style="border-bottom: 1px solid #ddd;" class="stripped">
+            <td style="padding-left: 15px;padding-right: 15px;">{{user.username}}</td><td> {{user.score}}</td>
         </tr>
         {% endfor %}
     </table>
