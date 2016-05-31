@@ -28,14 +28,22 @@ class Rencontre(models.Model):
     def __str__(self):
         return self.pays1.nom + ' - ' + self.pays2.nom + '('+self.date.isoformat()+')'
 
+class Team(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name
+
 class Member(models.Model):
     username = models.CharField(max_length=60)
+    team = models.ForeignKey(Team, null=True, blank=True, default = None)
     password = models.CharField(max_length=60)
     email = models.CharField(max_length=120)
     points = models.IntegerField(default=0)
+
     def __str__(self):
-        return self.username    
-    
+        return self.username
+
 class Pronostic(models.Model):
     member = models.ForeignKey(Member, on_delete= models.CASCADE)
     match = models.ForeignKey(Rencontre, on_delete = models.CASCADE)
