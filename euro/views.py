@@ -8,6 +8,7 @@ from django.views import generic
 from django.core.urlresolvers import reverse
 from django.core import serializers
 from datetime import datetime
+import logging
 # Create your views here.
 
 
@@ -136,16 +137,20 @@ def save(request):
         user = Member.objects.filter(pk=request.session['member_id']).get()
         score1 = {}
         score2 = {}
+        winner = {}
         res =''
         for item in request.POST.items():
-            #res += 'item '+ str(item) +' :'
-            if (item[0].find('score')>-1 and item[1] != ''):
+            res += 'item '+ str(item) +' :'
+            if (item[0].find('score')>-1 and item[1] != '' and item[0].find('radio') == -1):
                 match = item[0].split('_')[1]
                 score = item[1]
                 if (int(item[0].split('_')[2]) == 1):
                     score1[match] = score
                 else:
                     score2[match] = score
+            elif (item[0].find('score')>-1 and item[1] != '' and item[0].find('radio') > -1):
+                match = item[0].split('_')[1]
+                winner[match] = item[1]     
         
         for item in score1.items():
             if (score2[item[0]]):
@@ -156,10 +161,14 @@ def save(request):
                 )
                 p.score1 = score1[item[0]]
                 p.score2 = score2[item[0]]
-                p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
+                if score1[item[0]] == score2[item[0]] :
+                    p.winner = winner[item[0]]
+                else :   
+                    p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
+                print str(p)
                 p.save()
                     
-        return JsonResponse({'success' : 'success'})        
+        return JsonResponse({'success' : 'success', 'res' : res})        
         
     except (KeyError, Member.DoesNotExist ) :
         return JsonResponse({'reason' : 'User doesn\'t exists.'})

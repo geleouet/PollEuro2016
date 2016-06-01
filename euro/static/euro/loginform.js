@@ -146,7 +146,4 @@ $(document).ready(function () {
 
     $('#classement').dynatable();
     var dynatable = $('#classement').data('dynatable');
-    dynatable.paginationPerPage.set(20); // Show 20 records per page
-    dynatable.process();
 
-});

@@ -18,8 +18,8 @@
             <div class="panel-body">
                 {% for rencontre in ctag.matchs %}
                         <script type="text/javascript">
-                            formSave.fields['score_{{rencontre.id}}_1']= "score{{rencontre.id}}_1"
-                            formSave.fields['score_{{rencontre.id}}_2']= "score{{rencontre.id}}_2"
+                            formSave.fields['score_{{rencontre.id}}_1']= "score_{{rencontre.id}}_1"
+                            formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
                         </script>
                 <div class="well well">
                     
@@ -35,6 +35,14 @@
                     <span class='pays'>{{rencontre.pays1}}</span>
                     
                     {% if username %}
+                    
+                    {% if rencontre.allowNull == False %}
+                    <label>
+                            <input class="entry" type="radio" name="score_{{rencontre.id}}_radio" value="1"/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    {% endif %}
+                    
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}" {% if rencontre.passed %}disabled{% endif %}/>
                     {% endif %}
                     
@@ -47,6 +55,14 @@
                     
                     {% if username %}
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}" {% if rencontre.passed %}disabled{% endif %}/>
+                    
+                    {% if rencontre.allowNull == False %}
+                    <label>
+                            <input class="entry" type="radio" name="score_{{rencontre.id}}_radio" value="2"/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    {% endif %}
+                    
                     {% endif %}
                     
                     <span class='pays' style='text-align:right;'>{{rencontre.pays2}}</span>
