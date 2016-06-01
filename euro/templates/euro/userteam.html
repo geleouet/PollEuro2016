@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'euro/base.html' %}
+{% load staticfiles %}
+{% block content %}
 
-</body>
-</html>
+{% if not user.team %}
+Bonjour {{user.username}} vous vous n'êtes actuellement dans aucune équipe.
+S'inscrire dans une équipe?
+{% else %}
+Bonjour {{user.username}} vous êtes membre de l'équipe {{user.team.name}}
+{% endif %}
+
+{% endblock content %}

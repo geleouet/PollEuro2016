@@ -165,22 +165,19 @@ def save(request):
         return JsonResponse({'reason' : 'User doesn\'t exists.'})
     
 
-def manageteam():
+def manageteam(request):
     try :
         user = Member.objects.filter(pk=request.session['member_id']).get()
     except (KeyError, Member.DoesNotExist ) :
         user = None
 
-    userTeam = Team.objects.filter()
-    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
-        'latest_rencontre_list': latest_rencontre_list,
-        'latest_rencontre_date': latest_rencontre_date,
+        'user': user,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
     }
-    return render(request, 'euro/nexts.html', context)
+    return render(request, 'euro/userteam.html', context)
 
 
 def login(request):

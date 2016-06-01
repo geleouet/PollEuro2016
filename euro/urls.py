@@ -12,7 +12,8 @@ urlpatterns = [
     url(r'^login$', views.login, name='login'),
     url(r'^register$', views.register, name='register'),
     url(r'^classement$', views.classement, name='classement'),
-    
+    url(r'^teams$', views.manageteam, name='teams'),
+
     url(r'^logout$', views.logout, name='logout'),
     
     # ex: /polls/5/
