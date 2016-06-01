@@ -3,16 +3,31 @@
 {% block content %}
 
 {% if not user.team %}
-Bonjour {{user.username}} vous vous n'êtes actuellement dans aucune équipe.
-S'inscrire dans une équipe?
+<strong>{{user.username}}</strong>, vous vous n'êtes actuellement dans aucune équipe.<br>
+S'inscrire dans une équipe ?<br>
+
+
 {% else %}
-Bonjour {{user.username}} vous êtes membre de l'équipe {{user.team.name}}
+
+<strong>{{user.username}}</strong>, Vous êtes membre de l'équipe <strong>{{user.team.name}}</strong>
 {% endif %}
 
-liste de toutes les équipe en jeux
+<h1>Vous pouvez changer d'équipe ci-dessous :</h1>
 
-{% for team in listOfTeams %}
-        {{team.name}}
-{% endfor %}
+<form action="action_page.php">
+
+    <select name="teams">
+    <ul>
+        <option value="NoTeam"><li>Pas d'équipe</option></li>
+    {% for team in listOfTeams %}
+        <option value={{team.name}}><li>{{team.name}}</option></li>
+    {% endfor %}
+    </ul>
+    </select>
+  <input type="submit">
+</form>
+
+
+
 
 {% endblock content %}
