@@ -3,7 +3,7 @@ from django.db.models.signals import post_save
 from django.db import models
 from datetime import datetime
 import logging
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -51,14 +51,12 @@ class Team(models.Model):
         return self.name
 
 class Member(models.Model):
-    username = models.CharField(max_length=60)
+    user = models.OneToOneField(User)
     team = models.ForeignKey(Team, null=True, blank=True, default = None)
-    password = models.CharField(max_length=60)
-    email = models.CharField(max_length=120)
     points = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
 class Pronostic(models.Model):
     member = models.ForeignKey(Member, on_delete= models.CASCADE)
@@ -68,7 +66,7 @@ class Pronostic(models.Model):
     winner = models.IntegerField(default=-1)
     points = models.IntegerField(default=0)
     def __str__(self):
-        return '[' + self.member.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
+        return '[' + self.member.user.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
     
 class Resultat(models.Model):
     match = models.ForeignKey(Rencontre, on_delete = models.CASCADE)
@@ -91,13 +89,17 @@ def my_callback(sender, instance, **kwargs):
             pronostic.points += 1
         pronostic.save()    
                
-        
+
+def handle_user_save(sender, instance, created, **kwargs):
+  if created:
+    Member.objects.create(user=instance)        
     
     
     
 logger = logging.getLogger(__name__)    
 post_save.connect(my_callback, sender=Resultat, dispatch_uid='update_resultat')
-    
+post_save.connect(handle_user_save, sender=User, dispatch_uid='update_user')
+
     
 #class AvatarMember(models.Model):
 #    user = models.OneToOneField(Member)

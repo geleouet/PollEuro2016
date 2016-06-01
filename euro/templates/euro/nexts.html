@@ -7,7 +7,7 @@
 <div>
 
 
-    <nav class="col-sm-3 desc" >
+    <nav class="col-sm-1 desc" >
         <ul class="nav nav-pills nav-stacked">
 
             {% for date in latest_rencontre_date %}
@@ -16,7 +16,7 @@
         </ul>
     </nav>
 
-    <div class="col-sm-9">
+    <div class="col-sm-11">
         {% for date in latest_rencontre_date %}
         <div class="marged">
         <div class="panel panel-default" id="section{{forloop.counter}}">
@@ -40,6 +40,8 @@
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                 
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+                    {% else %}
+                    <span> - </span>
                     {% endif %}
                     
                     <span class='pays'>{{rencontre.pays2}}</span>
