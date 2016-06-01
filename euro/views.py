@@ -172,12 +172,30 @@ def manageteam(request):
         user = None
 
     pronostics = Pronostic.objects.filter(member__exact = user).all()
+    listOfTeams = Team.objects.all()
     context = {
         'user': user,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
+        'listOfTeams' : listOfTeams,
     }
     return render(request, 'euro/userteam.html', context)
+
+def addUserToTeam(request):
+    try :
+        user = Member.objects.filter(pk=request.session['member_id']).get()
+    except (KeyError, Member.DoesNotExist) :
+        user = None
+
+    # List of all teams
+    listOfTeams = Team.objects.all()
+    context = {
+        'user': user,
+        'username' : request.session.get('username', None),
+        'listOfTeams' : listOfTeams,
+    }
+    return render(request, 'euro/userteam.html', context)
+
 
 
 def login(request):

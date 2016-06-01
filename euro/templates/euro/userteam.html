@@ -9,4 +9,10 @@ S'inscrire dans une équipe?
 Bonjour {{user.username}} vous êtes membre de l'équipe {{user.team.name}}
 {% endif %}
 
+liste de toutes les équipe en jeux
+
+{% for team in listOfTeams %}
+        {{team.name}}
+{% endfor %}
+
 {% endblock content %}
