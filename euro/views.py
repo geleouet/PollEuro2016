@@ -15,6 +15,9 @@ import logging
 
 
 def home(request):
+    if request.user.is_authenticated() == False:
+        return index(request)
+   
     user =request.user.member
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))

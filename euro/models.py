@@ -26,7 +26,7 @@ class Rencontre(models.Model):
     pays2 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p2_id')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     date = models.DateField()
-    comment = models.CharField(max_length=200)
+    comment = models.CharField(max_length=200, null=True, blank=True)
     allowNull = models.BooleanField(default=True)
     
     result_cache = None
@@ -69,7 +69,7 @@ class Pronostic(models.Model):
         return '[' + self.member.user.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
     
 class Resultat(models.Model):
-    match = models.ForeignKey(Rencontre, on_delete = models.CASCADE)
+    match = models.OneToOneField(Rencontre)
     score1 = models.IntegerField(default=-1)
     score2 = models.IntegerField(default=-1)
     winner = models.IntegerField(default=-1)
@@ -91,8 +91,8 @@ def my_callback(sender, instance, **kwargs):
                
 
 def handle_user_save(sender, instance, created, **kwargs):
-  if created:
-    Member.objects.create(user=instance)        
+    if created:
+        Member.objects.create(user=instance)        
     
     
     
