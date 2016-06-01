@@ -2,10 +2,10 @@
 {% load static %}
 {% load extra_euro %}
 {% block content %} 
-{% if latest_rencontre_list %} 
+{% if tag_list %} 
 
 <div class="panel-group" id="accordionTag">
-{% for ctag in latest_rencontre_list %}
+{% for ctag in tag_list %}
 
 
     <div class="panel panel-default">
@@ -22,31 +22,51 @@
                             formSave.fields['score_{{rencontre.id}}_2']= "score{{rencontre.id}}_2"
                         </script>
                 <div class="well well">
+                    
+                    {% if rencontre.passed %}    
+                    <span class="date-match"><i>{{rencontre.date}}</i></span>
+                    {% endif %}
+                    
+                    
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
+                    {% if rencontre.result.winner == 1 %}
+                    <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    {% endif %}
                     <span class='pays'>{{rencontre.pays1}}</span>
-                    
-                    
-                    
                     
                     {% if username %}
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}" {% if rencontre.passed %}disabled{% endif %}/>
                     {% endif %}
                     
-                    <span class="date-match">{{rencontre.date}}</span>
+                    {% if rencontre.passed %}    
+                        <span style="padding: 10px;"><big><strong>{{rencontre.result.score1}} - {{rencontre.result.score2}}</strong></big></span>
+                    {% else %}
+                        <span class="date-match">{{rencontre.date}}</span>
+                    {% endif %}
+                    
                     
                     {% if username %}
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}" {% if rencontre.passed %}disabled{% endif %}/>
                     {% endif %}
                     
-                    {% if rencontre.passed %}
-                        {{rencontre.resultat}}
+                    <span class='pays' style='text-align:right;'>{{rencontre.pays2}}</span>
+                    {% if rencontre.result.winner == 2 %}
+                    <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    {% endif %}
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
+                    
+                    {% if rencontre.passed %}    
+                    {% for pron in pronostics %}
+                        {% if pron.match == rencontre %}
+                        {% for i in pron.points|get_range %}
+                        <img src="{% static 'euro/images/star.png' %}" alt="Euro 2016" height="32" />
+                        {% endfor %}
+                    
+                        {% endif %}
+                    {% endfor %}
+                    
                     {% endif %}
                     
-                    
-                    
-                    
-                    <span class='pays' style='text-align:right;'>{{rencontre.pays2}}</span>
-                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
                 </div>
 
                 {% endfor %}

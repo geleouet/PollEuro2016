@@ -66,11 +66,11 @@ def index(request):
     except (KeyError, Member.DoesNotExist ) :
         user = None
         
-    latest_rencontre_list = Tag.objects.select_related().annotate(maxDate=Max('rencontre__date')).all()   
+    tag_list = Tag.objects.select_related().annotate(maxDate=Max('rencontre__date')).all()   
     
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
-        'latest_rencontre_list': latest_rencontre_list,
+        'tag_list': tag_list,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
     }

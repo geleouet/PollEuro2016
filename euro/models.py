@@ -30,6 +30,8 @@ class Rencontre(models.Model):
     allowNull = models.BooleanField(default=True)
     def passed(self):
         return self.date <= datetime.date(datetime.now())
+    def result(self):
+        return Resultat.objects.filter(match=self).get()
     def __str__(self):
         return self.pays1.nom + ' - ' + self.pays2.nom + '('+self.date.isoformat()+')'
 
