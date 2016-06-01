@@ -38,7 +38,7 @@
                     
                     {% if rencontre.allowNull == False %}{% if rencontre.passed == False%}
                     <label>
-                            <input class="entry" type="radio" name="score_{{rencontre.id}}_radio" value="1"/>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1"/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     {% else %}
@@ -61,7 +61,7 @@
                     
                     {% if rencontre.allowNull == False %}{% if rencontre.passed == False%}
                     <label>
-                            <input class="entry" type="radio" name="score_{{rencontre.id}}_radio" value="2"/>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2"/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     {% else %}
@@ -69,6 +69,20 @@
                     {% endif %}
                     
                     {% endif %}
+                    
+                    <script type="text/javascript">
+                        var winf = function () {
+                                if ($('#score_{{rencontre.id}}_1').val() > $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_1').prop("checked", true)
+                                }
+                                if ($('#score_{{rencontre.id}}_1').val() < $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_2').prop("checked", true)
+                                }
+        
+                        }
+                        $('#score_{{rencontre.id}}_1').on('change', winf);
+                        $('#score_{{rencontre.id}}_2').on('change', winf);
+                    </script>
                     
                     {% endif %}
                     
@@ -84,7 +98,6 @@
                         {% for i in pron.points|get_range %}
                         <img src="{% static 'euro/images/star.png' %}" alt="Euro 2016" height="32" />
                         {% endfor %}
-                    
                         {% endif %}
                     {% endfor %}
                     
