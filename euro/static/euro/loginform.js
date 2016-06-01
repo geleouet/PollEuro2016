@@ -143,5 +143,11 @@ $(document).ready(function () {
     });
     
     $('.popup').addClass('hidden')
-
+    
+    $('#classement').dynatable();
+    
 });
+
+
+
+
