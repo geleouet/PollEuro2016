@@ -45,14 +45,16 @@ def home(request):
 
 def classement(request):
     if request.user.is_authenticated():
-        user =request.user.member
+        user = request.user.member
     else:
         user = None
+        self_user = None
      
     users = Member.objects.annotate(score=Sum('pronostic__points')).order_by('-score').all()
     
     context = {
         'users': users,
+        'self': user,
         'username' : request.session.get('username', None),
         
     }
