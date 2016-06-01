@@ -7,7 +7,7 @@ import logging
 
 # Create your models here.
 
-# Create your models here.
+
 class Pays(models.Model):
     nom = models.CharField(max_length=200)
     icone = models.CharField(max_length=200)
@@ -28,10 +28,19 @@ class Rencontre(models.Model):
     date = models.DateField()
     comment = models.CharField(max_length=200)
     allowNull = models.BooleanField(default=True)
+    
+    result_cache = None
+    result_cached = False
+    
     def passed(self):
         return self.date <= datetime.date(datetime.now())
     def result(self):
-        return Resultat.objects.filter(match=self).get()
+        if self.result_cached :
+            return self.result_cache
+        else :
+            self.result_cache = Resultat.objects.filter(match=self).get()
+            self.result_cached = True
+            return self.result_cache
     def __str__(self):
         return self.pays1.nom + ' - ' + self.pays2.nom + '('+self.date.isoformat()+')'
 
@@ -71,7 +80,6 @@ class Resultat(models.Model):
 
 
 def my_callback(sender, instance, **kwargs):
-    print(str(instance) + " finished!")
     pronostics = Pronostic.objects.filter(match__exact=instance.match).all()
     for pronostic in pronostics :
         pronostic.points = 0
