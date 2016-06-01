@@ -14,9 +14,9 @@
         {% for user in users %}
         <tr style="border-bottom: 1px solid #ddd;">
             {% if user = self %}
-            <td><strong><span style="padding-left: 45px;padding-right: 15px;">{{user.user.username}}</span></strong></td><td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
+            <td style='padding: 15px;'><strong><span style="padding-left: 45px;padding-right: 15px;">{{user.user.username}}</span></strong></td><td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
             {% else %}
-            <td><span style="padding-left: 50px;padding-right: 15px;">{{user.user.username}}</span></td><td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
+            <td style = 'padding: 15px;'><span style="padding-left: 50px;padding-right: 15px;">{{user.user.username}}</span></td><td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
             {% endif %}
         </tr>
         {% endfor %}

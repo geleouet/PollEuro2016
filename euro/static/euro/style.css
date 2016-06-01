@@ -46,6 +46,12 @@ h1, h2, h3, h4 {
 #classement th {
     background-color: #4CAF50;
     color: white;
+    padding: 10px;
+}
+
+#classement td {
+    padding: 10px;
+    text-align: left;
 }
 
 #classement tr:nth-child(even) {background-color: #f2f2f2}
