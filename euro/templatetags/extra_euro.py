@@ -1,36 +1,34 @@
 from django import template
 from euro.models import Pays, Rencontre, Member, Pronostic, Tag
-
+from django.core.exceptions import ObjectDoesNotExist
 
 register = template.Library()
 
 
 def score1(value, arg):
-    if (value.filter(match__exact=arg).exists()):
-        try :
-            return value.get(match__exact=arg).score1
-        except (KeyError, Pronostic.DoesNotExist, RelatedObjectDoesNotExist ) :
-            return -1
-    else:   
+    try :
+        return value.get(match__exact=arg).score1
+    except (KeyError, ObjectDoesNotExist) :
         return None
 
+
 def score2(value, arg):
-    if (value.filter(match__exact=arg).exists()):
-        try :
-            return value.get(match__exact=arg).score2
-        except (KeyError, Pronostic.DoesNotExist, RelatedObjectDoesNotExist ) :
-            return -1
-    else:   
+    try :
+        return value.get(match__exact=arg).score2
+    except (KeyError, ObjectDoesNotExist) :
         return None
 
 def points(value, arg):
-    if (value.filter(match__exact=arg).exists()):
-        try :
-            return value.get(match__exact=arg).points
-        except (KeyError, Pronostic.DoesNotExist, RelatedObjectDoesNotExist ) :
-            return -1
-    else:   
+    try :
+        return value.get(match__exact=arg).points
+    except (KeyError, ObjectDoesNotExist) :
         return None
+    
+def winner(value, arg):
+    try :
+        return value.get(match__exact=arg).winner
+    except (KeyError, ObjectDoesNotExist) :
+        return None    
     
     
 @register.filter
@@ -56,3 +54,5 @@ def get_range( value ):
     
 register.filter('score1', score1)
 register.filter('score2', score2)
+register.filter('points', points)
+register.filter('winner', winner)

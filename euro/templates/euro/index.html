@@ -56,11 +56,13 @@
                     {% if username %}
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}" {% if rencontre.passed %}disabled{% endif %}/>
                     
-                    {% if rencontre.allowNull == False %}
+                    {% if rencontre.allowNull == False %}{% if rencontre.passed == False%}
                     <label>
                             <input class="entry" type="radio" name="score_{{rencontre.id}}_radio" value="2"/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
+                    {% endif %}
+                    
                     {% endif %}
                     
                     {% endif %}
