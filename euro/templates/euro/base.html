@@ -5,7 +5,7 @@
 
 <head>
     <title>Euro 2016</title>
-
+    <link rel="shortcut icon" type="image/png" href="{% static 'euro/images/favicon.png' %}"/>
     <link rel="stylesheet" href="{% static 'euro/vendor/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'euro/vendor/bootstrap-theme.min.css' %}">
     <link rel='stylesheet prefetch' href="{% static 'euro/vendor/font-awesome.min.css' %}">
@@ -54,7 +54,7 @@
             </ul>
         </div>
     </nav>
-
+    {% if username == None %}
     <div id="myModalLogin" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -136,6 +136,7 @@
 
         </div>
     </div>
+    {% endif %}
 
 
 <form id="saveP">

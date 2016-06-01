@@ -18,7 +18,7 @@ var formSave = {
             values[v] = formSave.fields[v].value;
             if (document.getElementById(v))
                 values[v] = document.getElementById(v).value
-
+            
         }
         console.log(values)
         $.post(save_url, values, formSave.success, 'json').error(formSave.error); // making ajax post
@@ -140,13 +140,20 @@ $(document).ready(function () {
 
     $('.entry').on('change', function () {
         $('.popup').removeClass('hidden')
+        
+        
     });
 
     $('.popup').addClass('hidden')
 
     $('#classement').dynatable();
     var dynatable = $('#classement').data('dynatable');
-    dynatable.paginationPerPage.set(20); // Show 20 records per page
-    dynatable.process();
+    if (dynatable) {
+        dynatable.paginationPerPage.set(20); // Show 20 records per page
+        dynatable.process(); 
+    }
+
 
 });
+
+

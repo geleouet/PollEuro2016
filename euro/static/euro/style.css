@@ -164,11 +164,21 @@ h1, h2, h3, h4 {
       position: fixed;
   }
 
-.col-sm-9 {
-    width: 80%;
+
+label > input{ /* HIDE RADIO */
+  display:none;
+}
+label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+  filter: grayscale(100%);
+  transition: all 1s; /* on prévoit une animation */ 
+    
+}
+label > input:checked + img{ /* (CHECKED) IMAGE STYLES */
+  -webkit-filter: grayscale(0%); /* Chrome, Safari, Opera */
+  filter: grayscale(0%);    
+  transition: all 1s; /* on prévoit une animation */    
 }
 
-.col-sm-3 {
-    width: 20%;
-}
-  
+

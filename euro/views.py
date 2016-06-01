@@ -6,16 +6,25 @@ from django.template import loader
 from django.http import Http404
 from django.views import generic
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.core import serializers
 from datetime import datetime
+<<<<<<< HEAD
 from django.shortcuts import redirect
 from .forms import memberUpdateForm
 
+=======
+from django.contrib.auth import authenticate, login, logout
+import logging
+>>>>>>> bacc396e8149983c98bc3148dd7cbc7a08ecfb1f
 # Create your views here.
 
 
 def home(request):
-    user = get_object_or_404(Member, pk=request.session['member_id'])
+    if request.user.is_authenticated() == False:
+        return index(request)
+   
+    user =request.user.member
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
@@ -44,32 +53,31 @@ def home(request):
     return render(request, 'euro/home.html', context)
 
 def classement(request):
-    try :
-        user = Member.objects.filter(pk=request.session['member_id']).get()
-    except (KeyError, Member.DoesNotExist ) :
+    if request.user.is_authenticated():
+        user = request.user.member
+    else:
         user = None
+        self_user = None
      
     users = Member.objects.annotate(score=Sum('pronostic__points')).order_by('-score').all()
     
     context = {
         'users': users,
+        'self': user,
         'username' : request.session.get('username', None),
         
     }
     return render(request, 'euro/classement.html', context)
     
-    
-    
-    
 
 def index(request):
     
-    try :
-        user = Member.objects.filter(pk=request.session['member_id']).get()
-    except (KeyError, Member.DoesNotExist ) :
+    if request.user.is_authenticated():
+        user =request.user.member
+    else:
         user = None
         
-    tag_list = Tag.objects.select_related().annotate(maxDate=Max('rencontre__date')).all()   
+    tag_list = Tag.objects.filter(enabled__exact=True).select_related().annotate(maxDate=Max('rencontre__date')).all()   
     
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
@@ -81,9 +89,9 @@ def index(request):
 
 
 def next_matchs(request):
-    try :
-        user = Member.objects.filter(pk=request.session['member_id']).get()
-    except (KeyError, Member.DoesNotExist ) :
+    if request.user.is_authenticated():
+        user =request.user.member
+    else:
         user = None
     
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:15]
@@ -98,57 +106,47 @@ def next_matchs(request):
     return render(request, 'euro/nexts.html', context)
 
 
-
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
-def detail(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
-def vote(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
 def register(request):
-    newMember = Member()
-    newMember.username = request.POST['username']
-    newMember.password = request.POST['password']
-    newMember.email = request.POST['email']
-    newMember.save()
-    request.session['member_id'] = newMember.id
-    request.session['username'] = newMember.username
+    user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+    request.session['member_id'] = user.id
+    request.session['username'] = user.username
     return HttpResponseRedirect(reverse('euro:index'))
 
 def check_login(request):
-    try :
-        m = Member.objects.get(username=request.POST['username'])
-    except (KeyError, Member.DoesNotExist) :
-            return JsonResponse({'reason' : 'User doesn\'t exists.'})
-    else :
-        if m.password == request.POST['password']:
-            request.session['member_id'] = m.id
-            request.session['username'] = m.username
-            return JsonResponse({'success' : '/success'})
+    user = authenticate(username=request.POST['username'], password=request.POST['password'])
+    if user is not None:
+        # the password verified for the user
+        if user.is_active:
+            login(request, user)
+            request.session['member_id'] = user.id
+            request.session['username'] = user.username
+            return JsonResponse({'success' : '/success'})            
         else:
-            return JsonResponse({'reason' : 'Your username and password didn\'t match.'})
+            return JsonResponse({'reason' : 'Account has been deactivated.'})
+    else:
+        # the authentication system was unable to verify the username and password
+        return JsonResponse({'reason' : 'Your username and password didn\'t match.'})
+
 
 def save(request):
-    try :
-        user = Member.objects.filter(pk=request.session['member_id']).get()
+    if request.user.is_authenticated():
+        user =request.user.member
         score1 = {}
         score2 = {}
+        winner = {}
         res =''
         for item in request.POST.items():
-            #res += 'item '+ str(item) +' :'
-            if (item[0].find('score')>-1 and item[1] != ''):
+            res += 'item '+ str(item) +' :'
+            if (item[0].find('score')>-1 and item[1] != '' and item[0].find('radio') == -1):
                 match = item[0].split('_')[1]
                 score = item[1]
                 if (int(item[0].split('_')[2]) == 1):
                     score1[match] = score
                 else:
                     score2[match] = score
+            elif (item[0].find('score')>-1 and item[1] != '' and item[0].find('radio') > -1):
+                match = item[0].split('_')[1]
+                winner[match] = item[1]     
         
         for item in score1.items():
             if (score2[item[0]]):
@@ -159,19 +157,23 @@ def save(request):
                 )
                 p.score1 = score1[item[0]]
                 p.score2 = score2[item[0]]
-                p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
+                if score1[item[0]] == score2[item[0]] :
+                    p.winner = winner[item[0]]
+                else :   
+                    p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
+                print str(p)
                 p.save()
                     
-        return JsonResponse({'success' : 'success'})        
+        return JsonResponse({'success' : 'success', 'res' : res})        
         
-    except (KeyError, Member.DoesNotExist ) :
-        return JsonResponse({'reason' : 'User doesn\'t exists.'})
+    else :
+        return JsonResponse({'reason' : 'User doesn\'t exists.', 'pk' : request.session['member_id']})
     
 
 def manageteam(request):
-    try :
-        user = Member.objects.filter(pk=request.session['member_id']).get()
-    except (KeyError, Member.DoesNotExist ) :
+    if request.user.is_authenticated():
+        user =request.user.member
+    else:
         user = None
 
     pronostics = Pronostic.objects.filter(member__exact = user).all()
@@ -193,8 +195,15 @@ def manageteam(request):
     return render(request, 'euro/userteam.html', context)
 
 def addUserToTeam(request):
+<<<<<<< HEAD
     try:
         user = Member.objects.filter(pk=request.session['member_id']).get()
+=======
+    if request.user.is_authenticated():
+        user =request.user.member
+    else:
+        user = None
+>>>>>>> bacc396e8149983c98bc3148dd7cbc7a08ecfb1f
 
         userform = memberUpdateForm(request.POST or None)
 
@@ -212,22 +221,9 @@ def addUserToTeam(request):
         return JsonResponse({'reason' : 'User doesn\'t exists.'})
 
 
-
-def login(request):
-    try :
-        m = Member.objects.get(username=request.POST['username'])
-    except (KeyError, Member.DoesNotExist) :
-        return HttpResponse("Your username and password didn't match.")
-    else :
-        if m.password == request.POST['password']:
-            request.session['member_id'] = m.id
-            request.session['username'] = m.username
-            return HttpResponseRedirect(reverse('euro:index'))
-        else:
-            return HttpResponse("Your username and password didn't match.")
-
-def logout(request):
+def logout_view(request):
     try:
+        logout(request)
         del request.session['member_id']
         del request.session['username']
     except KeyError:
