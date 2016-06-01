@@ -180,5 +180,9 @@ label > input:checked + img{ /* (CHECKED) IMAGE STYLES */
   filter: grayscale(0%);    
   transition: all 1s; /* on prévoit une animation */    
 }
+.gray {
+    -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+    filter: grayscale(100%);
+}
 
 

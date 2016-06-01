@@ -36,11 +36,14 @@
                     
                     {% if username %}
                     
-                    {% if rencontre.allowNull == False %}
+                    {% if rencontre.allowNull == False %}{% if rencontre.passed == False%}
                     <label>
                             <input class="entry" type="radio" name="score_{{rencontre.id}}_radio" value="1"/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
+                    {% else %}
+                        {% if pronostics|winner:rencontre == 1 %}<img class="gray" src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />{% endif %}
+                    {% endif %}
                     {% endif %}
                     
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}" {% if rencontre.passed %}disabled{% endif %}/>
@@ -61,6 +64,8 @@
                             <input class="entry" type="radio" name="score_{{rencontre.id}}_radio" value="2"/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
+                    {% else %}
+                        {% if pronostics|winner:rencontre == 2 %}<img class="gray" src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />{% endif %}
                     {% endif %}
                     
                     {% endif %}
