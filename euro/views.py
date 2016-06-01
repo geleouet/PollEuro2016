@@ -71,7 +71,7 @@ def index(request):
     else:
         user = None
         
-    tag_list = Tag.objects.select_related().annotate(maxDate=Max('rencontre__date')).all()   
+    tag_list = Tag.objects.filter(enabled__exact=True).select_related().annotate(maxDate=Max('rencontre__date')).all()   
     
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
