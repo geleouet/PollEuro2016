@@ -115,7 +115,7 @@ function validateRegister() {
     if (x == null || x == "" || x != x2) {
         $('.log-status').addClass('wrong-entry');
         $('.log-btn').addClass('wrong-entry');
-        
+
         document.getElementById('register-btn').textContent = "Passwords must be the same";
         $('.alert').fadeIn(500);
         setTimeout("$('.alert').fadeOut(1500);", 3000);
@@ -137,17 +137,16 @@ $(document).ready(function () {
         document.getElementById('log-btn').textContent = 'Log in';
         document.getElementById('register-btn').textContent = 'Register';
     });
-    
+
     $('.entry').on('change', function () {
         $('.popup').removeClass('hidden')
     });
-    
+
     $('.popup').addClass('hidden')
-    
+
     $('#classement').dynatable();
-    
+    var dynatable = $('#classement').data('dynatable');
+    dynatable.paginationPerPage.set(20); // Show 20 records per page
+    dynatable.process();
+
 });
-
-
-
-
