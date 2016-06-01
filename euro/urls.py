@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^register$', views.register, name='register'),
     url(r'^classement$', views.classement, name='classement'),
     url(r'^teams$', views.manageteam, name='teams'),
+    url(r'^succes$', views.addUserToTeam, name='succes'),
 
     url(r'^logout$', views.logout_view, name='logout'),
         
