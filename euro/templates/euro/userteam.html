@@ -3,31 +3,19 @@
 {% block content %}
 
 {% if not user.team %}
-<strong>{{user.username}}</strong>, vous vous n'êtes actuellement dans aucune équipe.<br>
-S'inscrire dans une équipe ?<br>
-
+    <strong>{{user.username}}</strong>, vous vous n'êtes actuellement dans aucune équipe.<br>
+    S'inscrire dans une équipe ?<br>
 
 {% else %}
 
-<strong>{{user.username}}</strong>, Vous êtes membre de l'équipe <strong>{{user.team.name}}</strong>
+    <strong>{{user.username}}</strong>, Vous êtes membre de l'équipe <strong>{{user.team.name}}</strong>
 {% endif %}
 
 <h1>Vous pouvez changer d'équipe ci-dessous :</h1>
 
-<form action="action_page.php">
-
-    <select name="teams">
-    <ul>
-        <option value="NoTeam"><li>Pas d'équipe</option></li>
-    {% for team in listOfTeams %}
-        <option value={{team.name}}><li>{{team.name}}</option></li>
-    {% endfor %}
-    </ul>
-    </select>
-  <input type="submit">
+<form method="POST" action="">{% csrf_token %}
+    {{userform.as_p}}
+    <input type="submit" value="Mettre à Jour">
 </form>
-
-
-
 
 {% endblock content %}

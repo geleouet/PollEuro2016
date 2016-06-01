@@ -8,6 +8,9 @@ from django.views import generic
 from django.core.urlresolvers import reverse
 from django.core import serializers
 from datetime import datetime
+from django.shortcuts import redirect
+from .forms import memberUpdateForm
+
 # Create your views here.
 
 
@@ -173,28 +176,40 @@ def manageteam(request):
 
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     listOfTeams = Team.objects.all()
+    userform = memberUpdateForm(request.POST or None)
+
     context = {
         'user': user,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
         'listOfTeams' : listOfTeams,
+        'userform' : userform
     }
+
+    if request.method == 'POST':
+        instance = userform.save(commit=True)
+        instance.save()
+
     return render(request, 'euro/userteam.html', context)
 
 def addUserToTeam(request):
-    try :
+    try:
         user = Member.objects.filter(pk=request.session['member_id']).get()
-    except (KeyError, Member.DoesNotExist) :
-        user = None
 
-    # List of all teams
-    listOfTeams = Team.objects.all()
-    context = {
-        'user': user,
-        'username' : request.session.get('username', None),
-        'listOfTeams' : listOfTeams,
-    }
-    return render(request, 'euro/userteam.html', context)
+        userform = memberUpdateForm(request.POST or None)
+
+        if userform.is_valid():
+            userform.save()
+
+        context = {
+           'user': user,
+            'username' : request.session.get('username', None),
+            'userform' : userform,
+        }
+        return render(request, 'euro/userTeamChanged.html', context)
+
+    except (KeyError, Member.DoesNotExist) :
+        return JsonResponse({'reason' : 'User doesn\'t exists.'})
 
 
 
