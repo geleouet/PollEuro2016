@@ -9,14 +9,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core import serializers
 from datetime import datetime
-<<<<<<< HEAD
 from django.shortcuts import redirect
-from .forms import memberUpdateForm
-
-=======
+#from .forms import memberUpdateForm
 from django.contrib.auth import authenticate, login, logout
 import logging
->>>>>>> bacc396e8149983c98bc3148dd7cbc7a08ecfb1f
+
 # Create your views here.
 
 
@@ -195,30 +192,24 @@ def manageteam(request):
     return render(request, 'euro/userteam.html', context)
 
 def addUserToTeam(request):
-<<<<<<< HEAD
-    try:
-        user = Member.objects.filter(pk=request.session['member_id']).get()
-=======
     if request.user.is_authenticated():
         user =request.user.member
     else:
         user = None
->>>>>>> bacc396e8149983c98bc3148dd7cbc7a08ecfb1f
 
-        userform = memberUpdateForm(request.POST or None)
 
-        if userform.is_valid():
+    userform = memberUpdateForm(request.POST or None)
+
+    if userform.is_valid():
             userform.save()
 
-        context = {
-           'user': user,
-            'username' : request.session.get('username', None),
-            'userform' : userform,
-        }
-        return render(request, 'euro/userTeamChanged.html', context)
+    context = {
+        'user': user,
+        'username' : request.session.get('username', None),
+        'userform' : userform,
+    }
+    return render(request, 'euro/userTeamChanged.html', context)
 
-    except (KeyError, Member.DoesNotExist) :
-        return JsonResponse({'reason' : 'User doesn\'t exists.'})
 
 
 def logout_view(request):
