@@ -3,8 +3,8 @@
 {% load static %}
 {% block content %} 
 
-
-<h1>Total Points <span class="label label-warning">{{user.pts}} </span></h1>
+<h1>{{user.user.username}}</h1>
+<h2>Total Points <span class="label label-warning">{{user.pts}} </span></h2>
 <br/>
 {% if latest_rencontre_list %} 
 <h2>Prochains matchs:</h2>
@@ -22,18 +22,27 @@
                 {% if rencontre.date == date %}
 
                 <div class="well">
+                    {% if edit %}
                         <script type="text/javascript">
                             formSave.fields['score_{{rencontre.id}}_1']= "score_{{rencontre.id}}_1"
                             formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
                         </script>
+                    {% endif %}
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
                     
                     
                     <span class='pays'>{{rencontre.pays1}}</span>
                     
                     {% if username %}
+                    {% if edit %}
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+                    {% else %}
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}" disabled/>
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}" disabled/>
+                    {% endif %}
+                    {% else %}
+                    <span> - </span>
                     {% endif %}
 
                     <span class='pays'>{{rencontre.pays2}}</span>
@@ -79,13 +88,13 @@
                     {% endif %}
                     <span class='pays'>{{resultat.match.pays1}}</span>
                     
-                    {% if username %}
+                    
                     {% if pronostics|winner:resultat.match == 1 %}<img class="gray" src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />{% endif %}
                     <input class="score entry" type="number"  min="0" value="{{pronostics|score1:resultat.match}}" disabled/>
                     <strong style="padding: 10px;"><big>{{resultats|score1:resultat.match}} - {{resultats|score2:resultat.match}}</big></strong>
                     <input class="score entry" type="number"  min="0" value="{{pronostics|score2:resultat.match}}" disabled/>
                     {% if pronostics|winner:resultat.match == 2 %}<img class="gray" src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />{% endif %}
-                    {% endif %}
+                    
                     
                     <span class='pays'>{{resultat.match.pays2}}</span>
                     {% if resultat.winner == 2 %}

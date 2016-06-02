@@ -68,6 +68,7 @@ def home(request):
     
     context = {
         'user': user,
+        'edit':True,
         'username' : request.session.get('username', None),
         'latest_rencontre_list' : latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
@@ -175,10 +176,15 @@ def save(request):
             elif (item[0].find('score')>-1 and item[1] != '' and item[0].find('radio') > -1):
                 match = item[0].split('_')[1]
                 winner[match] = item[1]     
+            else :
+                winner[match] = 0
         
         for item in score1.items():
             if (score2[item[0]]):
                 rencontre = Rencontre.objects.get(pk=item[0])
+                if rencontre.resultat:
+                    continue
+                
                 p, created = Pronostic.objects.filter(match__exact=item[0]).filter(member__exact=user).get_or_create(
                     member=user,
                     match=rencontre
