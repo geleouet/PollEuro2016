@@ -40,7 +40,7 @@
                     
                     {% if rencontre.allowNull == False %}{% if rencontre.passed == False%}
                     <label>
-                            <input class="entry" id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1"/>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     {% else %}
@@ -63,7 +63,7 @@
                     
                     {% if rencontre.allowNull == False %}{% if rencontre.passed == False%}
                     <label>
-                            <input class="entry" id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2"/>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     {% else %}

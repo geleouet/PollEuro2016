@@ -31,15 +31,54 @@
                         <script type="text/javascript">
                             formSave.fields['score_{{rencontre.id}}_1']= "score_{{rencontre.id}}_1"
                             formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
+                            formSave.fields['score_{{rencontre.id}}_radio']= "score_{{rencontre.id}}_radio"
+                            
                         </script>
                 <div class="well">
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
                     <span class='pays'>{{rencontre.pays1}}</span>
                     
                     {% if username %}
+                    {% if rencontre.allowNull == False %}
+                    <label>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    {% endif %}
+                    
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                 
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+                    
+                    {% if rencontre.allowNull == False %}
+                    <label>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    {% endif %}
+                    
+                    <script type="text/javascript">
+                        var winf = function () {
+                                if ($('#score_{{rencontre.id}}_1').val() > $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_1').prop("checked", true)
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',true)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',true)
+                                }
+                                else if ($('#score_{{rencontre.id}}_1').val() < $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_2').prop("checked", true)
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',true)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',true)
+                                }
+                                else {
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',false)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',false)
+                                }
+        
+                        }
+                        $('#score_{{rencontre.id}}_1').on('change', winf);
+                        $('#score_{{rencontre.id}}_2').on('change', winf);
+                    </script>
+                    
                     {% else %}
                     <span> - </span>
                     {% endif %}

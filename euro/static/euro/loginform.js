@@ -16,7 +16,10 @@ var formSave = {
         var values = {};
         for (var v in formSave.fields) {
             values[v] = formSave.fields[v].value;
-            if (document.getElementById(v))
+            if (v.contains('radio')) {
+                values[v] = $('input[name='+v+']:checked').val();
+            }
+            else if (document.getElementById(v))
                 values[v] = document.getElementById(v).value
             
         }
