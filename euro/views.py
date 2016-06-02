@@ -225,8 +225,8 @@ def manageteam(request):
     }
 
     if request.method == 'POST':
-        instance = userform.save(commit=True)
-        instance.save()
+        instance = userform
+        instance.save(request)
 
     return render(request, 'euro/userteam.html', context)
 

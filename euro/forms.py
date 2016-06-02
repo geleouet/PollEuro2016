@@ -7,7 +7,15 @@ class memberUpdateForm(forms.ModelForm):
         fields = ['team']
         team = forms.ModelChoiceField(queryset=Team.objects.all())
 
-# class teamCreationFrom(forms.ModelForm):
-#     class Meta:
-#         model = Team
-#         fields = ['name', 'description']
+    def save(self, request):
+
+        data = request.POST
+        print "Printing Data",len(data['team'])
+        user =request.user.member
+        team = Team(pk=data['team'])
+        if team is None:
+            print "Pas d'equipe"
+        user.team = team
+        user.save()
+
+

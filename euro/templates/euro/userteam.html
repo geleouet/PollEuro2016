@@ -13,7 +13,7 @@
 
 <h1>Vous pouvez changer d'équipe ci-dessous :</h1>
 
-<form method="POST" action="euro:manageteam">{% csrf_token %}
+<form method="POST" action="{% url 'euro:teams' %}">{% csrf_token %}
     {{userform.as_p}}
     <input type="submit" value="Mettre à Jour">
 </form>
