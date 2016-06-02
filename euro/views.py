@@ -12,7 +12,7 @@ from django.core import serializers
 from datetime import datetime
 
 from django.shortcuts import redirect
-from .forms import memberUpdateForm
+from .forms import memberUpdateForm, creatTeam
 from django.contrib.auth import authenticate, login, logout
 import logging
 
@@ -215,14 +215,15 @@ def manageteam(request):
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     listOfTeams = Team.objects.all()
     userform = memberUpdateForm(request.POST or None)
-    print ""
+    TeamFrom = creatTeam()
 
     context = {
         'user': user,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
         'listOfTeams' : listOfTeams,
-        'userform' : userform
+        'userform' : userform,
+        'TeamFrom' : TeamFrom
     }
 
     if request.method == 'POST':

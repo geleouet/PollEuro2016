@@ -19,3 +19,10 @@ class memberUpdateForm(forms.ModelForm):
         user.save()
 
 
+class creatTeam(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ['name', 'description']
+
+    def creatTeam(self):
+        pass
