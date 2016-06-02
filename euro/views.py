@@ -100,7 +100,7 @@ def classement(request):
 def index(request):
     
     if request.user.is_authenticated():
-        user =request.user.member
+        user = request.user.member
     else:
         user = None
         

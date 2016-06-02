@@ -15,7 +15,7 @@
         <tr style="border-bottom: 1px solid #ddd;">
             {% if user = self %}
             <td style='padding: 15px;'><strong><span style="padding-left: 45px;padding-right: 15px;">
-                <a href="{% url 'member_id' user.membre.id %}">{{user.user.username}}</a>
+                <a href="{% url 'euro:member_id' user.id %}">{{user.user.username}}</a>
                 </span></strong></td>
             <td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
             {% else %}
