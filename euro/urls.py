@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^check_login$', views.check_login, name='check_login'),
     url(r'^register$', views.register, name='register'),
     url(r'^classement$', views.classement, name='classement'),
+    url(r'^member_id/(?P<mid>[0-9]+)/$', views.view_member, name='member_id'),
     url(r'^teams$', views.manageteam, name='teams'),
     url(r'^succes$', views.addUserToTeam, name='succes'),
 
