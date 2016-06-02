@@ -67,7 +67,7 @@ class Pronostic(models.Model):
     winner = models.IntegerField(default=-1)
     points = models.IntegerField(default=0)
     def __str__(self):
-        return '[' + self.member.user.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
+        return '[' + self.member.user.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')' + str(self.winner)
     
 class Resultat(models.Model):
     match = models.OneToOneField(Rencontre)

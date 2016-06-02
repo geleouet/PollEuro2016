@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Min, Sum, Avg, F, Q, Value, Max
 from models import Pays, Rencontre, Member, Pronostic, Tag, Resultat,  Team
 from django.template import loader
@@ -172,18 +173,19 @@ def save(request):
                 if (int(item[0].split('_')[2]) == 1):
                     score1[match] = score
                 else:
-                    score2[match] = score
+                    score2[match] = score  
             elif (item[0].find('score')>-1 and item[1] != '' and item[0].find('radio') > -1):
                 match = item[0].split('_')[1]
-                winner[match] = item[1]     
-            else :
-                winner[match] = 0
-        
+                winner[match] = item[1]   
+
         for item in score1.items():
             if (score2[item[0]]):
                 rencontre = Rencontre.objects.get(pk=item[0])
-                if rencontre.resultat:
-                    continue
+                try :
+                    if rencontre.resultat:
+                        continue
+                except (KeyError, ObjectDoesNotExist) :
+                    pass 
                 
                 p, created = Pronostic.objects.filter(match__exact=item[0]).filter(member__exact=user).get_or_create(
                     member=user,
@@ -195,7 +197,7 @@ def save(request):
                     p.winner = winner[item[0]]
                 else :   
                     p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
-                print str(p)
+                
                 p.save()
                     
         return JsonResponse({'success' : 'success', 'res' : res})        
