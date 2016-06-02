@@ -28,7 +28,7 @@
                             formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
                         </script>
                     {% endif %}
-                    <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}"  class="drapeau"/>
                     
                     
                     <span class='pays'>{{rencontre.pays1}}</span>
@@ -47,7 +47,7 @@
 
                     <span class='pays'>{{rencontre.pays2}}</span>
                     
-                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"  class="drapeau"/> &nbsp;
                     
                 </div>
                 {% endif %} 
@@ -81,7 +81,7 @@
 
                 <div class="well">
                         
-                    <img src="{% static 'euro/flags/' %}{{resultat.match.pays1.icone}}.png" alt="{{resultat.match.pays1}}" />
+                    <img src="{% static 'euro/flags/' %}{{resultat.match.pays1.icone}}.png" alt="{{resultat.match.pays1}}"  class="drapeau"/>
                     
                     {% if resultat.winner == 1 %}
                     <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
@@ -101,7 +101,7 @@
                     <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     {% endif %}
                     
-                    <img src="{% static 'euro/flags/' %}{{resultat.match.pays2.icone}}.png" alt="{{resultat.match.pays2}}" /> &nbsp;
+                    <img src="{% static 'euro/flags/' %}{{resultat.match.pays2.icone}}.png" alt="{{resultat.match.pays2}}"  class="drapeau"/> &nbsp;
                     
                     {% for i in resultat.points|get_range %}
                     <img src="{% static 'euro/images/star.png' %}" alt="Euro 2016" height="32" />

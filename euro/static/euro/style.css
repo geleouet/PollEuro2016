@@ -1,5 +1,3 @@
-@import "compass/css3";
-@import url(http://fonts.googleapis.com/css?family=Vibur);
 
 .page-header {
     background-color: #6699ff;
@@ -128,6 +126,7 @@ h1, h2, h3, h4 {
       color:#10CE88;
     }
 }
+
 .form-group .fa{
   position: absolute;
   right:15px;
