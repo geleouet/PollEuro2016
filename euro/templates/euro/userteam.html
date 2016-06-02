@@ -15,7 +15,7 @@
 
 <form method="POST" action="{% url 'euro:teams' %}">{% csrf_token %}
     {{userform.as_p}}
-    <input type="submit" value="Mettre à Jour">
+    <input type="submit" value="Update">
 </form>
 </div>
 {% endblock form %}

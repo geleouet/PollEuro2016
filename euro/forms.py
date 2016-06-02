@@ -14,7 +14,7 @@ class memberUpdateForm(forms.ModelForm):
         user =request.user.member
         team = Team(pk=data['team'])
         if team is None:
-            print "Pas d'equipe"
+            print "Pas d'equip"
         user.team = team
         user.save()
 

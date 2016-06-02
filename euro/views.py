@@ -215,6 +215,7 @@ def manageteam(request):
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     listOfTeams = Team.objects.all()
     userform = memberUpdateForm(request.POST or None)
+    print ""
 
     context = {
         'user': user,
