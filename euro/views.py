@@ -9,8 +9,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core import serializers
 from datetime import datetime
+
 from django.shortcuts import redirect
-#from .forms import memberUpdateForm
+from .forms import memberUpdateForm
 from django.contrib.auth import authenticate, login, logout
 import logging
 
