@@ -1,7 +1,7 @@
 {% extends 'euro/base.html' %}
 {% load staticfiles %}
-{% block content %}
-
+{% block form %}
+<div class="main">
 {% if not user.team %}
     <strong>{{user.username}}</strong>, vous vous n'êtes actuellement dans aucune équipe.<br>
     S'inscrire dans une équipe ?<br>
@@ -17,5 +17,5 @@
     {{userform.as_p}}
     <input type="submit" value="Mettre à Jour">
 </form>
-
-{% endblock content %}
+</div>
+{% endblock form %}
