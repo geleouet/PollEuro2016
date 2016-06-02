@@ -30,7 +30,7 @@
                     {% endif %}
                     
                     
-                    <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" />
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" class="drapeau"/>
                     {% if rencontre.result.winner == 1 %}
                     <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     {% endif %}
@@ -100,7 +100,7 @@
                     {% if rencontre.result.winner == 2 %}
                     <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     {% endif %}
-                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" /> &nbsp;
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"  class="drapeau"/> &nbsp;
                     
                     {% if rencontre.passed %}    
                     {% for pron in pronostics %}
