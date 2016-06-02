@@ -132,13 +132,19 @@ $(function () {
 });
 
 
+
 $(document).ready(function () {
 
+    
+    
+    
     $('.form-control').keypress(function () {
         $('.log-status').removeClass('wrong-entry');
         $('.log-btn').removeClass('wrong-entry');
-        document.getElementById('log-btn').textContent = 'Log in';
-        document.getElementById('register-btn').textContent = 'Register';
+        if (document.getElementById('log-btn'))
+            document.getElementById('log-btn').textContent = 'Log in';
+        if (document.getElementById('register-btn'))
+            document.getElementById('register-btn').textContent = 'Register';
     });
 
     $('.entry').on('change', function () {
@@ -155,6 +161,7 @@ $(document).ready(function () {
         dynatable.paginationPerPage.set(20); // Show 20 records per page
         dynatable.process(); 
     }
+    
 
 
 });

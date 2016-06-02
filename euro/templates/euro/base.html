@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'euro/vendor/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'euro/vendor/bootstrap-theme.min.css' %}">
     <link rel='stylesheet prefetch' href="{% static 'euro/vendor/font-awesome.min.css' %}">
+    
 
     <script src="{% static 'euro/vendor/jquery.min.js' %}"></script>
     <script src="{% static 'euro/vendor/bootstrap.min.js' %}"></script>
@@ -138,15 +139,71 @@
     </div>
     {% endif %}
 
- {% block form %}
-<form id="saveP">
-    {% csrf_token %}
+    
+{% if user.team %}
+{% else %}{%if self == user %}
+
+
+<div id="team_choose" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-link" aria-hidden="true"></i> Select a team</h4>
+            </div>
+            <div class="modal-body">
+                <form id="change_team">
+                    {% csrf_token %}
+                    <div class="login-form">
+                        <div class="form-group">
+                            <label for="tags">Tags: </label>
+                             <select id="id_team" name="team" class="form-control">
+                                 {% for member in allTeams.all %}
+                                    <option value="{{member.id}}">{{member}}</option>
+                                 {% endfor %}
+                                </select>
+                            </div>
+
+                        <!--a class="link" href="#">Lost your password?</a-->
+                        <button type="submit" class="log-btn" id="saveChange_team">Join <i class="glyphicon glyphicon-ok" aria-hidden="true"></i></button>
+
+
+                    </div>
+                </form>
+                <script>
+                      
+                    
+                    $( "#change_team" ).submit(function( e ) {
+                        console.log("save")
+        e.preventDefault();
+
+        var values = {};
+        values['csrfmiddlewaretoken']=$('input[name=csrfmiddlewaretoken]').val()
+        values['id_team'] = $('#id_team').val()
+        console.log(values)
+        $.post("{% url 'euro:change_team' %}", values, formSave.success, 'json').error(formSave.error); // making ajax post
+    });
+
+                </script>
+            </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}{% endif %}    
+
+    
+    
     <div class="main">
 
+        {% block form %}
+        <form id="saveP">
+            {% csrf_token %}
+    
         {% block content %} {% endblock %}
-
-    </div>
-{% endblock %}
+    
 
     <nav class="navbar navbar-fixed-bottom popup">
         <div class="container-fluid popup">
@@ -161,6 +218,9 @@
     </nav>
 
 </form>
+
+    {% endblock form %}
+    </div>
 
 </body>
 

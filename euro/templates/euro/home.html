@@ -3,14 +3,30 @@
 {% load static %}
 {% block content %} 
 
+<div class="main">
 
 
   <div class="jumbotron">
-      <h2><i>{{user.team.name|capfirst}}</i></h2>
       <h1>{{user.user.username|capfirst}} </h1>      
+      
+      {% if user.team %}<h2><i><a href="{% url 'euro:team' user.team.id %}">{{user.team.name|capfirst}}</a></i></h2>
+          {% if self == user %} <span><a href="#"><i class="fa fa-chain-broken" aria-hidden="true"></i></a></span>{% endif %}
+          
+          {% else %}{%if self == user %}
+          <a href="#" data-toggle="modal" data-target="#team_choose">Join a team</a>
+          {% endif %}{% endif %}
+      
   </div>
 
 <h2>Total Points <span class="label label-warning">{{user.pts}} </span></h2>
+
+
+    
+
+
+
+
+
 
 
 <br/>
@@ -127,5 +143,5 @@
 {% endif %} 
 
 
-
+</div>
 {% endblock content %}

@@ -42,6 +42,7 @@ def view_member(request, mid):
     
     context = {
         'user': user,
+        'self':me,
         'edit': user == me,
         'username' : request.session.get('username', None),
         'latest_rencontre_list' : latest_rencontre_list,
@@ -76,6 +77,7 @@ def home(request):
     
     context = {
         'user': user,
+        'self': user,
         'edit':True,
         'username' : request.session.get('username', None),
         'latest_rencontre_list' : latest_rencontre_list,
@@ -83,6 +85,7 @@ def home(request):
         'pronostics':pronostics,
         'latest_pronostics':latest_pronostics,
         'resultats':resultats,
+        'allTeams':Team.objects,
         #'temp':temp,
     }
     
@@ -124,6 +127,33 @@ def team(request, mid):
         
     }
     return render(request, 'euro/classement.html', context)
+
+
+def change_team(request):
+    if request.user.is_authenticated():
+        user = request.user.member
+        if str(request.POST['id_team']) == 'None':
+            user.team = None
+        else :
+            user.team = Team.objects.filter(id=request.POST['id_team']).get()
+        user.save()
+        return JsonResponse({'success' : '/success'}) 
+    else:
+         return JsonResponse({'reason' : 'You are not authenticated.'})
+
+
+
+def change_desc(request, mid):
+    if request.user.is_authenticated():
+        user = request.user.member
+        if str(user.team.id) == str(mid):
+            user.team.description = request.POST['description']
+            user.team.save()
+            return JsonResponse({'success' : '/success'}) 
+        else:
+            return JsonResponse({'reason' : 'this is not your team'})   
+    else:
+         return JsonResponse({'reason' : 'You are not authenticated.'})
 
 
 

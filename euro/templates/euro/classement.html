@@ -1,51 +1,94 @@
-{% extends 'euro/base.html' %}
-{% load static %} 
-{% load extra_euro %}
-
-{% block content %}
-
-
+{% extends 'euro/base.html' %} {% load static %} {% load extra_euro %} {% block form %}
 {% if team %}
-  <div class="jumbotron">
-      <h1><i>{{team.name|capfirst}}</i></h1>
-      <h2>{{team.description|capfirst}} </h2>      
-  </div>
-  <h2>Total Points <span class="label label-warning">{{team.score}} </span></h2>
-    
+<div class="jumbotron">
+    <h1><i>{{team.name|capfirst}}</i></h1>
+    <h2>{{team.description|capfirst}}</h2>
+
+    {% if self.team = team %}
+    <a href="#" data-toggle="modal" data-target="#team_desc"><span class="glyphicon glyphicon-pencil">...</span></a>
+    {% endif %}
+</div>
+<h2>Total Points <span class="label label-warning">{{team.score}} </span></h2>
+
+{% if self.team = team %}
+<div id="team_desc" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="glyphicon glyphicon-pencil"></i> Edit..</h4>
+            </div>
+            <div class="modal-body">
+                <form id="change_desc">
+                    {% csrf_token %}
+                    <div class="login-form">
+                        <div class="form-group ">
+                            
+                            <textarea class="form-control" name="description" id="description" style="width:100%;height:150px;">{{team.description|capfirst}}</textarea>
+                            
+                        </div>
+
+                        <!--a class="link" href="#">Lost your password?</a-->
+                        <button type="submit" class="log-btn" id="saveDesc">Save <i class="glyphicon glyphicon-ok" aria-hidden="true"></i></button>
+
+
+                    </div>
+                </form>
+                <script>
+                    $( "#change_desc" ).submit(function( e ) {
+        e.preventDefault();
+
+        var values = {};
+        values['csrfmiddlewaretoken']=$('input[name=csrfmiddlewaretoken]').val()
+        values['description'] = $('#description').val()
+        console.log(values)
+        $.post("{% url 'euro:change_desc' team.id %}", values, formSave.success, 'json').error(formSave.error); // making ajax post
+    });
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
 {% endif %}
 
 
 <div class="panel-group" style="overflow-x:auto;">
-<div class="panel panel-default">
-  <div class="panel-body">
-      <table id = "classement" style="width:100%">
-        <thead style="border-bottom: 2px solid #ddd">
-            <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Membre</th>
-            <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Equipe</th>
-            <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Score <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
-        </thead>
-        {% for user in users %}
-        <tr style="border-bottom: 1px solid #ddd;">
-            {% if user = self %}
-            <td style='padding: 15px;'><strong><span style="padding-left: 45px;padding-right: 15px;">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table id="classement" style="width:100%">
+                <thead style="border-bottom: 2px solid #ddd">
+                    <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Membre</th>
+                    <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Equipe</th>
+                    <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Score <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
+                </thead>
+                {% for user in users %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    {% if user = self %}
+                    <td style='padding: 15px;'><strong><span style="padding-left: 45px;padding-right: 15px;">
                 <a href="{% url 'euro:member_id' user.id %}">{{user.user.username}}</a>
                 </span></strong></td>
-            <td style='padding: 15px;'><strong><span style="padding-left: 15px;padding-right: 15px;">
+                    <td style='padding: 15px;'><strong><span style="padding-left: 15px;padding-right: 15px;">
                 {% if user.team %}<a href="{% url 'euro:team' user.team.id %}">{{user.team}}</a>{% endif %}
                 </span></strong></td>
-            <td><span style="padding-left: 45px;padding-right: 15px;"><strong> {{user.score}} </strong></span></td>
-            {% else %}
-            <td style = 'padding: 15px;'><span style="padding-left: 50px;padding-right: 15px;">
+                    <td><span style="padding-left: 45px;padding-right: 15px;"><strong> {{user.score}} </strong></span></td>
+                    {% else %}
+                    <td style='padding: 15px;'><span style="padding-left: 50px;padding-right: 15px;">
                 <a href="{% url 'euro:member_id' user.id %}">{{user.user.username}}</a>
                 </span></td>
-            <td style='padding: 15px;'><span style="padding-left: 15px;padding-right: 15px;">
+                    <td style='padding: 15px;'><span style="padding-left: 15px;padding-right: 15px;">
                 {% if user.team %}<a href="{% url 'euro:team' user.team.id %}">{{user.team}}</a>{% endif %}
                 </span></td>
-            <td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
+                    <td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
 
-  </div>
-{% endblock content %}
+        </div>
+        {% endblock form %}
