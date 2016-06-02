@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^classement$', views.classement, name='classement'),
     url(r'^member_id/(?P<mid>[0-9]+)/$', views.view_member, name='member_id'),
     url(r'^teams$', views.manageteam, name='teams'),
+    
+    url(r'^team_id/(?P<mid>[0-9]+)/$', views.team, name='team'),
 
 
     url(r'^logout$', views.logout_view, name='logout'),

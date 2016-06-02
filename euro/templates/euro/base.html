@@ -43,7 +43,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if username %}
-                <li><a href="#">Welcome, {{username}}</a></li>
+                <li><a href="#">Welcome, {{username|capfirst}}</a></li>
                 <li>
                     <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                 </li>

@@ -19,7 +19,11 @@ import logging
 # Create your views here.
 
 def view_member(request, mid):
-    
+    if request.user.is_authenticated():
+        me = request.user.member
+    else:
+        me = None
+        
     user = Member.objects.filter(id=mid).get()
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
@@ -32,10 +36,13 @@ def view_member(request, mid):
     for res in resultats :
         res.points = pronostics.filter(match__exact=res.match).get().points
     print resultats
+    print me
+    print user
     
     
     context = {
         'user': user,
+        'edit': user == me,
         'username' : request.session.get('username', None),
         'latest_rencontre_list' : latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
@@ -98,7 +105,27 @@ def classement(request):
         
     }
     return render(request, 'euro/classement.html', context)
+
+
+def team(request, mid):
+    if request.user.is_authenticated():
+        user = request.user.member
+    else:
+        user = None
+        self_user = None
+     
+    users = Member.objects.filter(team_id=mid).annotate(score=Sum('pronostic__points')).order_by('-score').all()
     
+    context = {
+        'users': users,
+        'self': user,
+        'username' : request.session.get('username', None),
+        'team': Team.objects.filter(id=mid).get(),
+        
+    }
+    return render(request, 'euro/classement.html', context)
+
+
 
 def index(request):
     
@@ -140,6 +167,8 @@ def register(request):
     user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
     request.session['member_id'] = user.id
     request.session['username'] = user.username
+    user = authenticate(username=request.POST['username'], password=request.POST['password'])
+    login(request, user)
     return HttpResponseRedirect(reverse('euro:index'))
 
 def check_login(request):

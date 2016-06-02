@@ -4,6 +4,7 @@ from django.db import models
 from datetime import datetime
 import logging
 from django.contrib.auth.models import User
+from django.db.models import Count, Min, Sum, Avg, F, Q, Value, Max
 
 # Create your models here.
 
@@ -48,8 +49,15 @@ class Rencontre(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
+    score_cache = -1;
+    
     def __str__(self):
         return self.name
+    def score(self):
+        if self.score_cache == -1:
+            self.score_cache = self.member_set.annotate(score=Sum('pronostic__points')).aggregate(total=Sum('score')).get('total')
+        return self.score_cache
+        
 
 class Member(models.Model):
     user = models.OneToOneField(User)

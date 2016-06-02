@@ -3,8 +3,16 @@
 {% load static %}
 {% block content %} 
 
-<h1>{{user.user.username}}</h1>
+
+
+  <div class="jumbotron">
+      <h2><i>{{user.team.name|capfirst}}</i></h2>
+      <h1>{{user.user.username|capfirst}} </h1>      
+  </div>
+
 <h2>Total Points <span class="label label-warning">{{user.pts}} </span></h2>
+
+
 <br/>
 {% if latest_rencontre_list %} 
 <h2>Prochains matchs:</h2>
