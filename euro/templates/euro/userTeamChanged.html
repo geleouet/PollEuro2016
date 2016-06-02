@@ -1,0 +1,11 @@
+{% extends 'euro/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+
+<form method="POST" action="">{% csrf_token %}
+    {{userform.as_p}}
+    <input type="submit" value="Mettre à Jour">
+</form>
+
+{% endblock content %}
