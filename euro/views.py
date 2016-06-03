@@ -85,7 +85,7 @@ def home(request):
         'pronostics':pronostics,
         'latest_pronostics':latest_pronostics,
         'resultats':resultats,
-        'allTeams':Team.objects,
+        'allTeams':Team.objects.order_by('name'),
         #'temp':temp,
     }
     
@@ -127,6 +127,22 @@ def team(request, mid):
         
     }
     return render(request, 'euro/classement.html', context)
+
+def classement_teams(request):
+    if request.user.is_authenticated():
+        user = request.user.member
+    else:
+        user = None
+        self_user = None
+     
+    teams = sorted(Team.objects.all(), key=lambda team: team.score(), reverse = True)
+    
+    context = {
+        'teams': teams,
+        'self': user,
+        'username' : request.session.get('username', None),
+    }
+    return render(request, 'euro/classement_teams.html', context)
 
 
 def change_team(request):

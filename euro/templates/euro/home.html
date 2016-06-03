@@ -10,7 +10,7 @@
       <h1>{{user.user.username|capfirst}} </h1>      
       
       {% if user.team %}<h2><i><a href="{% url 'euro:team' user.team.id %}">{{user.team.name|capfirst}}</a></i></h2>
-          {% if self == user %} <span><a href="#"><i class="fa fa-chain-broken" aria-hidden="true"></i></a></span>{% endif %}
+          {% if self == user %} <span><a href="#" title="Leave team" data-target="#team_leave" data-toggle="modal"><i class="fa fa-chain-broken" aria-hidden="true"></i></a></span>{% endif %}
           
           {% else %}{%if self == user %}
           <a href="#" data-toggle="modal" data-target="#team_choose">Join a team</a>
