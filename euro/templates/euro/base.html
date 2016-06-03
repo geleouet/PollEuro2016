@@ -20,6 +20,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'euro/style.css' %}" />
     <script src="{% static 'euro/loginform.js' %}" type="text/javascript"></script>
 
+    <script src="{% static 'euro/vendor/jquery.cropit.js' %}"></script>
+    
+    
     <script type="text/javascript">
         // Definition of global variables for javascript context
         var contact_url = "{% url 'euro:check_login' %}";
@@ -55,6 +58,81 @@
             </ul>
         </div>
     </nav>
+    
+    
+    
+    
+    
+    <!-- This wraps the whole cropper -->
+    <div id="upload_avatar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Drop file or open</h4>
+                </div>
+                <div class="modal-body">
+    <form action="{% url 'euro:upload' %}" method="post" enctype="multipart/form_data">
+        {% csrf_token %}
+      <div class="image-editor">
+       
+        <div class="cropit-preview block"></div>
+        <input type="file" class="cropit-image-input" style="margin:10px;">
+        <div class="image-size-label">
+          Move and Resize image
+        </div>
+        <input type="range" class="cropit-image-zoom-input">
+        <input type="hidden" name="image-data" class="hidden-image-data" type="file"/>
+        <button type="submit" class="log-btn">Upload</button>
+      </div>
+    </form>
+    
+     <script>
+      $(function() {
+        $('.image-editor').cropit();
+        $('.image-editor').cropit('imageSrc', '{% static "euro/images/256.jpg" %}');
+        $('#image-cropper').cropit({ imageBackground: true });
+        $('form').submit(function(e) {
+          // Move cropped image data to hidden input
+          var imageData = $('.image-editor').cropit('export');
+          $('.hidden-image-data').val(imageData);
+          // Print HTTP request params
+          var formValue = $(this).serialize();
+          
+          var csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value
+            var formData = new FormData($("#edit_user_image")[0]);
+            var formData = new FormData(); 
+            formData.append("image-data", imageData);
+            formData.append("csrfmiddlewaretoken", csrftoken);
+  
+            
+          // Prevent the form from actually submitting
+            $.post({
+			   data: formValue,
+			   url: '{% url 'euro:upload' %}',
+			   success: function(data){
+			   $('#result-data').text('New file in: images/'+data);
+			   $('#crop').show();
+			  }})
+            
+            
+          return false;
+        });
+      });
+    </script>
+                </div></div></div></div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     {% if username == None %}
     <div id="myModalLogin" class="modal fade" role="dialog">
         <div class="modal-dialog">

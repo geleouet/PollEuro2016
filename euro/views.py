@@ -14,6 +14,8 @@ from datetime import datetime
 from django.shortcuts import redirect
 from .forms import memberUpdateForm, creatTeam
 from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
+from django.core.files.base import File
 import logging
 
 # Create your views here.
@@ -161,6 +163,29 @@ def change_team(request):
     else:
          return JsonResponse({'reason' : 'You are not authenticated.'})
 
+        
+def upload(request):
+    # Handle file upload
+    if request.user.is_authenticated():
+         user = request.user.member
+         if request.method == 'POST':
+            img_data = request.POST['image-data'].split(',')[1].decode("base64")
+            path = settings.MEDIA_ROOT + user.user.username + datetime.now().strftime('%Y%m%d') +".jpg"    
+            img_file = open(path, "wb")
+            img_file.write(img_data)
+            img_file.close()
+
+            user = request.user.member
+            user.avatar.name = path
+            user.save();
+        
+            return JsonResponse({'success' : '/success'}) 
+         else:
+            return JsonResponse({'reason' : 'invalid request'})
+    else:
+         return JsonResponse({'reason' : 'you are not logged in'})   
+
+    
 
 
 def change_desc(request, mid):

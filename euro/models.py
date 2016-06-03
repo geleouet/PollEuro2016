@@ -63,7 +63,7 @@ class Member(models.Model):
     user = models.OneToOneField(User)
     team = models.ForeignKey(Team, null=True, blank=True, default = None)
     points = models.IntegerField(default=0)
-
+    avatar = models.FileField(upload_to='euro/avatars', null=True, blank=True, default= None)
     def __str__(self):
         return self.user.username
 

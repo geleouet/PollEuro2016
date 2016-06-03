@@ -1,11 +1,13 @@
-
 .page-header {
     background-color: #6699ff;
     margin-top: 0;
     padding: 05px 05px 05px 40px;
 }
 
-.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+.page-header h1,
+.page-header h1 a,
+.page-header h1 a:visited,
+.page-header h1 a:active {
     color: #ffffff;
     font-size: 36pt;
     text-decoration: none;
@@ -16,6 +18,7 @@
     margin-left: 40px;
     margin-right: 40px;
 }
+
 
 /*
 h1, h2, h3, h4 {
@@ -30,13 +33,15 @@ h1, h2, h3, h4 {
 .pays {
     font-weight: bold;
     min-width: 100px;
-    margin:10px;
+    margin: 10px;
     display: inline-block;
 }
+
 .date-match {
     margin-left: 20px;
-    margin-right: 20px;    
+    margin-right: 20px;
 }
+
 .save {
     float: right;
 }
@@ -52,12 +57,16 @@ h1, h2, h3, h4 {
     text-align: left;
 }
 
-#classement tr:nth-child(even) {background-color: #f2f2f2}
+#classement tr:nth-child(even) {
+    background-color: #f2f2f2
+}
 
-#classement tr:hover {background-color: #ddd;}
+#classement tr:hover {
+    background-color: #ddd;
+}
 
 .popup {
-    background-color: #ffefaa;   
+    background-color: #ffefaa;
 }
 
 .center {
@@ -65,11 +74,14 @@ h1, h2, h3, h4 {
     align-self: center;
 }
 
-.post-form textarea, .post-form input {
+.post-form textarea,
+.post-form input {
     width: 100%;
 }
 
-.top-menu, .top-menu:hover, .top-menu:visited {
+.top-menu,
+.top-menu:hover,
+.top-menu:visited {
     color: #ffffff;
     float: right;
     font-size: 26pt;
@@ -80,116 +92,174 @@ h1, h2, h3, h4 {
     margin-bottom: 70px;
 }
 
-.post h1 a, .post h1 a:visited {
+.post h1 a,
+.post h1 a:visited {
     color: #000000;
 }
 
 
-
 /* Login form */
-.login-form{
 
-  padding:40px 30px;
-
-  @include border-radius(4px);
-  margin:auto;
-  left: 0;
-  right: 0;
-  top:50%;
-  @include translateY(-50%);
+.login-form {
+    padding: 40px 30px;
+    @include border-radius(4px);
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 50%;
+    @include translateY(-50%);
 }
+
 .log-status.wrong-entry {
- @include animation( wrong-log 0.3s);
+    @include animation( wrong-log 0.3s);
 }
-.log-status.wrong-entry .form-control, .wrong-entry .form-control + .fa {
-  border-color: #ed1c24;
-  color: #ed1c24;
+
+.log-status.wrong-entry .form-control,
+.wrong-entry .form-control + .fa {
+    border-color: #ed1c24;
+    color: #ed1c24;
 }
-.form-group{
-  position: relative;
-  margin-bottom:15px;
+
+.form-group {
+    position: relative;
+    margin-bottom: 15px;
 }
+
 .score {
-    width:60px;
+    width: 60px;
 }
-.form-control{
-  width:100%;
-  height:50px;
-  border:none;
-  padding:5px 7px 5px 15px;
-  background:#fff;
-  color:#666;
-  border:2px solid #ddd;
-  @include border-radius(4px);
-    &:focus, &:focus + .fa{
-      border-color:#10CE88;
-      color:#10CE88;
+
+.form-control {
+    width: 100%;
+    height: 50px;
+    border: none;
+    padding: 5px 7px 5px 15px;
+    background: #fff;
+    color: #666;
+    border: 2px solid #ddd;
+    @include border-radius(4px);
+    &:focus,
+    &:focus + .fa {
+        border-color: #10CE88;
+        color: #10CE88;
     }
 }
 
-.form-group .fa{
-  position: absolute;
-  right:15px;
-  top:17px;
-  color:#999;
+.form-group .fa {
+    position: absolute;
+    right: 15px;
+    top: 17px;
+    color: #999;
 }
 
-.log-btn.wrong-entry{
-  background:#FF4946;
-  dispaly:inline-block;
-  width:100%;
-  font-size:16px;
-  height:50px;
-  color:#fff;
-  text-decoration:none;
-  border:none;
-  @include border-radius(4px);
+.log-btn.wrong-entry {
+    background: #FF4946;
+    dispaly: inline-block;
+    width: 100%;
+    font-size: 16px;
+    height: 50px;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    @include border-radius(4px);
 }
 
-.log-btn{
-  background:#0AC986;
-  dispaly:inline-block;
-  width:100%;
-  font-size:16px;
-  height:50px;
-  color:#fff;
-  text-decoration:none;
-  border:none;
-  @include border-radius(4px);
+.log-btn {
+    background: #0AC986;
+    dispaly: inline-block;
+    width: 100%;
+    font-size: 16px;
+    height: 50px;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    @include border-radius(4px);
 }
 
-
-.marged{
+.marged {
     margin-top: 10px;
 }
 
-
-  ul.nav-pills {
-      top: 100px;
-      position: fixed;
-  }
-
-
-label > input{ /* HIDE RADIO */
-  display:none;
+ul.nav-pills {
+    top: 100px;
+    position: fixed;
 }
-label > input + img{ /* IMAGE STYLES */
-  cursor:pointer;
-  -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
-  filter: grayscale(100%);
-  transition: all 1s; /* on prévoit une animation */ 
-    
+
+label > input {
+    /* HIDE RADIO */
+    display: none;
 }
-label > input:checked + img{ /* (CHECKED) IMAGE STYLES */
-  -webkit-filter: grayscale(0%); /* Chrome, Safari, Opera */
-  filter: grayscale(0%);    
-  transition: all 1s; /* on prévoit une animation */    
+
+label > input + img {
+    /* IMAGE STYLES */
+    cursor: pointer;
+    -webkit-filter: grayscale(100%);
+    /* Chrome, Safari, Opera */
+    filter: grayscale(100%);
+    transition: all 1s;
+    /* on prévoit une animation */
 }
+
+label > input:checked + img {
+    /* (CHECKED) IMAGE STYLES */
+    -webkit-filter: grayscale(0%);
+    /* Chrome, Safari, Opera */
+    filter: grayscale(0%);
+    transition: all 1s;
+    /* on prévoit une animation */
+}
+
 .gray {
-    -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+    -webkit-filter: grayscale(100%);
+    /* Chrome, Safari, Opera */
     filter: grayscale(100%);
 }
 
+.cropit-preview {
+    /* You can specify preview size in CSS */
+    width: 128px;
+    height: 128px;
+}
+.cropit-preview-background {
+  opacity: .2;
+}
+.cropit-preview-image-container {
+    cursor: move;
+}
+/*
+ * If the slider or anything else is covered by the background image,
+ * use relative or absolute position on it
+ */
+input.cropit-image-zoom-input {
+  position: relative;
+}
 
+/* Limit the background image by adding overflow: hidden */
+#image-cropper {
+  overflow: hidden;
+}
 
+.image-size-label {
+    margin-top: 10px;
+}
 
+input .block {
+    display: block;
+}
+
+button[type="submit"] {
+    margin-top: 10px;
+}
+
+#result {
+    margin-top: 10px;
+    width: 900px;
+}
+
+#result-data {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}

@@ -1,6 +1,8 @@
 from django.conf.urls import url
 
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 app_name = 'euro'
 urlpatterns = [
@@ -14,6 +16,7 @@ urlpatterns = [
     url(r'^classement$', views.classement, name='classement'),
     url(r'^member_id/(?P<mid>[0-9]+)/$', views.view_member, name='member_id'),
     url(r'^teams$', views.classement_teams, name='teams'),
+    url(r'^upload$', views.upload, name='upload'),
     
     url(r'^team_id/(?P<mid>[0-9]+)/$', views.team, name='team'),
     url(r'^change_desc/(?P<mid>[0-9]+)/$', views.change_desc, name='change_desc'),
@@ -22,4 +25,4 @@ urlpatterns = [
     url(r'^logout$', views.logout_view, name='logout'),
         
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

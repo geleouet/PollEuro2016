@@ -7,7 +7,15 @@
 
 
   <div class="jumbotron">
-      <h1>{{user.user.username|capfirst}} </h1>      
+      <h1>
+          <a href="#" title="change avatar" data-target="#upload_avatar" data-toggle="modal">
+          {% if user.avatar %}      
+          <img src="{{user.avatar}}" alt = "avatar"/>
+          {% else %}
+          <img src='{% static "euro/images/256.jpg" %}' alt="no avatar"/>
+          {% endif %}
+          </a>      
+          {{user.user.username|capfirst}} </h1>      
       
       {% if user.team %}<h2><i><a href="{% url 'euro:team' user.team.id %}">{{user.team.name|capfirst}}</a></i></h2>
           {% if self == user %} <span><a href="#" title="Leave team" data-target="#team_leave" data-toggle="modal"><i class="fa fa-chain-broken" aria-hidden="true"></i></a></span>{% endif %}
