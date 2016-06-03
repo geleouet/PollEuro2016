@@ -272,11 +272,12 @@ def save(request):
                 )
                 p.score1 = score1[item[0]]
                 p.score2 = score2[item[0]]
-                if score1[item[0]] == score2[item[0]] :
+                if score1[item[0]] == score2[item[0]] and item[0] in winner :
                     p.winner = winner[item[0]]
-                else :   
+                elif score1[item[0]] == score2[item[0]]:
+                    p.winner = -1
+                else :
                     p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
-                
                 p.save()
                     
         return JsonResponse({'success' : 'success', 'res' : res})        
