@@ -133,7 +133,11 @@ def change_team(request):
     if request.user.is_authenticated():
         user = request.user.member
         if str(request.POST['id_team']) == 'None':
-            user.team = None
+            if request.POST.get('new_team', None):
+                team = Team.objects.create(name=str(request.POST['new_team']), description='')
+                user.team = team
+            else:
+                user.team = None
         else :
             user.team = Team.objects.filter(id=request.POST['id_team']).get()
         user.save()

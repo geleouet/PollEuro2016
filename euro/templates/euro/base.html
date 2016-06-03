@@ -158,23 +158,41 @@
                     {% csrf_token %}
                     <div class="login-form">
                         <div class="form-group">
-                            <label for="tags">Tags: </label>
-                             <select id="id_team" name="team" class="form-control">
-                                 {% for member in allTeams.all %}
-                                    <option value="{{member.id}}">{{member}}</option>
-                                 {% endfor %}
-                                </select>
-                            </div>
 
+                            <label for="tags">Select an existing: </label>
+                            <div class="form-group ">
+                             <select id="id_team" name="team" class="form-control">
+                                 <option class="form-control" value="None" style="margin : 5px;">None</option>
+                                 {% for member in allTeams.all %}                                    
+                                    <option class="form-control" value="{{member.id}}" >{{member}}</option>
+                                 {% endfor %}
+                             </select>
+                            </div>
+                            
+                             <label style="margin-top: 20px;">Or create a new one :</label>
+                            <div class="form-group ">
+                                <input type="text" class="form-control" placeholder="New team" id="group_name" name="group_name" />
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </div>
+                        </div>
                         <!--a class="link" href="#">Lost your password?</a-->
-                        <button type="submit" class="log-btn" id="saveChange_team">Join <i class="glyphicon glyphicon-ok" aria-hidden="true"></i></button>
+                        <button type="submit" class="log-btn" id="saveChange_team" style="margin-top: 20px;">Join <i class="glyphicon glyphicon-ok" aria-hidden="true"></i></button>
 
 
                     </div>
                 </form>
                 <script>
-                      
-                    
+                    $('#group_name').change(function(e) {
+                        $('#id_team').val("None");
+                    })
+                    $('#group_name').keypress(function(e) {
+                        $('#id_team').val("None");
+                    })
+                    $('#id_team').change(function(e) {
+                        if ($('#id_team').val() != "None") {
+                            $('#group_name').val("New team")
+                        }
+                    })
                     $( "#change_team" ).submit(function( e ) {
                         console.log("save")
         e.preventDefault();
@@ -182,6 +200,7 @@
         var values = {};
         values['csrfmiddlewaretoken']=$('input[name=csrfmiddlewaretoken]').val()
         values['id_team'] = $('#id_team').val()
+        values['new_team'] = $('#group_name').val()
         console.log(values)
         $.post("{% url 'euro:change_team' %}", values, formSave.success, 'json').error(formSave.error); // making ajax post
     });
