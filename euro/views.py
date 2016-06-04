@@ -170,13 +170,14 @@ def upload(request):
          user = request.user.member
          if request.method == 'POST':
             img_data = request.POST['image-data'].split(',')[1].decode("base64")
-            path = settings.MEDIA_ROOT + user.user.username + datetime.now().strftime('%Y%m%d') +".jpg"    
+            name = user.user.username + datetime.now().strftime('%Y%m%d') +".jpg"
+            path = settings.MEDIA_ROOT + name    
             img_file = open(path, "wb")
             img_file.write(img_data)
             img_file.close()
 
             user = request.user.member
-            user.avatar.name = path
+            user.avatar.name = name
             user.save();
         
             return JsonResponse({'success' : '/success'}) 

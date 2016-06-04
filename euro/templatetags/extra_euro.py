@@ -1,6 +1,8 @@
 from django import template
 from euro.models import Pays, Rencontre, Member, Pronostic, Tag
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf.urls.static import static
+from django.conf import settings
 
 register = template.Library()
 
@@ -30,6 +32,12 @@ def winner(value, arg):
     except (KeyError, ObjectDoesNotExist) :
         return None    
     
+def avatar(value):
+    if (value and value.avatar ):
+        return settings.MEDIA_URL + value.avatar.name
+    else:
+        return settings.STATIC_URL + "euro/images/256.jpg"
+
     
 @register.filter
 def get_range( value ):
@@ -56,3 +64,4 @@ register.filter('score1', score1)
 register.filter('score2', score2)
 register.filter('points', points)
 register.filter('winner', winner)
+register.filter('avatar', avatar)

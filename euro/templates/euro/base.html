@@ -74,7 +74,7 @@
                     <h4 class="modal-title">Drop file or open</h4>
                 </div>
                 <div class="modal-body">
-    <form action="{% url 'euro:upload' %}" method="post" enctype="multipart/form_data">
+    <form action="{% url 'euro:upload' %}" method="post" enctype="multipart/form_data" id="upload">
         {% csrf_token %}
       <div class="image-editor">
        
@@ -94,7 +94,7 @@
         $('.image-editor').cropit();
         $('.image-editor').cropit('imageSrc', '{% static "euro/images/256.jpg" %}');
         $('#image-cropper').cropit({ imageBackground: true });
-        $('form').submit(function(e) {
+        $('#upload').submit(function(e) {
           // Move cropped image data to hidden input
           var imageData = $('.image-editor').cropit('export');
           $('.hidden-image-data').val(imageData);
@@ -113,8 +113,7 @@
 			   data: formValue,
 			   url: '{% url 'euro:upload' %}',
 			   success: function(data){
-			   $('#result-data').text('New file in: images/'+data);
-			   $('#crop').show();
+			   location.reload();
 			  }})
             
             

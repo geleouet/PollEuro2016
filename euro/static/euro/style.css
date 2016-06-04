@@ -97,7 +97,25 @@ h1, h2, h3, h4 {
     color: #000000;
 }
 
+.movedLeft {
+    margin-left:-18px;
+}
 
+.big_avatar img {
+    border : 1px;
+}
+
+.big_avatar img:hover {
+
+    border : 3px;   
+}
+a .big_avatar {
+    text-decoration: none;
+    
+}
+a .big_avatar:hover {
+    text-decoration: none;
+}
 /* Login form */
 
 .login-form {
