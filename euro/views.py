@@ -357,6 +357,9 @@ def addUserToTeam(request):
     }
     return render(request, 'euro/userTeamChanged.html', context)
 
+def landinPage(request):
+    return render(request, 'euro/landingpage.html', context)
+
 
 
 def logout_view(request):
