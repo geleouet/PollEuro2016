@@ -126,3 +126,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/Users/Moulaye/Documents/Heebari/Sites Web/PollEuro2016/media'
