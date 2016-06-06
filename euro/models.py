@@ -5,10 +5,11 @@ from datetime import datetime
 import logging
 from django.contrib.auth.models import User
 from django.db.models import Count, Min, Sum, Avg, F, Q, Value, Max
+from django.utils.encoding import python_2_unicode_compatible
 
 # Create your models here.
 
-
+@python_2_unicode_compatible
 class Pays(models.Model):
     nom = models.CharField(max_length=200)
     icone = models.CharField(max_length=200)
