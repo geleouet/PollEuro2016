@@ -20,7 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#33iupcy)p4$ncp-%21!3gtxd8-jv$^ld!np-l&1oydx)0bre8'
+# SECRET_KEY = '#33iupcy)p4$ncp-%21!3gtxd8-jv$^ld!np-l&1oydx)0bre8'
+SECRET_KEY = 'gaetan2z2shky!x#(h(=x2k-_&!ca$c*i-ywkc*12=g^6@55w=ti8zbl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -51,7 +52,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-   
+
 ]
 
 ROOT_URLCONF = 'PollEuro2016.urls'
@@ -67,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -127,4 +129,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/Users/Moulaye/Documents/Heebari/Sites Web/PollEuro2016/media'
+MEDIA_ROOT = '/Users/Moulaye/Documents/Heebari/Sites Web/PollEuro2016/media/'
