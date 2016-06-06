@@ -49,7 +49,7 @@ class Rencontre(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    description = models.TextField( null=True, blank=True, default= None)
     score_cache = -1;
     
     def __str__(self):
