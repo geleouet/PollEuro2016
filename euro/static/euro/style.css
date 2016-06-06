@@ -203,12 +203,23 @@ ul.nav-pills {
     position: fixed;
 }
 
-label > input {
+.cssfilters label > input {
     /* HIDE RADIO */
     display: none;
 }
 
-label > input + img {
+
+.no-cssfilters label > input:checked + img {
+    color: #ffffaa;
+    border: 2px solid #ffaa66;
+    transition: all 1s;
+}
+.no-cssfilters label > input + img {
+    color: #666;
+    border: 2px solid #ddd;
+}
+
+.cssfilters  > input + img {
     /* IMAGE STYLES */
     cursor: pointer;
     -webkit-filter: grayscale(100%);
@@ -218,7 +229,7 @@ label > input + img {
     /* on prévoit une animation */
 }
 
-label > input:checked + img {
+.cssfilters label > input:checked + img {
     /* (CHECKED) IMAGE STYLES */
     -webkit-filter: grayscale(0%);
     /* Chrome, Safari, Opera */
@@ -227,11 +238,17 @@ label > input:checked + img {
     /* on prévoit une animation */
 }
 
-.gray {
+.no-cssfilters .gray {
+    color: #666;
+    border: 2px solid #ddd;
+}
+
+.cssfilters .gray {
     -webkit-filter: grayscale(100%);
     /* Chrome, Safari, Opera */
     filter: grayscale(100%);
 }
+
 
 .cropit-preview {
     /* You can specify preview size in CSS */
