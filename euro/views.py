@@ -357,8 +357,15 @@ def addUserToTeam(request):
     }
     return render(request, 'euro/userTeamChanged.html', context)
 
+
 def landinPage(request):
     return render(request, 'euro/landingpage.html')
+
+# About Us page
+
+def aboutus(request):
+
+    return render(request, 'euro/aboutus.html')
 
 
 

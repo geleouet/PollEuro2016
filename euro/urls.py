@@ -17,11 +17,14 @@ urlpatterns = [
     url(r'^member_id/(?P<mid>[0-9]+)/$', views.view_member, name='member_id'),
     url(r'^teams$', views.classement_teams, name='teams'),
     url(r'^upload$', views.upload, name='upload'),
+
     url(r'^landing$', views.landinPage, name='landingpage'),
+
+    url(r'^aboutus$', views.aboutus, name='aboutus'),
+
 
     url(r'^team_id/(?P<mid>[0-9]+)/$', views.team, name='team'),
     url(r'^change_desc/(?P<mid>[0-9]+)/$', views.change_desc, name='change_desc'),
-
-
     url(r'^logout$', views.logout_view, name='logout'),
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
