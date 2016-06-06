@@ -9,13 +9,15 @@
   <div class="jumbotron">
       <h1>
           <span>
+          {% if edit %}
           <a href="#" title="change avatar" data-target="#upload_avatar" data-toggle="modal" class="big_avatar">
+          {% endif %}
           {% if user.avatar %}      
             <span style="font-size : 1px;">  
           <img src="{{MEDIA_URL}}{{user.avatar}}" alt = "avatar"/>
-                <span class = "movedLeft">
+              {% if edit %}  <span class = "movedLeft">
               <i class="glyphicon glyphicon-upload" aria-hidden = "true" style="font-size:18px;"></i>
-                    </span>
+                    </span> {% endif %}
                 </span>
           {% else %}
               <span style="font-size : 1px;">  
@@ -26,7 +28,10 @@
                 </span>
           
           {% endif %}
-          </a>&nbsp; 
+           {% if edit %}      
+          </a>
+              {%endif %}
+              &nbsp; 
           </span>
           {{user.user.username|capfirst}} </h1>      
       
@@ -80,11 +85,54 @@
                     
                     {% if username %}
                     {% if edit %}
+                    <label>
+                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+                    <label>
+                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    <script type="text/javascript">
+                        var winf = function () {
+                                if ($('#score_{{rencontre.id}}_1').val() > $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_1').prop("checked", true)
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',true)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',true)
+                                }
+                                else if ($('#score_{{rencontre.id}}_1').val() < $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_2').prop("checked", true)
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',true)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',true)
+                                }
+                                else {
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',{% if rencontre.allowNull = False %}false{% else %}true{% endif %})
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',{% if rencontre.allowNull = False %}false{% else %}true{% endif %})
+                                    $('#score_{{rencontre.id}}_radio_2').prop("checked", false)
+                                    $('#score_{{rencontre.id}}_radio_1').prop("checked", false)
+                                }
+        
+                        }
+                        $('#score_{{rencontre.id}}_1').on('change', winf);
+                        $('#score_{{rencontre.id}}_2').on('change', winf);
+                    </script>
                     {% else %}
+                    <label>
+                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}" disabled/>
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}" disabled/>
+                     <label>
+                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    
+                    
+                    
                     {% endif %}
                     {% else %}
                     <span> - </span>

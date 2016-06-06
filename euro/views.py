@@ -64,7 +64,7 @@ def home(request):
         return index(request)
    
     user =request.user.member
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:5]
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
     pronostics = pron.all()
