@@ -19,6 +19,7 @@ class Pays(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=200)
     enabled = models.BooleanField(default=True)
+    sort_id = models.IntegerField(default = 0)
     def __str__(self):
         return self.name
     def matchs(self):
