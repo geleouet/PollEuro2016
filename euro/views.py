@@ -25,14 +25,14 @@ def view_member(request, mid):
         me = request.user.member
     else:
         me = None
-        
+
     user = Member.objects.filter(id=mid).get()
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
     pronostics = pron.all()
-    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts'] 
-    
+    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
+
     latest_pronostics = pron.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
     resultats = Resultat.objects.filter(match__in=pron.values_list('match', flat=True)).all()
     for res in resultats :
@@ -40,8 +40,8 @@ def view_member(request, mid):
     print resultats
     print me
     print user
-    
-    
+
+
     context = {
         'user': user,
         'self':me,
@@ -54,29 +54,29 @@ def view_member(request, mid):
         'resultats':resultats,
         #'temp':temp,
     }
-    
-    
+
+
     return render(request, 'euro/home.html', context)
 
 
 def home(request):
     if request.user.is_authenticated() == False:
         return index(request)
-   
+
     user =request.user.member
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related().order_by('date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
     pronostics = pron.all()
-    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts'] 
-    
+    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
+
     latest_pronostics = pron.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
     resultats = Resultat.objects.filter(match__in=pron.values_list('match', flat=True)).all()
     for res in resultats :
         res.points = pronostics.filter(match__exact=res.match).get().points
     print resultats
-    
-    
+
+
     context = {
         'user': user,
         'self': user,
@@ -90,8 +90,8 @@ def home(request):
         'allTeams':Team.objects.order_by('name'),
         #'temp':temp,
     }
-    
-    
+
+
     return render(request, 'euro/home.html', context)
 
 def classement(request):
@@ -100,14 +100,14 @@ def classement(request):
     else:
         user = None
         self_user = None
-     
+
     users = Member.objects.annotate(score=Sum('pronostic__points')).order_by('-score').all()
-    
+
     context = {
         'users': users,
         'self': user,
         'username' : request.session.get('username', None),
-        
+
     }
     return render(request, 'euro/classement.html', context)
 
@@ -118,15 +118,15 @@ def team(request, mid):
     else:
         user = None
         self_user = None
-     
+
     users = Member.objects.filter(team_id=mid).annotate(score=Sum('pronostic__points')).order_by('-score').all()
-    
+
     context = {
         'users': users,
         'self': user,
         'username' : request.session.get('username', None),
         'team': Team.objects.filter(id=mid).get(),
-        
+
     }
     return render(request, 'euro/classement.html', context)
 
@@ -136,9 +136,9 @@ def classement_teams(request):
     else:
         user = None
         self_user = None
-     
+
     teams = sorted(Team.objects.all(), key=lambda team: team.score(), reverse = True)
-    
+
     context = {
         'teams': teams,
         'self': user,
@@ -159,11 +159,11 @@ def change_team(request):
         else :
             user.team = Team.objects.filter(id=request.POST['id_team']).get()
         user.save()
-        return JsonResponse({'success' : '/success'}) 
+        return JsonResponse({'success' : '/success'})
     else:
          return JsonResponse({'reason' : 'You are not authenticated.'})
 
-        
+
 def upload(request):
     # Handle file upload
     if request.user.is_authenticated():
@@ -171,7 +171,7 @@ def upload(request):
          if request.method == 'POST':
             img_data = request.POST['image-data'].split(',')[1].decode("base64")
             name = user.user.username + datetime.now().strftime('%Y%m%d') +".jpg"
-            path = settings.MEDIA_ROOT + name    
+            path = settings.MEDIA_ROOT + name
             img_file = open(path, "wb")
             img_file.write(img_data)
             img_file.close()
@@ -179,14 +179,14 @@ def upload(request):
             user = request.user.member
             user.avatar.name = name
             user.save();
-        
-            return JsonResponse({'success' : '/success'}) 
+
+            return JsonResponse({'success' : '/success'})
          else:
             return JsonResponse({'reason' : 'invalid request'})
     else:
-         return JsonResponse({'reason' : 'you are not logged in'})   
+         return JsonResponse({'reason' : 'you are not logged in'})
 
-    
+
 
 
 def change_desc(request, mid):
@@ -195,23 +195,23 @@ def change_desc(request, mid):
         if str(user.team.id) == str(mid):
             user.team.description = request.POST['description']
             user.team.save()
-            return JsonResponse({'success' : '/success'}) 
+            return JsonResponse({'success' : '/success'})
         else:
-            return JsonResponse({'reason' : 'this is not your team'})   
+            return JsonResponse({'reason' : 'this is not your team'})
     else:
          return JsonResponse({'reason' : 'You are not authenticated.'})
 
 
 
 def index(request):
-    
+
     if request.user.is_authenticated():
         user = request.user.member
     else:
         user = None
-        
-    tag_list = Tag.objects.filter(enabled__exact=True).select_related().annotate(maxDate=Max('rencontre__date')).order_by('sort_id').all()   
-    
+
+    tag_list = Tag.objects.filter(enabled__exact=True).select_related().annotate(maxDate=Max('rencontre__date')).order_by('sort_id').all()
+
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
         'tag_list': tag_list,
@@ -226,7 +226,7 @@ def next_matchs(request):
         user =request.user.member
     else:
         user = None
-    
+
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pronostics = Pronostic.objects.filter(member__exact = user).select_related().all()
@@ -245,7 +245,7 @@ def register(request):
     request.session['username'] = user.username
     user = authenticate(username=request.POST['username'], password=request.POST['password'])
     login(request, user)
-    return HttpResponseRedirect(reverse('euro:index'))
+    return HttpResponseRedirect(reverse('euro:home'))
 
 def check_login(request):
     user = authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -255,7 +255,7 @@ def check_login(request):
             login(request, user)
             request.session['member_id'] = user.id
             request.session['username'] = user.username
-            return JsonResponse({'success' : '/success'})            
+            return JsonResponse({'success' : '/success'})
         else:
             return JsonResponse({'reason' : 'Account has been deactivated.'})
     else:
@@ -278,10 +278,10 @@ def save(request):
                 if (int(item[0].split('_')[2]) == 1):
                     score1[match] = score
                 else:
-                    score2[match] = score  
+                    score2[match] = score
             elif (item[0].find('score')>-1 and item[1] != '' and item[0].find('radio') > -1):
                 match = item[0].split('_')[1]
-                winner[match] = item[1]   
+                winner[match] = item[1]
 
         for item in score1.items():
             if (score2[item[0]]):
@@ -290,8 +290,8 @@ def save(request):
                     if rencontre.resultat:
                         continue
                 except (KeyError, ObjectDoesNotExist) :
-                    pass 
-                
+                    pass
+
                 p, created = Pronostic.objects.filter(match__exact=item[0]).filter(member__exact=user).get_or_create(
                     member=user,
                     match=rencontre
@@ -305,12 +305,12 @@ def save(request):
                 else :
                     p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
                 p.save()
-                    
-        return JsonResponse({'success' : 'success', 'res' : res})        
-        
+
+        return JsonResponse({'success' : 'success', 'res' : res})
+
     else :
         return JsonResponse({'reason' : 'User doesn\'t exists.', 'pk' : request.session['member_id']})
-    
+
 
 def manageteam(request):
     if request.user.is_authenticated():
