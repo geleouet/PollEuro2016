@@ -64,7 +64,7 @@ def home(request):
         return index(request)
    
     user =request.user.member
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:5]
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
     pronostics = pron.all()
@@ -210,7 +210,7 @@ def index(request):
     else:
         user = None
         
-    tag_list = Tag.objects.filter(enabled__exact=True).select_related().annotate(maxDate=Max('rencontre__date')).all()   
+    tag_list = Tag.objects.filter(enabled__exact=True).select_related().annotate(maxDate=Max('rencontre__date')).order_by('sort_id').all()   
     
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
@@ -227,7 +227,7 @@ def next_matchs(request):
     else:
         user = None
     
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:15]
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {

@@ -11,7 +11,7 @@
         <ul class="nav nav-pills nav-stacked">
 
             {% for date in latest_rencontre_date %}
-            <li><a href="#section{{forloop.counter}}">{{date |  date:'d F Y'}}</a></li>
+            <li><a href="#{{date |  date:'d_F_Y'}}">{{date |  date:'d F Y'}}</a></li>
             {% endfor %}
         </ul>
     </nav>
@@ -19,7 +19,7 @@
     <div class="col-sm-11">
         {% for date in latest_rencontre_date %}
         <div class="marged">
-        <div class="panel panel-default" id="section{{forloop.counter}}">
+        <div class="panel panel-default" id="{{date |  date:'d_F_Y'}}">
             <div class="panel-heading">
                 <span class="date-match">{{date |  date:'l d F Y'}}</span>
             </div>
@@ -39,23 +39,23 @@
                     <span class='pays'>{{rencontre.pays1}}</span>
                     
                     {% if username %}
-                    {% if rencontre.allowNull == False %}
+                    
                     <label>
-                            <input class="entry" id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
+                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
-                    {% endif %}
+                    
                     
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
                 
                     <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
                     
-                    {% if rencontre.allowNull == False %}
+                    
                     <label>
-                            <input class="entry" id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
+                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
-                    {% endif %}
+                    
                     
                     <script type="text/javascript">
                         var winf = function () {
@@ -70,8 +70,10 @@
                                     $('#score_{{rencontre.id}}_radio_1').prop('disabled',true)
                                 }
                                 else {
-                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',false)
-                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',false)
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',{% if rencontre.allowNull = False %}false{% else %}true{% endif %})
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',{% if rencontre.allowNull = False %}false{% else %}true{% endif %})
+                                    $('#score_{{rencontre.id}}_radio_2').prop("checked", false)
+                                    $('#score_{{rencontre.id}}_radio_1').prop("checked", false)
                                 }
         
                         }

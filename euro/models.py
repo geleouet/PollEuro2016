@@ -5,10 +5,11 @@ from datetime import datetime
 import logging
 from django.contrib.auth.models import User
 from django.db.models import Count, Min, Sum, Avg, F, Q, Value, Max
+from django.utils.encoding import python_2_unicode_compatible
 
 # Create your models here.
 
-
+@python_2_unicode_compatible
 class Pays(models.Model):
     nom = models.CharField(max_length=200)
     icone = models.CharField(max_length=200)
@@ -18,6 +19,7 @@ class Pays(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=200)
     enabled = models.BooleanField(default=True)
+    sort_id = models.IntegerField(default = 0)
     def __str__(self):
         return self.name
     def matchs(self):
@@ -48,7 +50,7 @@ class Rencontre(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    description = models.TextField( null=True, blank=True, default= None)
     score_cache = -1;
     
     def __str__(self):
