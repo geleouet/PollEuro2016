@@ -21,7 +21,7 @@ var formSave = {
             }
             else if (document.getElementById(v))
                 values[v] = document.getElementById(v).value
-            
+
         }
         console.log(values)
         $.post(save_url, values, formSave.success, 'json').error(formSave.error); // making ajax post
@@ -39,7 +39,12 @@ var formSave = {
     }
     , success: function (data, textStatus, jqXHR) {
         if (data['success']) {
-            location.reload();
+            if (typeof afterlogin != 'undefined') {
+                window.location.href = afterlogin;
+            }
+            else {
+                location.reload();
+            }
         }
     }
     , error: function (jqXHR, textStatus, errorThrown) {
@@ -99,7 +104,12 @@ var form = {
             $('.alert').fadeIn(500);
             setTimeout("$('.alert').fadeOut(1500);", 3000);
         } else {
-            location.reload();
+            if (typeof afterlogin != 'undefined') {
+                window.location.href = afterlogin;
+            }
+            else {
+                location.reload();
+            }
         }
     }
     , error: function (jqXHR, textStatus, errorThrown) {
@@ -135,9 +145,9 @@ $(function () {
 
 $(document).ready(function () {
 
-    
-    
-    
+
+
+
     $('.form-control').keypress(function () {
         $('.log-status').removeClass('wrong-entry');
         $('.log-btn').removeClass('wrong-entry');
@@ -149,8 +159,8 @@ $(document).ready(function () {
 
     $('.entry').on('change', function () {
         $('.popup').removeClass('hidden')
-        
-        
+
+
     });
 
     $('.popup').addClass('hidden')
@@ -159,9 +169,9 @@ $(document).ready(function () {
     var dynatable = $('#classement').data('dynatable');
     if (dynatable) {
         dynatable.paginationPerPage.set(20); // Show 20 records per page
-        dynatable.process(); 
+        dynatable.process();
     }
-    
+
 
 
 });
