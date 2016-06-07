@@ -2,22 +2,23 @@
 
 {% block form %}
 
-    A propos de ce projet
+    <h1>
+A propos de ce projet
+        </h1>
 
       <!-- START THE FEATURETTES -->
 <hr class="featurette-divider">
 <div class="row">
       <div class="featurette">
-        <img class="featurette-image img-circle pull-left" src="http://placehold.it/512">
-        <h2 class="featurette-heading">Gaëtan Eleouet. <span class="text-muted">Développeur sans Vergogne ?</span></h2>
-        <p class="lead"> Sans Vergogne, J'ai tout développé, du plus soimple au plus complexe principalement dans le domaine de la Finance de marché.
-            J'aurais fini par faire la plupart des banques de la place parisienne. <br></p>
-            <p>Après avoir lu les circonstances qui ont menées au développement de ce projet vous comprendrez pourquoi j'adore les challenges.
-          In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.
-          In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.
-          In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.
-          In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.
-          In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.</p>
+        <img class="featurette-image img-circle pull-left" src="{% static 'euro/images/gaetan.png' %}" style="width:256px; margin-right:20px">
+        <h2 class="featurette-heading">Gaëtan Eleouet. <span class="text-muted">Développeur artistique</span></h2>
+        <p class = "lead">Après avoir lu les circonstances qui ont menées au développement de ce projet vous comprendrez pourquoi j'adore les challenges.</p>
+        <p>Ingénieur en développement logiciel, artisan qui aime son métier, j'ai aujourd'hui tout développé (ou presque) du plus simple au plus complexe principalement dans le domaine de la Finance de marché.
+            <br/>J'ai depuis bientôt dix ans visité avec <a href="http://meritis.fr/"><img src="{% static 'euro/images/meritis.png' %}" alt="Meritis" style="width: 64px;"></a> la plupart des banques de la place parisienne. <br></p>
+          <p>Ce site a été développé en deux semaines sur notre temps libre, pour offrir une meilleur interface aux pronostics de nos collègues et amis. Leur pronostics ne sont pas plus justes, mais au moins ils sont jolis ;)</p>
+          <p>      
+              J'ai accepté sans hésiter de me lancer dans ce projet, développer un site sur un marathon de code, découvrir un framework qui m'était inconnu et une façon de travailler aux antipodes de mon quotidien.
+              Le challenge a été relevé, les technos inconnues apprivoisées et j'en ai retiré beaucoup de plaisir. J'aime apprendre et découvrir, et ça m'a permis de partager avec Moulaye une partie du travail de développeur/artiste/admin system/testeur/bô gosse...</p>
       </div>
 </div>
 
@@ -33,5 +34,18 @@
 
 
       <!-- /END THE FEATURETTES -->
+</div>
+
+<div>
+<h2>Powered by:</h2>
+    <img src="{% static 'euro/images/power/bootstrap.png' %}" style="height:48px; margin-left:40px;margin-right:30px">
+    <img src="{% static 'euro/images/power/html5css3.jpg' %}" style="height:48px; margin-right:30px">
+    <img src="{% static 'euro/images/power/jquery.jpg' %}" style="height:48px; margin-right:30px">
+    <img src="{% static 'euro/images/power/django.png' %}" style="height:48px; margin-right:30px">
+    <img src="{% static 'euro/images/power/postgresql.png' %}" style="height:48px; margin-right:30px">
+    <img src="{% static 'euro/images/power/gunicorn.png' %}" style="height:48px; margin-right:30px">
+    <img src="{% static 'euro/images/power/nginx.png' %}" style="height:32px; margin-right:30px">
+    <img src="{% static 'euro/images/power/debian.jpg' %}" style="height:48px; margin-right:30px">
+    <a href="https://github.com/geleouet/PollEuro2016" ><img src="{% static 'euro/images/power/github.jpg' %}" style="height:64px; margin-right:30px"></a>
 </div>
 {% endblock form %}
