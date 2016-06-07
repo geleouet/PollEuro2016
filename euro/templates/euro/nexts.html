@@ -11,7 +11,7 @@
         <ul class="nav nav-pills nav-stacked">
 
             {% for date in latest_rencontre_date %}
-            <li><a href="#section{{forloop.counter}}">{{date |  date:'d F Y'}}</a></li>
+            <li><a href="#{{date |  date:'d_F_Y'}}">{{date |  date:'d F Y'}}</a></li>
             {% endfor %}
         </ul>
     </nav>
@@ -19,7 +19,7 @@
     <div class="col-sm-11">
         {% for date in latest_rencontre_date %}
         <div class="marged">
-        <div class="panel panel-default" id="section{{forloop.counter}}">
+        <div class="panel panel-default" id="{{date |  date:'d_F_Y'}}">
             <div class="panel-heading">
                 <span class="date-match">{{date |  date:'l d F Y'}}</span>
             </div>
