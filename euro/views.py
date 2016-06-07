@@ -359,7 +359,21 @@ def addUserToTeam(request):
 
 
 def landinPage(request):
-    return render(request, 'euro/landingpage.html')
+    if request.user.is_authenticated():
+        user =request.user.member
+    else:
+        user = None
+
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:15]
+    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    pronostics = Pronostic.objects.filter(member__exact = user).all()
+    context = {
+        'latest_rencontre_list': latest_rencontre_list,
+        'latest_rencontre_date': latest_rencontre_date,
+        'username' : request.session.get('username', None),
+        'pronostics':pronostics,
+    }
+    return render(request, 'euro/landingpage.html', context)
 
 # About Us page
 

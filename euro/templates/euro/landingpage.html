@@ -1,65 +1,331 @@
-<!DOCTYPE html>
-<html lang="en">
+{% load staticfiles %}
+{% load nav_active %}
+{% load static %}
+{% load extra_euro %}
+
+
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Example of Bootstrap 3 Carousel</title>
+
+<title>Euro 2016</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<style type="text/css">
-		.carousel{
-	    	background: #2f4357;
-    		margin-top: 0px;
-		}
-		.carousel .item img{
-    		margin: 0 auto; /* Align slide image horizontally center */
-		}
-		.carousel-caption {
-	   	position: absolute;
-	   	top:300px
-		}
-		.bs-example{
-			margin: 0px;
-		}
-	</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'euro/images/favicon.png' %}"/>
+    <link rel="stylesheet" href="{% static 'euro/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'euro/vendor/bootstrap-theme.min.css' %}">
+    <link rel='stylesheet prefetch' href="{% static 'euro/vendor/font-awesome.min.css' %}">
+
+
+    <script src="{% static 'euro/vendor/jquery.min.js' %}"></script>
+    <script src="{% static 'euro/vendor/bootstrap.min.js' %}"></script>
+
+    <link rel='stylesheet prefetch' href="{% static 'euro/vendor/jquery.dynatable.css' %}">
+    <script src="{% static 'euro/vendor/jquery.dynatable.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'euro/style.css' %}" />
+    <script src="{% static 'euro/loginform.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'euro/vendor/jquery.cropit.js' %}"></script>
+
+
+
+
+    <script type="text/javascript">
+	$(document).ready(function(){
+                var scroll_start = 0;
+                var startchange = $('#startchange');
+                var offset = startchange.offset();
+                    if (startchange.length){
+                $(document).scroll(function() {
+                    scroll_start = $(this).scrollTop();
+                    if(scroll_start > offset.top) {
+                          $(".navbar-default").css('background-color', '#ffffff');
+                       } else {
+                          $('.navbar-default').css('background-color', 'transparent');
+                       }
+                   });
+                    }
+                });
+    </script>
+
+    <style type="text/css">
+	/* navbar */
+    .navbar-default {
+        background-color: transparent;
+        border-color: transparent;
+        margin-bottom: 0px;
+        position: fixed;
+        width: 100%;
+        border-radius: 0px;
+        z-index: 10007;
+    }
+    .content-block-one {
+      padding: 30px;
+      margin-bottom: 0px;
+      color: inherit;
+      background-color: #eee;
+    }
+    .content-block-one h1,
+    .content-block-one .h1 {
+      color: inherit;
+    }
+    .content-block-one p {
+      margin-bottom: 15px;
+      font-size: 21px;
+      font-weight: 200;
+    }
+    .content-block-one > hr {
+      border-top-color: #d5d5d5;
+    }
+    .container .content-block-one {
+      border-radius: 6px;
+    }
+    .content-block-one .container {
+      max-width: 100%;
+    }
+    @media screen and (min-width: 768px) {
+      .content-block-one {
+        padding-top: 48px;
+        padding-bottom: 48px;
+      }
+      .container .content-block-one {
+        padding-right: 60px;
+        padding-left: 60px;
+      }
+      .content-block-one h1,
+      .content-block-one .h1 {
+        font-size: 63px;
+      }
+    }
+    .content-space-one {
+      padding: 0px;
+      margin-bottom: 0px;
+      color: inherit;
+      background: url(http://placehold.it/1200x650/0033cc/ffffff) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+    .content-space-two {
+      padding: 0px;
+      margin-bottom: 0px;
+      color: inherit;
+      background: url(http://placehold.it/1200x650/cc0000/ffffff) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+    .page-break {
+        width: 50%;
+        height: 3px;
+        background-color: #fff;
+        margin: 0 auto;
+    }
+</style>
 </head>
 
 <body>
-<div class="bs-example">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Carousel indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <!-- Wrapper for carousel items -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <img src="https://images.unsplash.com/photo-1430232324554-8f4aebd06683?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7e53fe70393731a353903bf1b7104764" alt="Slider 1">
-                <div class="carousel-caption">
-		      	<h1>L'Euro est aussi une affaire de pronostic !</h1>
-      </div>
+<!-- Code's messsy, basic layout for a small project I'm doing. Follow me on twitter @taylorgrendel for free pie!-->
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!--<a class="navbar-brand" href="#">Brand</a>-->
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <nav class="navbar navbar-default ">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'euro:landing' %}"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height="32" /></a>
             </div>
-            <div class="item">
-                <img src="https://images.unsplash.com/photo-1430232324554-8f4aebd06683?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7e53fe70393731a353903bf1b7104764" alt="">
-                <div class="carousel-caption">
-		      	<h1>Prédisez le gagnant de chaque match jusqu'à 10 minutes avant</h1>
-      </div>
-            </div>
-            <div class="item">
-                <img src="https://images.unsplash.com/photo-1430232324554-8f4aebd06683?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7e53fe70393731a353903bf1b7104764" alt="">
-            </div>
+            <ul class="nav navbar-nav">
+                <li class="{% active request 'euro:home' %}"><a href="{% if username %}{% url 'euro:home' %}{% else %}{% url 'euro:nexts' %}{% endif %}">Home</a></li>
+                <li class="{% active request 'euro:nexts' %}"><a href="{% url 'euro:nexts' %}">Nexts</a></li>
+                <li class="{% active request 'euro:index' %}"><a href="{% url 'euro:index' %}">Events</a></li>
+                <li class="{% active request 'euro:classement' %}"><a href="{% url 'euro:classement' %}">Classement</a></li>
+                <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Teams</a></li>
+                <li class="{% active request 'euro:aboutus' %}"><a href="{% url 'euro:aboutus' %}">A propos</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if username %}
+                <li><a href="#">Welcome, {{username|capfirst}}</a></li>
+                <li>
+                    <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                </li>
+                {% else %}
+                <li><a href="#" data-toggle="modal" data-target="#myModalRegister"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#myModalLogin"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+                {% endif %}
+            </ul>
         </div>
-        <!-- Carousel controls -->
-        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="carousel-control right" href="#myCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
+    </nav>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div id="startchange"></div>
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="https://images.unsplash.com/photo-1430232324554-8f4aebd06683?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7e53fe70393731a353903bf1b7104764" alt="..." width="100%">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+      <img src="http://placehold.it/1200x650" alt="..." width="100%">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1430232324554-8f4aebd06683?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7e53fe70393731a353903bf1b7104764" alt="..." width="100%">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
+
+<div class="content-block-one">
+{% if latest_rencontre_list %}
+
+<div>
+
+    <div class="col-sm-11">
+        {% for date in latest_rencontre_date %}
+        <div class="marged">
+        <div class="panel panel-default" id="section{{forloop.counter}}">
+            <div class="panel-heading">
+                <span class="date-match">{{date |  date:'l d F Y'}}</span>
+            </div>
+
+            <div class="panel-body">
+
+                {% for rencontre in latest_rencontre_list %}
+                {% if rencontre.date == date %}
+                        <script type="text/javascript">
+                            formSave.fields['score_{{rencontre.id}}_1']= "score_{{rencontre.id}}_1"
+                            formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
+                            formSave.fields['score_{{rencontre.id}}_radio']= "score_{{rencontre.id}}_radio"
+
+                        </script>
+                <div class="well">
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}"  class="drapeau"/>
+                    <span class='pays'>{{rencontre.pays1}}</span>
+
+                    {% if username %}
+                    {% if rencontre.allowNull == False %}
+                    <label>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    {% endif %}
+
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_1" min="0" value="{{pronostics|score1:rencontre}}"/>
+
+                    <input class="score entry" type="number" id="score_{{rencontre.id}}_2" min="0" value="{{pronostics|score2:rencontre}}"/>
+
+                    {% if rencontre.allowNull == False %}
+                    <label>
+                            <input class="entry" id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
+                            <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
+                    </label>
+                    {% endif %}
+
+                    <script type="text/javascript">
+                        var winf = function () {
+                                if ($('#score_{{rencontre.id}}_1').val() > $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_1').prop("checked", true)
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',true)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',true)
+                                }
+                                else if ($('#score_{{rencontre.id}}_1').val() < $('#score_{{rencontre.id}}_2').val()) {
+                                    $('#score_{{rencontre.id}}_radio_2').prop("checked", true)
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',true)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',true)
+                                }
+                                else {
+                                    $('#score_{{rencontre.id}}_radio_2').prop('disabled',false)
+                                    $('#score_{{rencontre.id}}_radio_1').prop('disabled',false)
+                                }
+
+                        }
+                        $('#score_{{rencontre.id}}_1').on('change', winf);
+                        $('#score_{{rencontre.id}}_2').on('change', winf);
+                    </script>
+
+                    {% else %}
+                    <span> - </span>
+                    {% endif %}
+
+                    <span class='pays'>{{rencontre.pays2}}</span>
+                    <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"  class="drapeau"/> &nbsp;
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+        </div>
+        </div>
+
+
+    {% endfor %}
+        </div>
+
+</div>
+
+
+{% else %}
+<p>No polls are available.</p>
+{% endif %}
+
+</div>
+
+
+<!--
+<div class="content-space-two">
+    <div class="text-center">
+        <h1>This separates content!</h1>
+        <div class="page-break"></div>
+        <p>Other information can go here</p>
     </div>
 </div>
+-->
 </body>
 </html>

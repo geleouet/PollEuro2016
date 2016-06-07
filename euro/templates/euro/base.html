@@ -36,7 +36,7 @@
     <nav class="navbar navbar-default ">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height="32" /></a>
+                <a class="navbar-brand" href="{% url 'euro:landing' %}"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height="32" /></a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="{% active request 'euro:home' %}"><a href="{% if username %}{% url 'euro:home' %}{% else %}{% url 'euro:nexts' %}{% endif %}">Home</a></li>

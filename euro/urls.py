@@ -6,7 +6,8 @@ from django.conf import settings
 
 app_name = 'euro'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.landinPage, name='landing'),
+    url(r'^index$', views.index, name='index'),
     url(r'^home$', views.home, name='home'),
     url(r'^save$', views.save, name='save'),
     url(r'^nexts$', views.next_matchs, name='nexts'),
