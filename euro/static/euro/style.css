@@ -209,17 +209,8 @@ ul.nav-pills {
 }
 
 
-.no-cssfilters label > input:checked + img {
-    color: #ffffaa;
-    border: 2px solid #ffaa66;
-    transition: all 1s;
-}
-.no-cssfilters label > input + img {
-    color: #666;
-    border: 2px solid #ddd;
-}
 
-.cssfilters  > input + img {
+.cssfilters label > input + img {
     /* IMAGE STYLES */
     cursor: pointer;
     -webkit-filter: grayscale(100%);

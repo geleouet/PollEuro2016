@@ -227,7 +227,7 @@ def next_matchs(request):
     else:
         user = None
     
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:15]
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')
     latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
