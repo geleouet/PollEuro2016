@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^team_id/(?P<mid>[0-9]+)/$', views.team, name='team'),
     url(r'^change_desc/(?P<mid>[0-9]+)/$', views.change_desc, name='change_desc'),
     url(r'^logout$', views.logout_view, name='logout'),
+    url(r'^mail$', views.mail, name='mail'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

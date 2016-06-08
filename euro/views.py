@@ -17,8 +17,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from django.core.files.base import File
 import logging
+from django.core.mail import send_mail
 
 # Create your views here.
+
+def mail(request):
+    send_mail('Sujet test', 'message test', 'contact@pronostic-euro2016.eu', ['gaetan.eleouet@gmail.com'], fail_silently=False)
 
 def view_member(request, mid):
     if request.user.is_authenticated():
