@@ -297,3 +297,19 @@ button[type="submit"] {
     text-overflow: ellipsis;
     word-wrap: break-word;
 }
+
+
+.carousel{
+    background: #2f4357;
+    margin-top: 0px;
+		}
+.carousel .item img{
+    margin: 0 auto; /* Align slide image horizontally center */
+}
+.carousel-caption {
+    position: absolute;
+    top:300px
+}
+.bs-example{
+    margin: 0px;
+}
