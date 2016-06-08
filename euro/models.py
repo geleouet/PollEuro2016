@@ -24,7 +24,8 @@ class Tag(models.Model):
         return self.name
     def matchs(self):
         return Rencontre.objects.filter(tag=self).order_by('date').all()
-    
+
+@python_2_unicode_compatible
 class Rencontre(models.Model):
     pays1 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p1_id') 
     pays2 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p2_id')
@@ -69,6 +70,7 @@ class Member(models.Model):
     def __str__(self):
         return self.user.username
 
+@python_2_unicode_compatible    
 class Pronostic(models.Model):
     member = models.ForeignKey(Member, on_delete= models.CASCADE)
     match = models.ForeignKey(Rencontre, on_delete = models.CASCADE)
@@ -78,7 +80,8 @@ class Pronostic(models.Model):
     points = models.IntegerField(default=0)
     def __str__(self):
         return '[' + self.member.user.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')' + str(self.winner)
-    
+
+@python_2_unicode_compatible    
 class Resultat(models.Model):
     match = models.OneToOneField(Rencontre)
     score1 = models.IntegerField(default=-1)
