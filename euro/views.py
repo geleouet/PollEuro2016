@@ -23,6 +23,7 @@ from django.core.mail import send_mail
 
 def mail(request):
     send_mail('Sujet test', 'message test', 'contact@pronostic-euro2016.eu', ['gaetan.eleouet@gmail.com'], fail_silently=False)
+    return HttpResponseRedirect(reverse('euro:index'))
 
 def view_member(request, mid):
     if request.user.is_authenticated():
