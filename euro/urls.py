@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^landing$', views.landinPage, name='landingpage'),
 
     url(r'^aboutus$', views.aboutus, name='aboutus'),
+    url(r'^question$', views.displaypolls, name='question'),
 
 
     url(r'^team_id/(?P<mid>[0-9]+)/$', views.team, name='team'),

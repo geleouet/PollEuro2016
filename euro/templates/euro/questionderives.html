@@ -3,19 +3,20 @@
 {% load nav_active %}
 {% load static %}
 {% load extra_euro %}
-    <script type="text/javascript">
-        // Definition of global variables for javascript context
-        var contact_url = "{% url 'euro:check_login' %}";
-        var afterlogin = "{% url 'euro:home' %}";
-        var save_url = "{% url 'euro:save' %}";
-    </script>
-
-<style type="text/css">
-
-	</style>
 
 
 {% block form %}
-
-
+<ul>
+    {% for test in questionnaire_list %}
+        <li>
+            <h1>{{test}}</h1><br>
+                <h2>Liste des réponse</h2>
+            {% for test1 in choices %}
+                <ul>
+                    <li>{{test1}}</li>
+                </ul>
+            {% endfor %}
+        </li>
+    {% endfor %}
+</ul>
 {% endblock %}

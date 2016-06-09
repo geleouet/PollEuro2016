@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Min, Sum, Avg, F, Q, Value, Max
-from models import Pays, Rencontre, Member, Pronostic, Tag, Resultat,  Team
+from models import Pays, Rencontre, Member, Pronostic, Tag, Resultat,  Team, PollChoices, MatchPool
 from django.template import loader
 from django.http import Http404
 from django.views import generic
@@ -483,7 +483,22 @@ def aboutus(request):
 
     return render(request, 'euro/aboutus.html')
 
+def displaypolls(request):
+    if request.user.is_authenticated():
+        user =request.user.member
+    else:
+        user = None
 
+    questionnaire_list = MatchPool.objects.all()
+
+    choices = PollChoices.objects.all()
+
+    context = {
+        'questionnaire_list': questionnaire_list,
+        'choices': choices,
+    }
+
+    return render(request, 'euro/questionderives.html', context)
 
 def logout_view(request):
     try:
