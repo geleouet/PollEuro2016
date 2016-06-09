@@ -133,7 +133,107 @@
     
     
     
+    {% if username == None %}
+    <div id="forgotPswdDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Reset password</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPswdDialogForm">
+                        {% csrf_token %}
+                        <div class="login-form">
+                            <div class="form-group ">
+                                <input type="text" class="form-control" placeholder="Username " id="resetusername" name="username" aria-hidden="true"/>
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </div>
+                            <div class="form-group ">
+                                <input type="text" class="form-control" placeholder="Email " id="resetemail" name="email" required aria-hidden="true"/>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </div>
+                            
+                            <button type="submit" class="reset-btn" id="resetpassword-btn">
+                            <i class="fa fa-share" aria-hidden="true"></i>
+                            &nbsp; Reset Password </button>
+
+
+                        </div>
+                    </form>
+                </div>
+                
+                <script>
+                                    
+                    $( "#forgotPswdDialogForm" ).submit(function( e ) {
+                        console.log("reset password")
+                        
+        e.preventDefault();
+
+        var values = {};
+        values['csrfmiddlewaretoken']=$('input[name=csrfmiddlewaretoken]').val()
+        values['username'] = $('#resetusername').val()
+        values['email'] = $('#resetemail').val()
+        console.log(values)
+        $.post("{% url 'euro:reset' %}", values, 
+               function (data, textStatus, jqXHR) {
+                $("#forgotPswdDialog").modal('hide')
+                $("#mail-sent").modal('toggle')
+                }
+               , 'json').error(formSave.error); // making ajax post
+                        return false;
+        });
+
+                </script>
+                
+            </div>
+
+        </div>
+    </div>
     
+    
+    
+        
+<div id="mail-sent" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-envelope" aria-hidden="true"></i> Email sent</h4>
+            </div>
+            <div class="modal-body">
+                <form id="ok-mail">
+                    {% csrf_token %}
+                    <div class="login-form">
+                        <div class="form-group">
+
+                            <h3>Please check your emails <h3>
+                               
+                            </div>
+                             
+                        </div>
+                        <!--a class="link" href="#">Lost your password?</a-->
+                        <button type="submit" class="log-btn" id="mail_sent" style="margin-top: 20px;">OK <i class="glyphicon glyphicon-ok" aria-hidden="true"></i></button>
+                    
+
+                </form>
+                <script>
+                                    
+                    $( "#ok-mail" ).submit(function( e ) {
+                        $("#mail-sent").modal('hide')
+                    });
+
+                </script>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endif %}
     
     {% if username == None %}
     <div id="myModalLogin" class="modal fade" role="dialog">
@@ -157,7 +257,16 @@
                                 <input type="password" class="form-control" placeholder="Password" id="password" name="password" aria-hidden="true"/>
                                 <i class="fa fa-lock"></i>
                             </div>
-
+                            <a href="#" id="forgotbtn">Forgot your password ?</a>
+                            <script>
+                             $(function() {
+    $("#forgotbtn").click(function(e) {
+      e.preventDefault(); 
+        $("#myModalLogin").modal('hide')
+        $("#forgotPswdDialog").modal('toggle')
+    });
+  });
+                            </script>
                             <!--a class="link" href="#">Lost your password?</a-->
                             <button type="submit" class="log-btn" id="log-btn">Log in</button>
 
@@ -180,7 +289,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Login</h4>
+                    <h4 class="modal-title">Sign-in</h4>
                 </div>
                 <div class="modal-body">
                     <form id="register" action="{% url 'euro:register' %}" method="post" onsubmit="return validateRegister()">

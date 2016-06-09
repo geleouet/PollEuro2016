@@ -201,6 +201,17 @@ a .big_avatar:hover {
     border: none;
     @include border-radius(4px);
 }
+.reset-btn {
+    background: #0AC986;
+    dispaly: inline-block;
+    width: 100%;
+    font-size: 16px;
+    height: 50px;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    @include border-radius(4px);
+}
 
 .marged {
     margin-top: 10px;

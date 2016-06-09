@@ -18,7 +18,10 @@ urlpatterns = [
     url(r'^member_id/(?P<mid>[0-9]+)/$', views.view_member, name='member_id'),
     url(r'^teams$', views.classement_teams, name='teams'),
     url(r'^upload$', views.upload, name='upload'),
-
+    url(r'^reset$', views.reset, name='reset'),
+    url(r'^resetPassword$', views.resetPassword, name='resetPassword'),
+    url(r'^changeResestPassword$', views.changeResestPassword, name='changeResestPassword'),
+   
     url(r'^landing$', views.landinPage, name='landingpage'),
 
     url(r'^aboutus$', views.aboutus, name='aboutus'),

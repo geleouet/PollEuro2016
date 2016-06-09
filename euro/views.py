@@ -18,8 +18,76 @@ from django.conf import settings
 from django.core.files.base import File
 import logging
 from django.core.mail import send_mail
+from datetime import timedelta
+from django.core.signing import Signer, BadSignature
+from urllib import quote, unquote
+from  django.contrib.auth.hashers import make_password
 
 # Create your views here.
+
+def changeResestPassword(request):
+    token = request.POST['token']
+    if token:
+        signer = Signer()
+        try:
+            original = signer.unsign(token)
+        except BadSignature:
+            print("Tampering detected!")
+            return HttpResponseRedirect(reverse('euro:index'))
+        print 'reset password for ' + original + ' to "' +   request.POST['password'] +'"'
+        user = User.objects.filter(username=original).get()
+        newPass = request.POST['password']
+        user.password = make_password(newPass)
+        user.save()
+        user = authenticate(username=original, password=newPass)
+        login(request, user)
+        request.session['member_id'] = user.id
+        request.session['username'] = user.username
+        return JsonResponse({'success' : 'password changed for ' + user.username})
+   
+    return JsonResponse({'error' : 'password not changed'})
+
+def resetPassword(request):
+    token = request.GET['token']
+    if token:
+        signer = Signer()
+        try:
+            original = signer.unsign(token)
+        except BadSignature:
+            print("Tampering detected!")
+            return HttpResponseRedirect(reverse('euro:index'))
+        print 'reset password for ' + original    
+        user = User.objects.filter(username=original).get()
+        context = {
+            'user': user,
+            'token': token,
+        }
+        return render(request, 'euro/resetPassword.html', context)
+   
+    return HttpResponseRedirect(reverse('euro:index'))
+    
+
+def reset(request):
+    try:
+        membre = request.POST['username']
+        mail = User.objects.filter(username=membre).get().email
+        if mail != request.POST['email']:
+            return JsonResponse({'error' : 'user name and email doesn\'t correspond'})
+        signer = Signer()
+        value = signer.sign(membre)
+        link = settings.ABSOLUTE_URL + reverse("euro:resetPassword") + "?token=" + quote(value)
+        msg = 'Hi ' + membre +'\n'
+        msg +='You recently asked to change your password\n'
+        msg +='click on the following link to proceed:\n'
+        msg +=link
+        msg +='\n'
+        send_mail('[Pronostic-euro206] Password change request', msg, 'contact@pronostic-euro2016.eu', [mail], fail_silently=False)
+    
+        return JsonResponse({'success' : ('email sent to ' + mail + ";" + link)})
+        
+    except ObjectDoesNotExist:
+        return JsonResponse({'error' : 'invalid user name'})
+
 
 def mail(request):
     send_mail('Sujet test', 'message test', 'contact@pronostic-euro2016.eu', ['gaetan.eleouet@gmail.com'], fail_silently=False)
