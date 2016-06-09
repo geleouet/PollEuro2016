@@ -44,8 +44,8 @@
                 <li class="{% active request 'euro:home' %}"><a href="{% if username %}{% url 'euro:home' %}{% else %}{% url 'euro:nexts' %}{% endif %}">Accueil</a></li>
                 <li class="{% active request 'euro:nexts' %}"><a href="{% url 'euro:nexts' %}">Par date</a></li>
                 <li class="{% active request 'euro:index' %}"><a href="{% url 'euro:index' %}">Par poules</a></li>
-                <li class="{% active request 'euro:classement' %}"><a href="{% url 'euro:classement' %}">Mon Classement</a></li>
-                <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Mon Equipe</a></li>
+                <li class="{% active request 'euro:classement' %}"><a href="{% url 'euro:classement' %}">Classement</a></li>
+                <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Equipes</a></li>
                 <li class="{% active request 'euro:faq' %}"><a href="{% url 'euro:faq' %}">FAQ</a></li>
                 <li class="{% active request 'euro:aboutus' %}"><a href="{% url 'euro:aboutus' %}">A propos</a></li>
             </ul>
@@ -56,12 +56,12 @@
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'euro:changePassword' %}"><i class="fa fa-key" aria-hidden="true"> Change password </i></a></li>
-                         
+                        <li><a href="#"><i class="fa fa-envelope-o" aria-hidden="true"> Change email</i></a></li> 
                     </ul>
                 </li>
                 
                 <li>
-                    <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                    <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Sortir</a>
                 </li>
                 {% else %}
                 <li><a href="#" data-toggle="modal" data-target="#myModalRegister"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
