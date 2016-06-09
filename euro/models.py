@@ -90,6 +90,27 @@ class Resultat(models.Model):
     def __str__(self):
         return self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
 
+# Model definissant une question True pour les QCM et False pour choix unique
+class MatchPool(models.Model):
+    """
+        Les sondages sont lies seulement a un match
+        question : Il s'agit de la question qui est posee de mamniere generale
+        reward : Le nombre de points accordes a ceux qui ont la bonne reponse
+        leverage : Le levier demande par l'utilisateur
+        multipleChoice : indique si une questione est un QCM ou non
+    """
+    match = models.ForeignKey(Rencontre)
+    question = models.CharField(max_length=200, null=True, blank=True)
+    reward = models.IntegerField(default=0)
+    leverage = models.IntegerField(default=-1)
+    enddate = models.DateField()
+    multipleChoice = models.BooleanField(default=True)
+
+class PollChoices(models.Model):
+    poll =  models.ForeignKey(MatchPool)
+    possibleResponseText = models.CharField(max_length=200, null=True, blank=True)
+    possibleResponseNumber = models.IntegerField(default=-1)
+
 
 def my_callback(sender, instance, **kwargs):
     pronostics = Pronostic.objects.filter(match__exact=instance.match).all()
