@@ -47,6 +47,21 @@ def changeResestPassword(request):
    
     return JsonResponse({'error' : 'password not changed'})
 
+def changePassword(request):
+    if request.user.is_authenticated():
+        me = request.user
+        signer = Signer()
+        value = signer.sign(me.username)
+        context = {
+            'user': me,
+            'token': value,
+            'self': me.member,
+            'username' : request.session.get('username', None),
+        }
+        return render(request, 'euro/resetPassword.html', context)
+   
+    return HttpResponseRedirect(reverse('euro:index'))
+
 def resetPassword(request):
     token = request.GET['token']
     if token:
