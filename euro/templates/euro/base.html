@@ -157,7 +157,7 @@
                             </div>
                             
                             <button type="submit" class="reset-btn" id="resetpassword-btn">
-                            <i class="fa fa-share" aria-hidden="true"></i>
+                            <i class="fa fa-share" aria-hidden="true" id='resetico'></i>
                             &nbsp; Reset Password </button>
 
 
@@ -176,6 +176,10 @@
         values['csrfmiddlewaretoken']=$('input[name=csrfmiddlewaretoken]').val()
         values['username'] = $('#resetusername').val()
         values['email'] = $('#resetemail').val()
+        $('#resetpassword-btn').prop( "disabled", true )
+        $('#resetico').toggleClass('fa-share fa-circle-o-notch');
+        $('#resetico').addClass('fa-spin');
+                        
         console.log(values)
         $.post("{% url 'euro:reset' %}", values, 
                function (data, textStatus, jqXHR) {
