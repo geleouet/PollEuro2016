@@ -131,6 +131,20 @@ def view_member(request, mid):
 
     return render(request, 'euro/home.html', context)
 
+def faq(request):
+    if request.user.is_authenticated():
+        user = request.user.member
+    else:
+        user = None
+        self_user = None
+
+    context = {
+        'self': user,
+        'username' : request.session.get('username', None),
+
+    }
+    return render(request, 'euro/faq.html', context)
+
 
 def home(request):
     if request.user.is_authenticated() == False:

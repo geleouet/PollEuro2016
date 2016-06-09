@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^teams$', views.classement_teams, name='teams'),
     url(r'^upload$', views.upload, name='upload'),
     url(r'^reset$', views.reset, name='reset'),
+    url(r'^faq$', views.faq, name='faq'),
     url(r'^resetPassword$', views.resetPassword, name='resetPassword'),
     url(r'^changeResestPassword$', views.changeResestPassword, name='changeResestPassword'),
    

@@ -46,11 +46,20 @@
                 <li class="{% active request 'euro:index' %}"><a href="{% url 'euro:index' %}">Events</a></li>
                 <li class="{% active request 'euro:classement' %}"><a href="{% url 'euro:classement' %}">Classement</a></li>
                 <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Teams</a></li>
+                <li class="{% active request 'euro:faq' %}"><a href="{% url 'euro:faq' %}">FAQ</a></li>
                 <li class="{% active request 'euro:aboutus' %}"><a href="{% url 'euro:aboutus' %}">A propos</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if username %}
-                <li><a href="#">Welcome, {{username|capfirst}}</a></li>
+                <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Welcome, {{username|capfirst}}
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Change password</a></li>
+                        <li><a href="#">Change email</a></li> 
+                    </ul>
+                </li>
+                
                 <li>
                     <a href="{% url 'euro:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                 </li>
