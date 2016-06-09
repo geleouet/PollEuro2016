@@ -41,11 +41,11 @@
                 <a class="navbar-brand" href="{% url 'euro:landing' %}"><img src="{% static 'euro/images/logo.jpg' %}" alt="Euro 2016" height="32" /></a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="{% active request 'euro:home' %}"><a href="{% if username %}{% url 'euro:home' %}{% else %}{% url 'euro:nexts' %}{% endif %}">Home</a></li>
-                <li class="{% active request 'euro:nexts' %}"><a href="{% url 'euro:nexts' %}">Nexts</a></li>
-                <li class="{% active request 'euro:index' %}"><a href="{% url 'euro:index' %}">Events</a></li>
-                <li class="{% active request 'euro:classement' %}"><a href="{% url 'euro:classement' %}">Classement</a></li>
-                <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Teams</a></li>
+                <li class="{% active request 'euro:home' %}"><a href="{% if username %}{% url 'euro:home' %}{% else %}{% url 'euro:nexts' %}{% endif %}">Accueil</a></li>
+                <li class="{% active request 'euro:nexts' %}"><a href="{% url 'euro:nexts' %}">Par date</a></li>
+                <li class="{% active request 'euro:index' %}"><a href="{% url 'euro:index' %}">Par poules</a></li>
+                <li class="{% active request 'euro:classement' %}"><a href="{% url 'euro:classement' %}">Mon Classement</a></li>
+                <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Mon Equipe</a></li>
                 <li class="{% active request 'euro:faq' %}"><a href="{% url 'euro:faq' %}">FAQ</a></li>
                 <li class="{% active request 'euro:aboutus' %}"><a href="{% url 'euro:aboutus' %}">A propos</a></li>
             </ul>
