@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^resetPassword$', views.resetPassword, name='resetPassword'),
     url(r'^changeResestPassword$', views.changeResestPassword, name='changeResestPassword'),
     url(r'^changePassword$', views.changePassword, name='changePassword'),
+    url(r'^changeEmail$', views.changeEmail, name='changeEmail'),
    
     url(r'^landing$', views.landinPage, name='landingpage'),
 

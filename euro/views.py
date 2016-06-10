@@ -59,6 +59,15 @@ def changeResestPassword(request):
             
     return JsonResponse({'error' : 'password not changed'})
 
+def changeEmail(request):
+    if request.user.is_authenticated():
+        me = request.user
+        me.email=request.POST['email']
+        me.save()
+        
+        return JsonResponse({'success' : 'email changed for ' + me.username + '->' + request.POST['email']})
+    return JsonResponse({'error' : 'user not authenticated'})
+
 def changePassword(request):
     if request.user.is_authenticated():
         me = request.user
@@ -188,7 +197,7 @@ def home(request):
     resultats = Resultat.objects.filter(match__in=pron.values_list('match', flat=True)).all()
     for res in resultats :
         res.points = pronostics.filter(match__exact=res.match).get().points
-    print resultats
+    print 'email' + user.user.email
 
 
     context = {
@@ -331,6 +340,7 @@ def index(request):
         'tag_list': tag_list,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
+        'self':user,
     }
     return render(request, 'euro/index.html', context)
 
@@ -349,6 +359,7 @@ def next_matchs(request):
         'latest_rencontre_date': latest_rencontre_date,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
+        'self':user,
     }
     return render(request, 'euro/nexts.html', context)
 
@@ -492,8 +503,15 @@ def landinPage(request):
 # About Us page
 
 def aboutus(request):
-
-    return render(request, 'euro/aboutus.html')
+    if request.user.is_authenticated():
+        user =request.user.member
+    else:
+        user = None
+    context = {
+        'self': user,
+        'username' : request.session.get('username', None),
+    }
+    return render(request, 'euro/aboutus.html', context)
 
 def displaypolls(request):
     if request.user.is_authenticated():
