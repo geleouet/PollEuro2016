@@ -81,7 +81,7 @@ class Pronostic(models.Model):
     def __str__(self):
         return '[' + self.member.user.username + '] ' +  self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')' + str(self.winner)
 
-@python_2_unicode_compatible    
+@python_2_unicode_compatible
 class Resultat(models.Model):
     match = models.OneToOneField(Rencontre)
     score1 = models.IntegerField(default=-1)
@@ -89,6 +89,34 @@ class Resultat(models.Model):
     winner = models.IntegerField(default=-1)
     def __str__(self):
         return self.match.pays1.nom + ' - ' + self.match.pays2.nom + ' (' + str(self.score1) + ', ' + str(self.score2) + ')'
+
+# Model definissant une question True pour les QCM et False pour choix unique
+@python_2_unicode_compatible
+class MatchPool(models.Model):
+    """
+        Les sondages sont lies seulement a un match
+        question : Il s'agit de la question qui est posee de mamniere generale
+        reward : Le nombre de points accordes a ceux qui ont la bonne reponse
+        leverage : Le levier demande par l'utilisateur
+        multipleChoice : indique si une questione est un QCM ou non
+    """
+    match = models.ForeignKey(Rencontre)
+    question = models.CharField(max_length=200, null=True, blank=True)
+    reward = models.IntegerField(default=0)
+    leverage = models.IntegerField(default=-1)
+    enddate = models.DateField()
+    multipleChoice = models.BooleanField(default=True)
+    def __str__(self):
+        return self.question + '  ' + self.match.__str__()
+
+@python_2_unicode_compatible
+class PollChoices(models.Model):
+    poll =  models.ForeignKey(MatchPool)
+    possibleResponseText = models.CharField(max_length=200, null=True, blank=True)
+    possibleResponseNumber = models.IntegerField(default=-1)
+
+    def __str__(self):
+        return self.possibleResponseText
 
 
 def my_callback(sender, instance, **kwargs):
