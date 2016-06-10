@@ -52,7 +52,7 @@
                     {% if rencontre.passed %}
                         <span style="padding: 10px;"><big><strong>{{rencontre.result.score1}} - {{rencontre.result.score2}}</strong></big></span>
                     {% else %}
-                        <span class="date-match">{{rencontre.date}}</span>
+                        <span class="date-match">{{rencontre.date|  date:'d F Y'}}</span>
                     {% endif %}
 
 
