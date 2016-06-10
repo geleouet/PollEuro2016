@@ -411,25 +411,30 @@ def save(request):
         for item in score1.items():
             if (score2[item[0]]):
                 rencontre = Rencontre.objects.get(pk=item[0])
-                try :
-                    if rencontre.resultat:
-                        continue
-                except (KeyError, ObjectDoesNotExist) :
+                if rencontre.passed():
                     pass
+                else:    
+                    try :
+                        if rencontre.resultat:
+                            continue
+                        if rencontre.passed:
+                            continue
+                    except (KeyError, ObjectDoesNotExist) :
+                        pass
 
-                p, created = Pronostic.objects.filter(match__exact=item[0]).filter(member__exact=user).get_or_create(
-                    member=user,
-                    match=rencontre
-                )
-                p.score1 = score1[item[0]]
-                p.score2 = score2[item[0]]
-                if score1[item[0]] == score2[item[0]] and item[0] in winner :
-                    p.winner = winner[item[0]]
-                elif score1[item[0]] == score2[item[0]]:
-                    p.winner = -1
-                else :
-                    p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
-                p.save()
+                    p, created = Pronostic.objects.filter(match__exact=item[0]).filter(member__exact=user).get_or_create(
+                        member=user,
+                        match=rencontre
+                    )
+                    p.score1 = score1[item[0]]
+                    p.score2 = score2[item[0]]
+                    if score1[item[0]] == score2[item[0]] and item[0] in winner :
+                        p.winner = winner[item[0]]
+                    elif score1[item[0]] == score2[item[0]]:
+                        p.winner = -1
+                    else :
+                        p.winner = 1 if score1[item[0]] > score2[item[0]] else 2
+                    p.save()
 
         return JsonResponse({'success' : 'success', 'res' : res})
 

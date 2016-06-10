@@ -6,6 +6,7 @@ import logging
 from django.contrib.auth.models import User
 from django.db.models import Count, Min, Sum, Avg, F, Q, Value, Max
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils import timezone
 
 # Create your models here.
 
@@ -30,7 +31,7 @@ class Rencontre(models.Model):
     pays1 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p1_id') 
     pays2 = models.ForeignKey(Pays, on_delete=models.CASCADE, related_name = 'p2_id')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateTimeField()
     comment = models.CharField(max_length=200, null=True, blank=True)
     allowNull = models.BooleanField(default=True)
     
@@ -38,7 +39,7 @@ class Rencontre(models.Model):
     result_cached = False
     
     def passed(self):
-        return self.date <= datetime.date(datetime.now())
+        return self.date <= timezone.now()
     def result(self):
         if self.result_cached :
             return self.result_cache
