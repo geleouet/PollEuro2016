@@ -55,7 +55,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Welcome, {{username|capfirst}}
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'euro:changePassword' %}"><i class="fa fa-key" aria-hidden="true"> Change password </i></a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#renewPswdDialog"><i class="fa fa-key" aria-hidden="true"> Change password </i></a></li>
                         <li><a href="#"><i class="fa fa-envelope-o" aria-hidden="true"> Change email</i></a></li> 
                     </ul>
                 </li>
@@ -135,6 +135,95 @@
     </script>
                 </div></div></div></div>
 
+    
+    
+<div id="renewPswdDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{user.username}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="renewPswdDialogForm">
+                        {% csrf_token %}
+                        <div class="login-form">
+                            {% if username == None %}
+                            {% else %}
+                            <label>Current password:</label>
+                            <div class="form-group log-status">
+                                <input type="password" class="form-control" placeholder="Password" id="npassword0" name="password0" required aria-hidden="true"/>
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            {% endif %}
+                            <label>New password:</label>
+                            <div class="form-group log-status">
+                                <input type="password" class="form-control" placeholder="Password" id="npassword" name="password" required aria-hidden="true"/>
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <label>Repeat:</label>
+                            <div class="form-group log-status">
+                                <input type="password" class="form-control" placeholder="Password" id="npassword2" name="password2" required aria-hidden="true"/>
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            
+                            <button type="submit" class="reset-btn" id="resetpassword-btn">
+                            &nbsp; OK </button>
+
+
+                        </div>
+                    </form>
+                </div>
+                
+                <script>         
+                    $( "#renewPswdDialog" ).submit(function( e ) {
+                        console.log("reset password")
+                        
+                        var x0 = {% if username == None %}''{% else %}document.forms["renewPswdDialogForm"]["npassword0"].value{% endif %};
+                        var x = document.forms["renewPswdDialogForm"]["npassword"].value;
+                        var x2 = document.forms["renewPswdDialogForm"]["npassword2"].value;
+                        e.preventDefault(); 
+                        if (x == null || x == "" || x != x2) {
+                            $('.log-status').addClass('wrong-entry');
+                            $('.log-btn').addClass('wrong-entry');
+                            
+                            setTimeout("$('.alert').fadeOut(1500);", 3000);
+                            return false;
+                        }
+                        
+                        
+
+                        var values = {};
+                        values['csrfmiddlewaretoken']=$('input[name=csrfmiddlewaretoken]').val()
+                        values['token'] = "{{token}}"
+                        values['password'] = x
+                        values['password0'] = x0
+                    
+                        $.post("{% url 'euro:changeResestPassword' %}", values, 
+                               
+                               function (data, textStatus, jqXHR) {
+                                    if (!data['success']) {
+                                        alert(data['error']);
+                                    }
+                            {% if username == None %}
+                                window.location.href = './home';
+                            {% else %}
+                                location.reload();    
+                            {% endif %}
+                                }
+                           , 'json').error(formSave.error); // making ajax post
+                    return false;
+                    });
+
+                </script>
+                
+            </div>
+
+        </div>
+    </div>
+    
     
     
     

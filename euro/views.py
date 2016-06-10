@@ -21,7 +21,7 @@ from django.core.mail import send_mail
 from datetime import timedelta
 from django.core.signing import Signer, BadSignature
 from urllib import quote, unquote
-from  django.contrib.auth.hashers import make_password
+from  django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 
@@ -33,8 +33,8 @@ def changeResestPassword(request):
             original = signer.unsign(token)
         except BadSignature:
             print("Tampering detected!")
-            return HttpResponseRedirect(reverse('euro:index'))
-        print 'reset password for ' + original + ' to "' +   request.POST['password'] +'"'
+            return JsonResponse({'error' : 'token expired'})
+        
         user = User.objects.filter(username=original).get()
         newPass = request.POST['password']
         user.password = make_password(newPass)
@@ -44,7 +44,19 @@ def changeResestPassword(request):
         request.session['member_id'] = user.id
         request.session['username'] = user.username
         return JsonResponse({'success' : 'password changed for ' + user.username})
-   
+    else:
+        if request.user.is_authenticated():
+            me = request.user
+            if check_password(request.POST['password0'], me.password):
+                newPass = request.POST['password']
+                me.password = make_password(newPass)
+                me.save()
+                me = authenticate(username=me.username, password=newPass)
+                login(request, me)
+                return JsonResponse({'success' : 'password changed for ' + me.username})
+            else:
+                return JsonResponse({'error' : 'current password doesn\'t match'})
+            
     return JsonResponse({'error' : 'password not changed'})
 
 def changePassword(request):
