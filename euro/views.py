@@ -144,7 +144,7 @@ def view_member(request, mid):
     
     user.pts = pronostics_set.aggregate(pts=Sum('points'))['pts']
 
-    latest_pronostics = pronostics_set.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
+    latest_pronostics = pronostics_set.filter(match__date__lte=datetime.now()).order_by('-match__date')[:5]
     
     resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').all()
     for res in resultats_set :
