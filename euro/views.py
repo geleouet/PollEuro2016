@@ -224,7 +224,7 @@ def classement(request):
         user = None
         self_user = None
 
-    users = Member.objects.annotate(score=Sum('pronostic__points')).annotate(nb=Count('pronostic')).select_related('user').select_related('team').order_by('-score').all()
+    users = Member.objects.annotate(score=Sum('pronostic__points')).annotate(nb=Count('pronostic')).select_related('user').select_related('team').order_by( (0 * F('score'))).order_by('user').all()
     
     context = {
         'users': users,

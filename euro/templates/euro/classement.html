@@ -65,26 +65,26 @@
                 <thead style="border-bottom: 2px solid #ddd">
                     <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Membre</th>
                     <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Equipe</th>
-                    <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Score <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
+                    <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;" name="Score">Score<img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
                 </thead>
                 {% for user in users %}
                 <tr style="border-bottom: 1px solid #ddd;">
                     {% if user = self %}
                     <td style='padding: 15px;'><strong><span style="padding-left: 45px;padding-right: 15px;">
-                <a href="{% url 'euro:member_id' user.id %}"><img src="{{user|avatar}}" style="width:32px;height:32px;margin-right:10px"> {{user.user.username}}</a>
+                <a href="{% url 'euro:member_id' user.id %}"><img src="{{user|avatar}}" style="width:32px;height:32px;margin-right:10px"> {{user.user.username|capfirst}}</a>
                 </span></strong></td>
                     <td style='padding: 15px;'><strong><span style="padding-left: 15px;padding-right: 15px;">
                 {% if user.team %}<a href="{% url 'euro:team' user.team.id %}">{{user.team}}</a>{% endif %}
                 </span></strong></td>
-                    <td><span style="padding-left: 45px;padding-right: 15px;"><strong> {{user.score}} </strong></span></td>
+                    <td style="padding-left: 45px;padding-right: 15px;">{{user.score}}</td>
                     {% else %}
                     <td style='padding: 15px;'><span style="padding-left: 50px;padding-right: 15px;">
-                <a href="{% url 'euro:member_id' user.id %}"><img src="{{user|avatar}}" style="width:32px;height:32px;margin-right:10px">{{user.user.username}}</a>
+                <a href="{% url 'euro:member_id' user.id %}"><img src="{{user|avatar}}" style="width:32px;height:32px;margin-right:10px">{{user.user.username|capfirst  }}</a>
                 </span></td>
                     <td style='padding: 15px;'><span style="padding-left: 15px;padding-right: 15px;">
                 {% if user.team %}<a href="{% url 'euro:team' user.team.id %}">{{user.team}}</a>{% endif %}
                 </span></td>
-                    <td><span style="padding-left: 45px;padding-right: 15px;"> {% if user.score %}{{user.score}}{% else %}0{% endif %}</span></td>
+                    <td style="padding-left: 45px;padding-right: 15px;">{% if user.score %}{{user.score}}{% else %}0{% endif %}</td>
                     {% endif %}
                 </tr>
                 {% endfor %}

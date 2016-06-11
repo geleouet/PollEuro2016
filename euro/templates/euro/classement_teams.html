@@ -20,13 +20,13 @@
                     <a href="{% url 'euro:team' team.id %}">{{team.name}}</a>
                     {% endif %}
                     </span></td>
-                    <td><span style="padding-left: 45px;padding-right: 15px;"> 
+                    <td style="padding-left: 45px;padding-right: 15px;"> 
                         {% if team = self.team %}
-                        <strong>{{team.sc}}</strong>
+                        {{team.sc}}
                         {% else %}
                         {% if team.sc %}{{team.sc}}{% else %}0{% endif %}
                         {% endif %}
-                        </span></td>
+                        </td>
                 </tr>
                 {% endfor %}
             </table>

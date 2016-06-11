@@ -168,11 +168,17 @@ $(document).ready(function () {
 
     $('.popup').addClass('hidden')
 
-    $('#classement').dynatable();
+    $('#classement').dynatable({dataset: {
+        sortTypes: {
+          'score': 'number'
+        }
+      }});
     var dynatable = $('#classement').data('dynatable');
     if (dynatable) {
         dynatable.paginationPerPage.set(20); // Show 20 records per page
+        dynatable.sorts.add('score')
         dynatable.process();
+        
     }
 
 
