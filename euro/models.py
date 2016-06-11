@@ -32,7 +32,9 @@ class Rencontre(models.Model):
     date = models.DateTimeField()
     comment = models.CharField(max_length=200, null=True, blank=True)
     allowNull = models.BooleanField(default=True)
-    
+    class Meta:
+        ordering = ['date']
+        
     def passed(self):
         return self.date <= timezone.now()
     def __str__(self):
