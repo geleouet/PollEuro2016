@@ -146,7 +146,7 @@ def view_member(request, mid):
 
     latest_pronostics = pronostics_set.filter(match__date__lte=datetime.now()).order_by('-match__date')[:5]
     
-    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').all()
+    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').order_by('-match__date').all()
     for res in resultats_set :
         res.points = pronostics[res.match].points
         
@@ -200,7 +200,7 @@ def home(request):
 
     latest_pronostics = pronostics_set.filter(match__date__lte=datetime.now()).order_by('-match__date')[:5]
     
-    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').all()
+    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').order_by('-match__date').all()
     for res in resultats_set :
         res.points = pronostics[res.match].points
         

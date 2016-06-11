@@ -76,7 +76,7 @@
     {% for resultat in resultats_set %} 
     <div class="panel panel-default" id="section{{forloop.counter}}">
             <div class="panel-heading">
-                <span class="date-match">{{resultat.match.date |  date:'l d F Y'}}</span>
+                <span class="date-match">{{resultat.match.date |  date:'l d F Y - G:i'}}</span>
             </div>
 
             <div class="panel-body">
