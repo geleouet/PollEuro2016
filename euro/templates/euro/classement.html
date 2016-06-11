@@ -84,7 +84,7 @@
                     <td style='padding: 15px;'><span style="padding-left: 15px;padding-right: 15px;">
                 {% if user.team %}<a href="{% url 'euro:team' user.team.id %}">{{user.team}}</a>{% endif %}
                 </span></td>
-                    <td><span style="padding-left: 45px;padding-right: 15px;"> {{user.score}}</span></td>
+                    <td><span style="padding-left: 45px;padding-right: 15px;"> {% if user.score %}{{user.score}}{% else %}0{% endif %}</span></td>
                     {% endif %}
                 </tr>
                 {% endfor %}

@@ -22,9 +22,9 @@
                     </span></td>
                     <td><span style="padding-left: 45px;padding-right: 15px;"> 
                         {% if team = self.team %}
-                        <strong>{{team.score}}</strong>
+                        <strong>{{team.sc}}</strong>
                         {% else %}
-                        {{team.score}}
+                        {% if team.sc %}{{team.sc}}{% else %}0{% endif %}
                         {% endif %}
                         </span></td>
                 </tr>
