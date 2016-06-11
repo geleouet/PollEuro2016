@@ -32,7 +32,7 @@ h1, h2, h3, h4 {
 
 .pays {
     font-weight: bold;
-    min-width: 200px;
+    min-width: 150px;
     margin: 10px;
     display: inline-block;
 }
