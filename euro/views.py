@@ -224,8 +224,8 @@ def classement(request):
         user = None
         self_user = None
 
-    users = Member.objects.annotate(score=Sum('pronostic__points')).order_by('-score').all()
-
+    users = Member.objects.annotate(score=Sum('pronostic__points')).annotate(nb=Count('pronostic')).select_related('user').select_related('team').order_by('-score').all()
+    
     context = {
         'users': users,
         'self': user,
@@ -260,8 +260,8 @@ def classement_teams(request):
         user = None
         self_user = None
 
-    teams = sorted(Team.objects.all(), key=lambda team: team.score(), reverse = True)
-
+    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points')).order_by('sc').all()
+    
     context = {
         'teams': teams,
         'self': user,
@@ -494,8 +494,8 @@ def landinPage(request):
     else:
         user = None
 
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('-date')[:15]
-    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')[:15]
+    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
     pronostics = Pronostic.objects.filter(member__exact = user).all()
     context = {
         'latest_rencontre_list': latest_rencontre_list,
