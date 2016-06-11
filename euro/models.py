@@ -42,6 +42,10 @@ class Team(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField( null=True, blank=True, default= None)
 
+    def score(self):
+        if self.sc and self.nb:
+            return self.sc/self.nb
+        return 0
     def __str__(self):
         return self.name
     
