@@ -13,10 +13,10 @@
                 {% for team in teams %}
                 <tr style="border-bottom: 1px solid #ddd;">
                     {% if team = self.team %}
-                    <td style='padding: 15px;'><span style="padding-left: 45px;padding-right: 15px;">
+                    <td style='padding: 15px;'><span style="padding-left: 5px;padding-right: 15px;">
                         <strong><a href="{% url 'euro:team' team.id %}">{{team.name}}</a></strong>
                     {% else %}
-                    <td style='padding: 15px;'><span style="padding-left: 50px;padding-right: 15px;">
+                    <td style='padding: 15px;'><span style="padding-left: 15px;padding-right: 15px;">
                     <a href="{% url 'euro:team' team.id %}">{{team.name}}</a>
                     {% endif %}
                     </span></td>
