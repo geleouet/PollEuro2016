@@ -24,7 +24,7 @@
                         {% if team = self.team %}
                         {{team.sc}}
                         {% else %}
-                        {% if team.sc %}{{team.sc}}{% else %}0{% endif %}
+                        {% if team.sc %}{{team.sc|floatformat}}{% else %}0{% endif %}
                         {% endif %}
                         </td>
                 </tr>
