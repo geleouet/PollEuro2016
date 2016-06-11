@@ -90,6 +90,11 @@
                     
                     <span class='pays'>{{rencontre.pays2}}</span>
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"  class="drapeau"/> &nbsp;
+                    
+                    {% for i in pronostics|points:rencontre|get_range %}
+                    <img src="{% static 'euro/images/star.png' %}" alt="Euro 2016" height="32" />
+                    {% endfor %}
+                    
                 </div>
                 {% endif %} 
                 {% endfor %}
