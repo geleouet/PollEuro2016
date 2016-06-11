@@ -248,7 +248,7 @@ def team(request, mid):
         'users': users,
         'self': user,
         'username' : request.session.get('username', None),
-        'team': Team.objects.filter(id=mid).get(),
+        'team': Team.objects.filter(id=mid).annotate(sc=Sum('member__pronostic__points')).get(),
 
     }
     return render(request, 'euro/classement.html', context)
