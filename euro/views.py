@@ -137,7 +137,7 @@ def view_member(request, mid):
 
     user = Member.objects.filter(id=mid).get()
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')[:5]
-    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
     pronostics = pron.all()
     user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
@@ -188,7 +188,7 @@ def home(request):
 
     user =request.user.member
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related().order_by('date')[:5]
-    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
     pron = Pronostic.objects.filter(member__exact = user)
     pronostics = pron.all()
     user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
