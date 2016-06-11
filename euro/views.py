@@ -352,7 +352,7 @@ def next_matchs(request):
         user = None
 
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')
-    latest_rencontre_date = sorted(set(map(lambda r: r.date ,latest_rencontre_list)))
+    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))  
     pronostics = Pronostic.objects.filter(member__exact = user).select_related().all()
     context = {
         'latest_rencontre_list': latest_rencontre_list,
