@@ -189,14 +189,21 @@ def home(request):
     user =request.user.member
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related().order_by('date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
-    pron = Pronostic.objects.filter(member__exact = user)
-    pronostics = pron.all()
-    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
+    
+    pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
+    pronostics = {x.match: x for x in pronostics_set}
+    
+    user.pts = pronostics_set.aggregate(pts=Sum('points'))['pts']
 
-    latest_pronostics = pron.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
-    resultats = Resultat.objects.filter(match__in=pron.values_list('match', flat=True)).all()
-    for res in resultats :
-        res.points = pronostics.filter(match__exact=res.match).get().points
+    latest_pronostics = pronostics_set.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
+    
+    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').all()
+    for res in resultats_set :
+        res.points = pronostics[res.match].points
+        
+    resultats = {r.match : r for r in resultats_set}
+    
+    
     print 'email' + user.user.email
 
 
@@ -207,6 +214,7 @@ def home(request):
         'username' : request.session.get('username', None),
         'latest_rencontre_list' : latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
+        'resultats_set': resultats_set,
         'pronostics':pronostics,
         'latest_pronostics':latest_pronostics,
         'resultats':resultats,
@@ -333,9 +341,10 @@ def index(request):
     else:
         user = None
 
-    tag_list = Tag.objects.filter(enabled__exact=True).select_related().annotate(maxDate=Max('rencontre__date')).order_by('sort_id').all()
+    tag_list = Tag.objects.filter(enabled__exact=True).prefetch_related('rencontre_set__resultat').prefetch_related('rencontre_set__pays1').prefetch_related('rencontre_set__pays2').annotate(maxDate=Max('rencontre__date')).order_by('sort_id').all()
 
-    pronostics = Pronostic.objects.filter(member__exact = user).all()
+    pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
+    pronostics = {x.match: x for x in pronostics_set}
     context = {
         'tag_list': tag_list,
         'username' : request.session.get('username', None),
@@ -351,9 +360,10 @@ def next_matchs(request):
     else:
         user = None
 
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related('pays1').select_related('pays2').order_by('date')
     latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))  
-    pronostics = Pronostic.objects.filter(member__exact = user).select_related().all()
+    pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
+    pronostics = {x.match: x for x in pronostics_set}
     context = {
         'latest_rencontre_list': latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
@@ -494,9 +504,11 @@ def landinPage(request):
     else:
         user = None
 
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')[:15]
-    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
-    pronostics = Pronostic.objects.filter(member__exact = user).all()
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related('pays1').select_related('pays2').order_by('date')
+    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))  
+    pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
+    pronostics = {x.match: x for x in pronostics_set}
+    
     context = {
         'latest_rencontre_list': latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,

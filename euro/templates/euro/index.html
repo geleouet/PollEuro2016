@@ -16,7 +16,7 @@
         </div>
         <div id="collapse{{forloop.counter}}" class="panel-collapse collapse {% if forloop.first %}in{% endif %}">
             <div class="panel-body">
-                {% for rencontre in ctag.matchs %}
+                {% for rencontre in ctag.rencontre_set.all %}
                         <script type="text/javascript">
                             formSave.fields['score_{{rencontre.id}}_1']= "score_{{rencontre.id}}_1"
                             formSave.fields['score_{{rencontre.id}}_2']= "score_{{rencontre.id}}_2"
@@ -31,7 +31,7 @@
 
 
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" class="drapeau"/>
-                    {% if rencontre.result.winner == 1 %}
+                    {% if rencontre.resultat.winner == 1 %}
                     <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     {% endif %}
                     <span class='pays'>{{rencontre.pays1}}</span>
@@ -50,7 +50,7 @@
                     {% endif %}
 
                     {% if rencontre.passed %}
-                        <span style="padding: 10px;"><big><strong>{{rencontre.result.score1}} - {{rencontre.result.score2}}</strong></big></span>
+                        <span style="padding: 10px;"><big><strong>{{rencontre.resultat.score1}} - {{rencontre.resultat.score2}}</strong></big></span>
                     {% else %}
                         <span class="date-match">{{rencontre.date|  date:'d F Y'}}</span>
                     {% endif %}
@@ -94,7 +94,7 @@
                     {% endif %}
 
                     <span class='pays' style='text-align:right;'>{{rencontre.pays2}}</span>
-                    {% if rencontre.result.winner == 2 %}
+                    {% if rencontre.resultat.winner == 2 %}
                     <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     {% endif %}
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"  class="drapeau"/> &nbsp;

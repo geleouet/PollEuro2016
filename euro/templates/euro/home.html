@@ -73,7 +73,7 @@
 <h2>Derniers matchs:</h2>
 <div class="col-sm-11">
     
-    {% for resultat in resultats %} 
+    {% for resultat in resultats_set %} 
     <div class="panel panel-default" id="section{{forloop.counter}}">
             <div class="panel-heading">
                 <span class="date-match">{{resultat.match.date |  date:'l d F Y'}}</span>

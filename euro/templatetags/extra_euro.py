@@ -9,26 +9,26 @@ register = template.Library()
 
 def score1(value, arg):
     try :
-        return value.get(match__exact=arg).score1
+        return value[arg].score1
     except (KeyError, ObjectDoesNotExist) :
         return None
 
 
 def score2(value, arg):
     try :
-        return value.get(match__exact=arg).score2
+        return value[arg].score2
     except (KeyError, ObjectDoesNotExist) :
         return None
 
 def points(value, arg):
     try :
-        return value.get(match__exact=arg).points
+        return value[arg].points
     except (KeyError, ObjectDoesNotExist) :
         return None
     
 def winner(value, arg):
     try :
-        return value.get(match__exact=arg).winner
+        return value[arg].winner
     except (KeyError, ObjectDoesNotExist) :
         return None    
     
@@ -41,7 +41,10 @@ def avatar(value):
     
 @register.filter
 def get_range( value ):
-  """
+    if (value):
+        return range(value)
+    return range(0)
+    """
     Filter - returns a list containing range made from given value
     Usage (in template):
 
@@ -57,9 +60,9 @@ def get_range( value ):
     </ul>
 
     Instead of 3 one may use the variable set in the views
-  """
-  return range( value )    
-    
+    """
+ 
+
 register.filter('score1', score1)
 register.filter('score2', score2)
 register.filter('points', points)

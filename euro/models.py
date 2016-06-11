@@ -23,8 +23,6 @@ class Tag(models.Model):
     sort_id = models.IntegerField(default = 0)
     def __str__(self):
         return self.name
-    def matchs(self):
-        return Rencontre.objects.filter(tag=self).order_by('date').all()
 
 @python_2_unicode_compatible
 class Rencontre(models.Model):
@@ -35,18 +33,8 @@ class Rencontre(models.Model):
     comment = models.CharField(max_length=200, null=True, blank=True)
     allowNull = models.BooleanField(default=True)
     
-    result_cache = None
-    result_cached = False
-    
     def passed(self):
         return self.date <= timezone.now()
-    def result(self):
-        if self.result_cached :
-            return self.result_cache
-        else :
-            self.result_cache = Resultat.objects.filter(match=self).get()
-            self.result_cached = True
-            return self.result_cache
     def __str__(self):
         return self.pays1.nom + ' - ' + self.pays2.nom + '('+self.date.isoformat()+')'
 
