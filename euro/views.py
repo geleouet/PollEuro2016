@@ -136,19 +136,21 @@ def view_member(request, mid):
         me = None
 
     user = Member.objects.filter(id=mid).get()
-    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).order_by('date')[:5]
+    latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related().order_by('date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
-    pron = Pronostic.objects.filter(member__exact = user)
-    pronostics = pron.all()
-    user.pts = pron.exclude(points__exact=-1).aggregate(pts=Sum('points'))['pts']
+    
+    pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
+    pronostics = {x.match: x for x in pronostics_set}
+    
+    user.pts = pronostics_set.aggregate(pts=Sum('points'))['pts']
 
-    latest_pronostics = pron.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
-    resultats = Resultat.objects.filter(match__in=pron.values_list('match', flat=True)).all()
-    for res in resultats :
-        res.points = pronostics.filter(match__exact=res.match).get().points
-    print resultats
-    print me
-    print user
+    latest_pronostics = pronostics_set.filter(match__date__gte=datetime.now()).order_by('-match__date')[:5]
+    
+    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').all()
+    for res in resultats_set :
+        res.points = pronostics[res.match].points
+        
+    resultats = {r.match : r for r in resultats_set}
 
 
     context = {
@@ -158,6 +160,7 @@ def view_member(request, mid):
         'username' : request.session.get('username', None),
         'latest_rencontre_list' : latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
+        'resultats_set': resultats_set,
         'pronostics':pronostics,
         'latest_pronostics':latest_pronostics,
         'resultats':resultats,
@@ -202,10 +205,6 @@ def home(request):
         res.points = pronostics[res.match].points
         
     resultats = {r.match : r for r in resultats_set}
-    
-    
-    print 'email' + user.user.email
-
 
     context = {
         'user': user,
