@@ -242,7 +242,7 @@ def team(request, mid):
         user = None
         self_user = None
 
-    users = Member.objects.filter(team_id=mid).annotate(score=Sum('pronostic__points')).order_by('-score').all()
+    users = Member.objects.filter(team_id=mid).select_related('user').annotate(score=Sum('pronostic__points')).order_by('-score').all()
 
     context = {
         'users': users,
