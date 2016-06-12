@@ -6,17 +6,10 @@
 
 
 {% block form %}
+
 <ul>
-    {% for test in questionnaire_list %}
-        <li>
-            <h1>{{test}}</h1><br>
-                <h2>Liste des réponse</h2>
-            {% for test1 in choices %}
-                <ul>
-                    <li>{{test1}}</li>
-                </ul>
-            {% endfor %}
-        </li>
+    {% for key, match in rencontre2.item %}:
+        <li>{{match}}</li>
     {% endfor %}
 </ul>
 {% endblock %}
