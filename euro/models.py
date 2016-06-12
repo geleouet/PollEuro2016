@@ -37,6 +37,10 @@ class Rencontre(models.Model):
         
     def passed(self):
         return self.date <= timezone.now()
+
+    def all_polls(self):
+        self.pollchoices_set.all()
+
     def __str__(self):
         return self.pays1.nom + ' - ' + self.pays2.nom + '('+self.date.isoformat()+')'
 

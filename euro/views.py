@@ -34,7 +34,7 @@ def changeResestPassword(request):
         except BadSignature:
             print("Tampering detected!")
             return JsonResponse({'error' : 'token expired'})
-        
+
         user = User.objects.filter(username=original).get()
         newPass = request.POST['password']
         user.password = make_password(newPass)
@@ -56,7 +56,7 @@ def changeResestPassword(request):
                 return JsonResponse({'success' : 'password changed for ' + me.username})
             else:
                 return JsonResponse({'error' : 'current password doesn\'t match'})
-            
+
     return JsonResponse({'error' : 'password not changed'})
 
 def changeEmail(request):
@@ -64,7 +64,7 @@ def changeEmail(request):
         me = request.user
         me.email=request.POST['email']
         me.save()
-        
+
         return JsonResponse({'success' : 'email changed for ' + me.username + '->' + request.POST['email']})
     return JsonResponse({'error' : 'user not authenticated'})
 
@@ -80,7 +80,7 @@ def changePassword(request):
             'username' : request.session.get('username', None),
         }
         return render(request, 'euro/resetPassword.html', context)
-   
+
     return HttpResponseRedirect(reverse('euro:index'))
 
 def resetPassword(request):
@@ -92,16 +92,16 @@ def resetPassword(request):
         except BadSignature:
             print("Tampering detected!")
             return HttpResponseRedirect(reverse('euro:index'))
-        print 'reset password for ' + original    
+        print 'reset password for ' + original
         user = User.objects.filter(username=original).get()
         context = {
             'user': user,
             'token': token,
         }
         return render(request, 'euro/resetPassword.html', context)
-   
+
     return HttpResponseRedirect(reverse('euro:index'))
-    
+
 
 def reset(request):
     try:
@@ -118,9 +118,9 @@ def reset(request):
         msg +=link
         msg +='\n'
         send_mail('[Pronostic-euro206] Password change request', msg, 'contact@pronostic-euro2016.eu', [mail], fail_silently=False)
-    
+
         return JsonResponse({'success' : ('email sent to ' + mail + ";" + link)})
-        
+
     except ObjectDoesNotExist:
         return JsonResponse({'error' : 'invalid user name'})
 
@@ -138,18 +138,18 @@ def view_member(request, mid):
     user = Member.objects.filter(id=mid).get()
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related().order_by('date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
-    
+
     pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
     pronostics = {x.match: x for x in pronostics_set}
-    
+
     user.pts = pronostics_set.aggregate(pts=Sum('points'))['pts']
 
     latest_pronostics = pronostics_set.filter(match__date__lte=datetime.now()).order_by('-match__date')[:5]
-    
+
     resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').order_by('-match__date').all()
     for res in resultats_set :
         res.points = pronostics[res.match].points
-        
+
     resultats = {r.match : r for r in resultats_set}
 
 
@@ -192,18 +192,18 @@ def home(request):
     user =request.user.member
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related().order_by('date')[:5]
     latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
-    
+
     pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
     pronostics = {x.match: x for x in pronostics_set}
-    
+
     user.pts = pronostics_set.aggregate(pts=Sum('points'))['pts']
 
     latest_pronostics = pronostics_set.filter(match__date__lte=datetime.now()).order_by('-match__date')[:5]
-    
+
     resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').order_by('-match__date').all()
     for res in resultats_set :
         res.points = pronostics[res.match].points
-        
+
     resultats = {r.match : r for r in resultats_set}
 
     context = {
@@ -232,7 +232,7 @@ def classement(request):
         self_user = None
 
     users = Member.objects.annotate(score=Sum('pronostic__points')).annotate(nb=Count('pronostic')).select_related('user').select_related('team').order_by( (0 * F('score'))).order_by('score').all()
-    
+
     context = {
         'users': users,
         'self': user,
@@ -268,7 +268,7 @@ def classement_teams(request):
         self_user = None
 
     teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True)).order_by('-sc').all()
-    
+
     context = {
         'teams': teams,
         'self': user,
@@ -360,7 +360,7 @@ def next_matchs(request):
         user = None
 
     latest_rencontre_list = Rencontre.objects.select_related('pays1').select_related('pays2').order_by('date')
-    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))  
+    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
     pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
     pronostics = {x.match: x for x in pronostics_set}
     context = {
@@ -422,7 +422,7 @@ def save(request):
                 rencontre = Rencontre.objects.get(pk=item[0])
                 if rencontre.passed():
                     pass
-                else:    
+                else:
                     try :
                         if rencontre.resultat:
                             continue
@@ -504,10 +504,10 @@ def landinPage(request):
         user = None
 
     latest_rencontre_list = Rencontre.objects.filter(date__gte=datetime.now()).select_related('pays1').select_related('pays2').order_by('date')
-    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))  
+    latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
     pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
     pronostics = {x.match: x for x in pronostics_set}
-    
+
     context = {
         'latest_rencontre_list': latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
