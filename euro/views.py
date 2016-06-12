@@ -535,16 +535,35 @@ def displaypolls(request):
     else:
         user = None
 
-    questionnaire_list = MatchPool.objects.all()
+    rencontre = Rencontre.objects.all()
+    rencontre2 = {}
+    i = 1
+    for match in rencontre:
+        match_complet = MatchPool.objects.filter(match = match)
+        match.MatchPool = match_complet
 
-    choices = PollChoices.objects.all()
+        for question in match_complet:
+            choix = PollChoices.objects.filter(poll = question)
+            match.MatchPool.PollChoices = choix
 
-    context = {
-        'questionnaire_list': questionnaire_list,
-        'choices': choices,
-    }
+        rencontre2[i] = match
+        i+=1
+
+    context = rencontre2
+    print "Nombre de Rencobtre", type(rencontre)
+    i = 1
+    for key, match in rencontre2.items():
+
+        print "Le match " + str(i) + " : ", match
+        i += 1
+        if hasattr(match, 'MatchPool'):
+            print "Les questions: ", match.MatchPool
+
+            if hasattr(match.MatchPool, 'MatchPool'):
+                print "Les reponses", match.MatchPool.PollChoices
 
     return render(request, 'euro/questionderives.html', context)
+
 
 def logout_view(request):
     try:
