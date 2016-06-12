@@ -1,0 +1,9 @@
+{% extends 'euro/base.html' %} {% load static %} {% load extra_euro %} {% block form %}
+
+{% for res in rencontre_set %}
+<div>
+<p>{{res}}{{res.res}}</p>
+
+</div>
+{% endfor %}
+{% endblock %}

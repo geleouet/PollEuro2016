@@ -22,6 +22,7 @@ from datetime import timedelta
 from django.core.signing import Signer, BadSignature
 from urllib import quote, unquote
 from  django.contrib.auth.hashers import make_password, check_password
+from django.utils import timezone
 
 # Create your views here.
 
@@ -184,7 +185,25 @@ def faq(request):
     }
     return render(request, 'euro/faq.html', context)
 
-
+def resultat(request):
+    if request.user.is_authenticated() == False:
+        return index(request)
+    if not request.user.is_staff:
+        return index(request)
+    user = request.user.member
+    
+    rencontre_set = Rencontre.objects.filter(date__lte = timezone.now()).annotate(res=Count('resultat')).filter(res__lt=1).order_by('date').all();
+    
+    context = {
+        'self': user,
+        'username' : request.session.get('username', None),
+        'rencontre_set':rencontre_set,
+    }
+    
+    return render(request, 'euro/resultat.html', context)
+    
+    
+    
 def home(request):
     if request.user.is_authenticated() == False:
         return index(request)

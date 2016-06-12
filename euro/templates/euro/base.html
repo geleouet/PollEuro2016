@@ -58,6 +58,7 @@
                 <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Equipes</a></li>
                 <li class="{% active request 'euro:faq' %}"><a href="{% url 'euro:faq' %}">FAQ</a></li>
                 <li class="{% active request 'euro:aboutus' %}"><a href="{% url 'euro:aboutus' %}">A propos</a></li>
+                {% if self.user.is_staff %}<li class="{% active request 'euro:resultat' %}"><a href="{% url 'euro:resultat' %}">Admin</a></li>{% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if username %}
@@ -630,16 +631,19 @@
         {% block content %} {% endblock %}
     
 
-    <nav class="navbar navbar-fixed-bottom popup">
+    <nav class="navbar navbar-fixed-bottom popup fade in">
+        <nav class="navbar navbar-fixed-bottom popup">
         <div class="container-fluid popup">
             <div class="navbar-header">
                 <span class="navbar-brand center">Some changes have not been saved</span>
             </div>
             <div class="navbar-header navbar-right">
-                <button type="submit" class="navbar-brand center" id="log-btn"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                <button type="submit" style="margin:5px;" class="navbar-brand center btn btn-warning" id="log-btn"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
             </div>
         </div>
-
+        
+        
+        
     </nav>
 
 </form>

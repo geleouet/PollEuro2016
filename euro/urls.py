@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^changeResestPassword$', views.changeResestPassword, name='changeResestPassword'),
     url(r'^changePassword$', views.changePassword, name='changePassword'),
     url(r'^changeEmail$', views.changeEmail, name='changeEmail'),
+    url(r'^resultat$', views.resultat, name='resultat'),
    
     url(r'^landing$', views.landinPage, name='landingpage'),
 
