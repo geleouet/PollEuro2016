@@ -58,7 +58,7 @@
                 <li class="{% active request 'euro:teams' %}"><a href="{% url 'euro:teams' %}">Equipes</a></li>
                 <li class="{% active request 'euro:faq' %}"><a href="{% url 'euro:faq' %}">FAQ</a></li>
                 <li class="{% active request 'euro:aboutus' %}"><a href="{% url 'euro:aboutus' %}">A propos</a></li>
-                <li class="{% active request 'euro:question' %}"><a href="{% url 'euro:question' %}">derives</a></li>
+                {% if self.user.is_staff %}<li class="{% active request 'euro:question' %}"><a href="{% url 'euro:question' %}">derives</a></li>{% endif %}
 
                 {% if self.user.is_staff %}<li class="{% active request 'euro:resultat' %}"><a href="{% url 'euro:resultat' %}">Admin</a></li>{% endif %}
             </ul>
