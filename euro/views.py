@@ -185,6 +185,16 @@ def faq(request):
     }
     return render(request, 'euro/faq.html', context)
 
+
+def saveresultat(request):
+    if request.user.is_authenticated() == False:
+        return JsonResponse({'error' : 'user not authenticated'})
+    if not request.user.is_staff:
+        return JsonResponse({'error' : 'user not authenticated'})
+    Resultat.objects.create(match=Rencontre.objects.get(pk=request.POST['match']), score1=request.POST['score1'], score2=request.POST['score2'], winner = request.POST['winner'])
+    return JsonResponse({'success' : 'reqult saved'})
+    
+
 def resultat(request):
     if request.user.is_authenticated() == False:
         return index(request)
@@ -363,10 +373,21 @@ def index(request):
 
     pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
     pronostics = {x.match: x for x in pronostics_set}
+    
+    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').order_by('-match__date').all()
+    for res in resultats_set :
+        res.points = pronostics[res.match].points
+
+    resultats = {r.match : r for r in resultats_set}
+
+    
     context = {
         'tag_list': tag_list,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
+        'pronostics_set':pronostics_set,
+        'resultats_set': resultats_set,
+        'resultats':resultats,
         'self':user,
     }
     return render(request, 'euro/index.html', context)
@@ -382,11 +403,21 @@ def next_matchs(request):
     latest_rencontre_date = sorted(set(map(lambda r: r.date.date() ,latest_rencontre_list)))
     pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
     pronostics = {x.match: x for x in pronostics_set}
+    
+    resultats_set = Resultat.objects.filter(match__in=pronostics_set.values_list('match', flat=True)).select_related('match__pays1').select_related('match__pays2').order_by('-match__date').all()
+    for res in resultats_set :
+        res.points = pronostics[res.match].points
+
+    resultats = {r.match : r for r in resultats_set}
+
+    
     context = {
         'latest_rencontre_list': latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
         'username' : request.session.get('username', None),
         'pronostics':pronostics,
+        'resultats_set': resultats_set,
+        'resultats':resultats,
         'self':user,
     }
     return render(request, 'euro/nexts.html', context)
@@ -528,6 +559,7 @@ def landinPage(request):
     pronostics = {x.match: x for x in pronostics_set}
 
     context = {
+        'self': user,
         'latest_rencontre_list': latest_rencontre_list,
         'latest_rencontre_date': latest_rencontre_date,
         'username' : request.session.get('username', None),

@@ -1,9 +1,86 @@
-{% extends 'euro/base.html' %} {% load static %} {% load extra_euro %} {% block form %}
-
-{% for res in rencontre_set %}
+{% extends 'euro/base.html' %} {% load static %} {% load extra_euro %} {% block form %} {% for rencontre in rencontre_set %}
 <div>
-<p>{{res}}{{res.res}}</p>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span>{{rencontre.date| date:'l d F Y - G:i' }}</span>
+        </div>
 
-</div>
-{% endfor %}
-{% endblock %}
+        <div class="panel-body">
+            <form class="form-inline" role="form" id="rencontre_{{rencontre.id}}">
+                {% csrf_token %}
+                <div>
+                    <div class="form-group">
+                        <label for="score1_{{rencontre.id}}"><img src="{% static 'euro/flags/' %}{{rencontre.pays1.icone}}.png" alt="{{rencontre.pays1}}" class="drapeau" />
+                            <span class='pays'>{{rencontre.pays1}}</span></label>
+                        <input type="number" class="form-control" id="score1_{{rencontre.id}}">
+                    </div>
+                    {% if not rencontre.allowNull %}
+                    <div class="form-group">
+                        &nbsp;
+                        <input id="null_{{rencontre.id}}" type="checkbox">
+                        <label class="checkbox" for="null_{{rencontre.id}}"> Null </label>
+                        &nbsp;
+                    </div>
+                    {% else %}
+                    <span> - </span>
+                    {% endif %}
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="score2_{{rencontre.id}}">
+                        <label for="score2_{{rencontre.id}}"><span class='pays'>{{rencontre.pays2}}</span>
+                            <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}" class="drapeau" /></label>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+
+
+
+
+
+        <script>
+            $("#rencontre_{{rencontre.id}}").submit(function (e) {
+                console.log("submit score")
+
+                e.preventDefault();
+                
+
+                var values = {};
+                values['csrfmiddlewaretoken'] = $('input[name=csrfmiddlewaretoken]').val()
+                values['score1'] = $("#score1_{{rencontre.id}}").val()
+                values['score2'] = $("#score2_{{rencontre.id}}").val()
+                
+                if (values['score1'] > values['score2']) {
+                    values['winner'] = 1
+                }
+                else if (values['score1'] < values['score2']) {
+                    values['winner'] = 2
+                }
+                else {
+                    values['winner'] = -1
+                }
+                
+                values['match'] = {{rencontre.id}}
+                values['isNull'] = $("#null_{{rencontre.id}}").is(':checked')
+
+                console.log(values)
+                
+                $.post("{% url 'euro:saveresultat' %}", values,
+
+                    function (data, textStatus, jqXHR) {
+                        if (!data['success']) {
+                            alert(data['error']);
+                        }
+                        else {
+                            location.reload();
+                        }
+                    }, 'json').error(formSave.error); // making ajax post
+                return false;
+            });
+        </script>
+
+
+    </div>
+    {% endfor %} {% endblock %}

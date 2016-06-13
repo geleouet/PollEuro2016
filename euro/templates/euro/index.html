@@ -100,7 +100,7 @@
                     <img src="{% static 'euro/flags/' %}{{rencontre.pays2.icone}}.png" alt="{{rencontre.pays2}}"  class="drapeau"/> &nbsp;
 
                     {% if rencontre.passed %}
-                    {% for pron in pronostics %}
+                    {% for pron in pronostics_set %}
                         {% if pron.match == rencontre %}
                         {% for i in pron.points|get_range %}
                         <img src="{% static 'euro/images/star.png' %}" alt="Euro 2016" height="32" />
@@ -108,6 +108,8 @@
                         {% endif %}
                     {% endfor %}
 
+                    
+                    
                     {% endif %}
 
                 </div>
