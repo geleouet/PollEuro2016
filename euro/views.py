@@ -279,17 +279,22 @@ def team(request, mid):
         self_user = None
 
     users = Member.objects.filter(team_id=mid).select_related('user').annotate(score=Sum('pronostic__points')).order_by('-score').all()
+    team = Team.objects.filter(id=mid).annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True)).get()
 
+    teamExt = team.member_set.annotate(pts=Sum('pronostic__points')).aggregate(minp=Min('pts'), maxp=Max('pts'))
+    team.minp = teamExt['minp']
+    team.maxp = teamExt['maxp']
+    
     context = {
         'users': users,
         'self': user,
         'username' : request.session.get('username', None),
-        'team': Team.objects.filter(id=mid).annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points'), minp=Max('member__pronostic__points')).get(),
+        'team': team,
 
     }
     return render(request, 'euro/classement.html', context)
 
-def classement_teams(request):
+def classement_teams2(request):
     if request.user.is_authenticated():
         user = request.user.member
     else:
@@ -306,7 +311,7 @@ def classement_teams(request):
     return render(request, 'euro/classement_teams.html', context)
 
 
-def classement_teams2(request):
+def classement_teams(request):
     if request.user.is_authenticated():
         user = request.user.member
     else:
