@@ -296,7 +296,7 @@ def classement_teams(request):
         user = None
         self_user = None
 
-    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points'), minp=Max('member__pronostic__points')).order_by('-sc').all()
+    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points'), minp=Min('member__pronostic__points')).order_by('-sc').all()
 
     context = {
         'teams': teams,
@@ -313,14 +313,14 @@ def classement_teams2(request):
         user = None
         self_user = None
 
-    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points'), minp=Max('member__pronostic__points')).order_by('-sc').all()
+    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points'), minp=Min('member__pronostic__points')).order_by('-sc').all()
 
     context = {
         'teams': teams,
         'self': user,
         'username' : request.session.get('username', None),
     }
-    return render(request, 'euro/classement_teams.html', context)
+    return render(request, 'euro/classement_teams2.html', context)
 
 
 def change_team(request):

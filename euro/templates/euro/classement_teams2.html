@@ -22,9 +22,9 @@
                     </span></td>
                     <td style="padding-left: 45px;padding-right: 15px;"> 
                         {% if team = self.team %}
-                        {{team.score}}
+                        {{team.score2}}-{{team.minp}}-{{team.maxp}}-{{team.nb}}
                         {% else %}
-                        {% if team.score2 %}{{team.score2}}{% else %}0{% endif %}
+                        {% if team.score2 %}{{team.score2}}-{{team.minp}}-{{team.maxp}}-{{team.nb}}{% else %}0{% endif %}
                         {% endif %}
                         </td>
                 </tr>
