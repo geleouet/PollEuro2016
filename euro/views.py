@@ -313,7 +313,7 @@ def classement_teams2(request):
         user = None
         self_user = None
 
-    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points'), minp=Min('member__pronostic__points')).order_by('-sc').all()
+    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points', distinct = True), minp=Min('member__pronostic__points', distinct = True)).order_by('-sc').all()
 
     context = {
         'teams': teams,

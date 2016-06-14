@@ -59,8 +59,8 @@ class Team(models.Model):
     def score2(self):
         if self.sc and self.nb:
             if self.nb>1:
-                return (self.sc)/(self.nb)
-                #return (4*((self.sc-self.minp)/(self.nb-1)) + self.maxp)/5
+                #return (self.sc)/(self.nb)
+                return (4*((self.sc-self.minp)/(self.nb-1)) + self.maxp)/5
             else :
                 return self.sc
         return 0
