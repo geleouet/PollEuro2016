@@ -59,12 +59,12 @@ class Team(models.Model):
     def score2(self):
         if self.sc and self.nb:
             if self.nb>3:
-                return (4*((self.sc-self.minp)/(self.nb-1)) + self.maxp)/5 +(self.nb -1)/2
+                return (4*((self.sc-self.minp)/(self.nb-1)) + self.maxp)/5 +(self.nb -1)
             elif self.nb>2:
                 #return (self.sc)/(self.nb)
-                return (9*((self.sc-self.minp)/(self.nb-1)) + self.maxp)/10 +(self.nb -1)/2
+                return (9*((self.sc-self.minp)/(self.nb-1)) + self.maxp)/10 +(self.nb -1)
             else :
-                return (self.sc)/(self.nb) +(self.nb -1)/2
+                return (self.sc)/(self.nb) +(self.nb -1)
         return 0
     def __str__(self):
         return self.name
