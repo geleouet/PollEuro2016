@@ -192,7 +192,7 @@ def saveresultat(request):
     if not request.user.is_staff:
         return JsonResponse({'error' : 'user not authenticated'})
     Resultat.objects.create(match=Rencontre.objects.get(pk=request.POST['match']), score1=request.POST['score1'], score2=request.POST['score2'], winner = request.POST['winner'])
-    return JsonResponse({'success' : 'reqult saved'})
+    return JsonResponse({'success' : 'result saved'})
     
 
 def resultat(request):
