@@ -306,6 +306,23 @@ def classement_teams(request):
     return render(request, 'euro/classement_teams.html', context)
 
 
+def classement_teams2(request):
+    if request.user.is_authenticated():
+        user = request.user.member
+    else:
+        user = None
+        self_user = None
+
+    teams = Team.objects.prefetch_related('member_set__pronostic_set').annotate(sc=Sum('member__pronostic__points'), nb=Count('member', distinct = True), maxp=Max('member__pronostic__points'), minp=Max('member__pronostic__points')).order_by('-sc').all()
+
+    context = {
+        'teams': teams,
+        'self': user,
+        'username' : request.session.get('username', None),
+    }
+    return render(request, 'euro/classement_teams.html', context)
+
+
 def change_team(request):
     if request.user.is_authenticated():
         user = request.user.member

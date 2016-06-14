@@ -1,0 +1,35 @@
+{% extends 'euro/base.html' %} {% load static %} {% load extra_euro %}
+{% block form %}
+
+
+<div class="panel-group" style="overflow-x:auto;">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table id="classement" style="width:100%">
+                <thead style="border-bottom: 2px solid #ddd">                    
+                    <th style="vertical-align: center;padding-top: 2px;padding-left: 15px;padding-right: 15px;">Equipe</th>
+                    <th style="vertical-align: center;padding-left: 15px;padding-right: 15px;">Score <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" /></th>
+                </thead>
+                {% for team in teams %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    {% if team = self.team %}
+                    <td style='padding: 15px;'><span style="padding-left: 5px;padding-right: 15px;">
+                        <strong><a href="{% url 'euro:team' team.id %}">{{team.name}}</a></strong>
+                    {% else %}
+                    <td style='padding: 15px;'><span style="padding-left: 15px;padding-right: 15px;">
+                    <a href="{% url 'euro:team' team.id %}">{{team.name}}</a>
+                    {% endif %}
+                    </span></td>
+                    <td style="padding-left: 45px;padding-right: 15px;"> 
+                        {% if team = self.team %}
+                        {{team.score}}
+                        {% else %}
+                        {% if team.score2 %}{{team.score2}}{% else %}0{% endif %}
+                        {% endif %}
+                        </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+        {% endblock form %}

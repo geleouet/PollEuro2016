@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^classement$', views.classement, name='classement'),
     url(r'^member_id/(?P<mid>[0-9]+)/$', views.view_member, name='member_id'),
     url(r'^teams$', views.classement_teams, name='teams'),
+    url(r'^teams2$', views.classement_teams2, name='teams2'),
     url(r'^upload$', views.upload, name='upload'),
     url(r'^reset$', views.reset, name='reset'),
     url(r'^faq$', views.faq, name='faq'),
