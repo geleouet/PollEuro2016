@@ -28,7 +28,7 @@
                     
                     {% if rencontre.passed %}
                     <label>
-                            <input class="entry" disabled='disabled' id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
+                            <input class="entry vict" disabled='disabled' id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     
@@ -39,12 +39,12 @@
                     
                     
                     <label>
-                            <input class="entry" disabled='disabled' id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
+                            <input class="entry vict" disabled='disabled' id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     {% else %}
                     <label>
-                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
+                            <input class="entry vict" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_1' type="radio" name="score_{{rencontre.id}}_radio" value="1" {% if pronostics|winner:rencontre == 1 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     
@@ -55,7 +55,7 @@
                     
                     
                     <label>
-                            <input class="entry" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
+                            <input class="entry vict" {% if rencontre.allowNull = True %}disabled='disabled'{% endif %} id = 'score_{{rencontre.id}}_radio_2' type="radio" name="score_{{rencontre.id}}_radio" value="2" {% if pronostics|winner:rencontre == 2 %}checked='checked'{% endif %}/>
                             <img src="{% static 'euro/images/victoire.png' %}" alt="Euro 2016" height="32" />
                     </label>
                     

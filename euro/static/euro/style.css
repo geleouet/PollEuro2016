@@ -223,14 +223,14 @@ ul.nav-pills {
 }
 
 
-/*.cssfilters label > input {*/
+.cssfilters .vict label > input {*/
     /* HIDE RADIO */
-/*    display: none;
-} */
+    display: none;
+}
 
 
 
-.cssfilters label > input + img {
+.cssfilters .vict label > input + img {
     /* IMAGE STYLES */
     cursor: pointer;
     -webkit-filter: grayscale(100%);
@@ -240,7 +240,7 @@ ul.nav-pills {
     /* on prévoit une animation */
 }
 
-.cssfilters label > input:checked + img {
+.cssfilters .vict label > input:checked + img {
     /* (CHECKED) IMAGE STYLES */
     -webkit-filter: grayscale(0%);
     /* Chrome, Safari, Opera */
