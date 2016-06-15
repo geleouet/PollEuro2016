@@ -116,7 +116,7 @@ class MatchPool(models.Model):
     enddate = models.DateField()
     multipleChoice = models.BooleanField(default=True)
     def __str__(self):
-        return self.question + '  ' + self.match.__str__()
+        return self.question
 
 @python_2_unicode_compatible
 class PollChoices(models.Model):

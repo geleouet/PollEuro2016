@@ -222,10 +222,11 @@ ul.nav-pills {
     position: fixed;
 }
 
-.cssfilters label > input {
+
+/*.cssfilters label > input {*/
     /* HIDE RADIO */
-    display: none;
-}
+/*    display: none;
+} */
 
 
 

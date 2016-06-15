@@ -613,32 +613,27 @@ def displaypolls(request):
     else:
         user = None
 
-    rencontre = Rencontre.objects.all()
-    rencontre2 = {}
-    i = 1
-    for match in rencontre:
+    rencontrelist = Rencontre.objects.all()
+
+    for match in rencontrelist:
         match_complet = MatchPool.objects.filter(match = match)
         match.MatchPool = match_complet
 
         for question in match_complet:
             choix = PollChoices.objects.filter(poll = question)
-            match.MatchPool.PollChoices = choix
+            question.PollChoices = choix
 
-        rencontre2[i] = match
-        i+=1
+    tag_list = Tag.objects.filter(enabled__exact=True).prefetch_related('rencontre_set__resultat').prefetch_related('rencontre_set__pays1').prefetch_related('rencontre_set__pays2').annotate(maxDate=Max('rencontre__date')).order_by('sort_id').all()
 
-    context = rencontre2
-    print "Nombre de Rencobtre", type(rencontre)
-    i = 1
-    for key, match in rencontre2.items():
-
-        print "Le match " + str(i) + " : ", match
-        i += 1
-        if hasattr(match, 'MatchPool'):
-            print "Les questions: ", match.MatchPool
-
-            if hasattr(match.MatchPool, 'MatchPool'):
-                print "Les reponses", match.MatchPool.PollChoices
+    pronostics_set = Pronostic.objects.filter(member__exact = user).select_related('match').all()
+    pronostics = {x.match: x for x in pronostics_set}
+    context = {
+        'tag_list': tag_list,
+        'username' : request.session.get('username', None),
+        'pronostics':pronostics,
+        'self':user,
+        'rencontrelist': rencontrelist,
+    }
 
     return render(request, 'euro/questionderives.html', context)
 
