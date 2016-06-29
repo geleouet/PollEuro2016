@@ -137,9 +137,9 @@ def my_callback(sender, instance, **kwargs):
         if pronostic.score2 == instance.score2:
             pronostic.points += 1
         if pronostic.score1 - pronostic.score2 == int(instance.score1) - int(instance.score2):
-            pronostic.points += 1    
+            pronostic.points += 1 if instance.match.allow_null else 3
         if pronostic.winner == instance.winner:
-            pronostic.points += 2
+            pronostic.points += 2 if instance.match.allow_null else 5
         pronostic.save()    
                
 
